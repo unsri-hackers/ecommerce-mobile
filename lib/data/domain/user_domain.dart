@@ -1,4 +1,4 @@
-import 'package:ecommerce_mobile/data/model/user_model.dart';
+import 'package:deuvox/data/model/user_model.dart';
 
 import '../dao/user_dao.dart';
 

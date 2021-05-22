@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:ecommerce_mobile/data/domain/user_domain.dart';
-import 'package:ecommerce_mobile/data/model/user_model.dart';
-import 'package:ecommerce_mobile/generated/lang_utils.dart';
+import 'package:deuvox/data/domain/user_domain.dart';
+import 'package:deuvox/data/model/user_model.dart';
+import 'package:deuvox/generated/lang_utils.dart';
 import 'package:equatable/equatable.dart';
 
 part 'authentication_event.dart';

@@ -1,4 +1,5 @@
 import 'package:catcher/catcher.dart';
+import 'package:deuvox/views/screens/login/pages.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,9 +12,7 @@ import 'app/config/themes.dart';
 import 'app/utils/assets_utils.dart';
 import 'controller/bloc/authentication/authentication_bloc.dart';
 import 'controller/cubit/app/app_cubit.dart';
-import 'views/screens/main_layout_screen.dart';
-import 'views/screens/onboarding_screen.dart';
-import 'views/screens/splash_screen.dart';
+import 'views/screens/splash_screen/pages.dart';
 
 void main() async {
   // Catcher.reportCheckedError(error, stackTrace);
@@ -25,14 +24,12 @@ void main() async {
     Bloc.observer = MyBlocObserver();
   }
 
-  CatcherOptions debugOptions = CatcherOptions(DialogReportMode(), [
-    ConsoleHandler(),
-    ToastHandler(customMessage: "An Application error has occured"),
-    HttpHandler(
-      HttpRequestType.post,
-      Uri.parse(AppConfig.logsServerUrl),
-      printLogs: true,
+  CatcherOptions debugOptions = CatcherOptions(SilentReportMode(), [
+    ConsoleHandler(
+      handleWhenRejected: true,
     ),
+    ToastHandler(customMessage: "An Application error has occured"),
+    
   ]);
 
   CatcherOptions releaseOptions = CatcherOptions(SilentReportMode(), [
@@ -46,7 +43,8 @@ void main() async {
   Catcher(
     navigatorKey: GlobalKey<NavigatorState>(),
     rootWidget: EasyLocalization(
-        supportedLocales: AppConfig.supportedLanguageList.map((e) => e.toLocale()).toList(),
+        supportedLocales:
+            AppConfig.supportedLanguageList.map((e) => e.toLocale()).toList(),
         path: AssetsUtils.langPath,
         startLocale: AppConfig.defaultLanguage.toLocale(),
         fallbackLocale: AppConfig.defaultLanguage.toLocale(),
@@ -55,6 +53,8 @@ void main() async {
     ensureInitialized: true,
     releaseConfig: releaseOptions,
   );
+
+  // Catcher.reportCheckedError(error, stackTrace);
 }
 
 class MyApp extends StatelessWidget {
@@ -66,83 +66,61 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) =>
               AuthenticationBloc()..add(AuthenticationStartedEvent()),
         ),
+          BlocProvider<AppCubit>(
+          create: (BuildContext context) => AppCubit(),
+        ),
       ],
       child: BlocConsumer<AppCubit, AppState>(
-        listener: (context, state) =>
+        listener: (context, state) async =>await
             context.setLocale(state.language.toLocale()),
         builder: _buildWithTheme,
       ),
     );
-  
-}
+  }
 
-Widget _buildWithTheme(BuildContext context, AppState appState) {
-  return MaterialApp(
-      navigatorKey: Catcher.navigatorKey,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale, //
-      title: AppConfig.appName,
-      theme: ThemeStyle.appThemeData[appState.themeType],
-      onGenerateRoute: Routes.generateRoute,
-      debugShowCheckedModeBanner: false,
-      home: MultiBlocListener(
-        listeners: [
-          BlocListener<AuthenticationBloc, AuthenticationState>(
-              listener: (context, state) {
-            if (state is AuthenticationExpired) {
-              _showExpiredAlert(context);
+  Widget _buildWithTheme(BuildContext context, AppState appState) {
+    return MaterialApp(
+        navigatorKey: Catcher.navigatorKey,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale, //
+        title: AppConfig.appName,
+        theme: ThemeStyle.getAppThemeData(context, appState.themeType),
+        onGenerateRoute: Routes.generateRoute,
+        debugShowCheckedModeBanner: false,
+        home: MultiBlocListener(
+          listeners: [
+            BlocListener<AuthenticationBloc, AuthenticationState>(
+                listener: (context, state) {
+              if (state is AuthenticationExpired) {
+                _showExpiredAlert(context);
+              }
+            }),
+          ],
+          child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+              builder: (BuildContext context, AuthenticationState state) {
+            if (state is AuthenticationUnauthenticated) {
+              return LoginScreen();
             }
-
-            if (state is AuthenticationPaymentPinNotExist) {
-              // Navigator.pushNamed(context, RouterPath.walletPin,
-              //     arguments: false);
+            if (state is AuthenticationAuthenticated) {
+              return SplashScreen();
             }
+            return Center(child: CircularProgressIndicator());
           }),
-        ],
-        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                buildWhen: (previous, current) =>
-                    current is! AuthenticationPaymentPinNotExist,
-                builder: (BuildContext context, AuthenticationState state) {
-                  
-                  if (state is AuthenticationUnauthenticated) {
-                    return OnboardingScreen();
-                  }
-
-                  if (state is AuthenticationAuthenticated) {
-                    return MainLayoutScreen();
-                  }
-                  return SplashScreen();
-                }),
-      )
-      );
-}
-
+        ));
+  }
 
   void _showExpiredAlert(BuildContext subContext) {
     //showModalBottom Info
   }
-
 }
 
 class MyBlocObserver extends BlocObserver {
-  // @override
-  // void onCreate(BlocBase cubit) {
-  //   super.onCreate(cubit);
-  //   print('onCreate -- cubit: ${cubit.runtimeType}');
-  // }
-
   @override
   void onEvent(Bloc? bloc, Object? event) {
     super.onEvent(bloc!, event);
     print('onEvent -- bloc: ${bloc.runtimeType}, event: $event');
   }
-
-  // @override
-  // void onChange(BlocBase cubit, Change change) {
-  //   super.onChange(cubit, change);
-  //   print('onChange -- cubit: ${cubit.runtimeType}, change: $change');
-  // }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
@@ -155,10 +133,4 @@ class MyBlocObserver extends BlocObserver {
     print('onError -- cubit: ${cubit.runtimeType}, error: $error');
     super.onError(cubit, error, stackTrace);
   }
-
-  // @override
-  // void onClose(BlocBase cubit) {
-  //   super.onClose(cubit);
-  //   print('onClose -- cubit: ${cubit.runtimeType}');
-  // }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:deuvox/data/model/login_model.dart';
 import '../../../app/constant/error_code.dart';
 import '../../../data/model/api_model.dart';
 import '../../../data/domain/user_domain.dart';
@@ -20,17 +21,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapEventToState(
     LoginEvent event,
   ) async* {
-    if (event is LoginButtonPressed) {
+    if (event is LoginStarted) {
       yield* _mapLoginButtonPressedToState(event);
     }
   }
 
   Stream<LoginState> _mapLoginButtonPressedToState(
-      LoginButtonPressed event) async* {
+      LoginStarted event) async* {
     try {
       yield LoginLoading();
+      if(event.form.username!="test" || event.form.password!="test"){
+        throw CApiResError(errorCode: ErrorCode.USER_NOT_EXIST);
+      }
       // final resData = await _userDomain.loginRequest(event.formLoginModel);
-      yield LoginUserExisted();
+      yield LoginSuccess();
     } catch (e) {
       if (e.runtimeType == CApiResError) {
         final CApiResError resError = e as CApiResError;

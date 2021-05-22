@@ -1,5 +1,5 @@
-import 'package:ecommerce_mobile/app/config/themes.dart';
-import 'package:ecommerce_mobile/data/model/language_model.dart';
+import 'package:deuvox/app/config/themes.dart';
+import 'package:deuvox/data/model/language_model.dart';
 
 import '../../app/utils/hive_utils.dart';
 import 'package:hive/hive.dart';

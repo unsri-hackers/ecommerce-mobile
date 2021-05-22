@@ -1,4 +1,4 @@
-name: ecommerce_mobile
+name: deuvox
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -23,18 +23,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  another_flushbar: ^1.10.22
   cached_network_image: ^3.0.0
   carousel_slider: ^3.0.0
   catcher: ^0.6.6
   cupertino_icons: ^1.0.2
   dio: ^4.0.0
-  dio_cache_interceptor: ^2.3.0
+  dio_cache_interceptor: ^2.3.1
   easy_localization: ^3.0.0
-  equatable: ^2.0.0
+  equatable: ^2.0.2
   flutter_bloc: ^7.0.0
+  google_fonts: ^2.1.0
   hive_flutter: ^1.0.0
   infinite_scroll_pagination: ^3.0.1
-  rxdart: ^0.26.0
+  rxdart: ^0.27.0
   shimmer: ^2.0.0
 
 dev_dependencies:

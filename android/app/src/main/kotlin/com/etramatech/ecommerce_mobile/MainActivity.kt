@@ -1,4 +1,4 @@
-package com.etramatech.ecommerce_mobile
+package com.etramatech.unsri.deuvox
 
 import io.flutter.embedding.android.FlutterActivity
 
