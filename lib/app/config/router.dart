@@ -1,6 +1,6 @@
-import '../../views/screens/login_screen.dart';
+import '../../views/screens/login/pages.dart';
 import '../utils/router_utils.dart';
-import '../../views/screens/splash_screen.dart';
+import '../../views/screens/splash_screen/pages.dart';
 import '../../views/screens/err404_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

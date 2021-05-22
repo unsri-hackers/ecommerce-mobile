@@ -5,7 +5,7 @@ import '../config/themes.dart';
 
 /// APP Configuration. Can be customized.
 class AppConfig {
-  static const String appName = "Ecommerce";
+  static const String appName = "Deuvox";
   /// Optional Variable for development environment 
   /// `false` = production
   static const ENV_DEBUGGING = true; //false = production
@@ -42,5 +42,5 @@ class AppConfig {
   /// Limit of data when using pagination
   static const int paginationLimit = 6;
   /// Default date format 
-  static final DateFormat dateFormat = DateFormat('yyyy-MM-dd hh:mm:ss');
+  static final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
 }
