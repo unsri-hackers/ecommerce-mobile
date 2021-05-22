@@ -21,13 +21,8 @@ class LoginFailure extends LoginState {
   List<Object> get props => [error!];
 }
 
-class LoginUserExisted extends LoginState {
-}
-
 class LoginUserNotExisted extends LoginState {}
 class LoginUserSuspend extends LoginState {}
-
-class LoginUserRegisterNotCompleted extends LoginState {}
 
 class LoginFormError extends LoginState {
   final String? error;
