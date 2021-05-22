@@ -3,6 +3,7 @@ import 'package:deuvox/controller/bloc/authentication/authentication_bloc.dart';
 import 'package:deuvox/controller/bloc/login/login_bloc.dart';
 import 'package:deuvox/data/model/login_model.dart';
 import 'package:deuvox/views/component/common_button.dart';
+import 'package:deuvox/views/component/common_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -71,17 +72,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   SizedBox(height: 20),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        hintText: "Username", border: OutlineInputBorder()),
+                  CTextFormFilled(
+                        hintText: "Username",
                     onSaved: (val) => loginModel.username = val,
                     validator: (value) =>
                         value!.isEmpty ? "Data belum lengkap" : null,
                   ),
                   SizedBox(height: 20),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        hintText: "Password", border: OutlineInputBorder()),
+                  CTextFormFilled(
+                    hintText: "Password",
                     onSaved: (val) => loginModel.password = val,
                     validator: (value) =>
                         value!.isEmpty ? "Data belum lengkap" : null,
