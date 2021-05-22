@@ -1,6 +1,7 @@
+import 'package:deuvox/views/screens/welcome_screen/pages.dart';
+
 import '../../views/screens/login/pages.dart';
 import '../utils/router_utils.dart';
-import '../../views/screens/splash_screen/pages.dart';
 import '../../views/screens/err404_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,8 @@ import 'package:flutter/material.dart';
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case RouterUtils.root:
-        return MaterialPageRoute(builder: (_) => SplashScreen());
+      case RouterUtils.welcomeScreen:
+        return MaterialPageRoute(builder: (_) => WelcomeScreen());
       case RouterUtils.loginScreen:
         return MaterialPageRoute(
             builder: (_) => LoginScreen(), settings: routeSettings);
