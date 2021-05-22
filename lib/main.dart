@@ -12,6 +12,7 @@ import 'app/config/themes.dart';
 import 'app/utils/assets_utils.dart';
 import 'controller/bloc/authentication/authentication_bloc.dart';
 import 'controller/cubit/app/app_cubit.dart';
+import 'views/screens/upload_screen/pages.dart';
 import 'views/screens/welcome_screen/pages.dart';
 
 void main() async {
@@ -101,7 +102,8 @@ class MyApp extends StatelessWidget {
             buildWhen: (previous, current) => current is!AuthenticationExpired,
               builder: (BuildContext context, AuthenticationState state) {
             if (state is AuthenticationUnauthenticated) {
-              return LoginScreen();
+              return UploadScreen();
+              // return LoginScreen();
             }
             if (state is AuthenticationAuthenticated) {
               return WelcomeScreen();
