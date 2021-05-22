@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  another_flushbar: ^1.10.22
   cached_network_image: ^3.0.0
   carousel_slider: ^3.0.0
   catcher: ^0.6.6
