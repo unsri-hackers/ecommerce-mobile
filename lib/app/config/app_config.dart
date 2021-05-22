@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:ecommerce_mobile/data/model/language_model.dart';
+import 'package:deuvox/data/model/language_model.dart';
 
 import '../config/themes.dart';
 
