@@ -102,8 +102,7 @@ class MyApp extends StatelessWidget {
             buildWhen: (previous, current) => current is!AuthenticationExpired,
               builder: (BuildContext context, AuthenticationState state) {
             if (state is AuthenticationUnauthenticated) {
-              return UploadScreen();
-              // return LoginScreen();
+              return LoginScreen();
             }
             if (state is AuthenticationAuthenticated) {
               return WelcomeScreen();

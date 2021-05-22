@@ -1,3 +1,4 @@
+import 'package:deuvox/views/screens/upload_screen/pages.dart';
 import 'package:deuvox/views/screens/welcome_screen/pages.dart';
 
 import '../../views/screens/login/pages.dart';
@@ -15,6 +16,10 @@ class Routes {
       case RouterUtils.loginScreen:
         return MaterialPageRoute(
             builder: (_) => LoginScreen(), settings: routeSettings);
+ case RouterUtils.uploadItemSCreen:
+        return MaterialPageRoute(
+            builder: (_) => UploadScreen(), settings: routeSettings);
+            
       default: //redirect to appinfoview
         return PageRouteBuilder<dynamic>(
             pageBuilder: (_, Animation<double> a1, Animation<double> a2) =>

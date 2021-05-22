@@ -1,3 +1,4 @@
+import 'package:deuvox/app/utils/router_utils.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           margin: EdgeInsets.all(10),
           child: InkWell(
             onTap: (){
-              // Navigator.pushNamed(context, Router)
+              Navigator.pushNamed(context, RouterUtils.uploadItemSCreen);
             },
                       child: Container(
             padding: EdgeInsets.all(30),

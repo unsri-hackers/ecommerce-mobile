@@ -3,4 +3,5 @@ class RouterUtils {
   static const String root = '/';
   static const String welcomeScreen = '/welcome';
   static const String loginScreen = '/login';
+   static const String uploadItemSCreen = '/uploadItem';
 }
