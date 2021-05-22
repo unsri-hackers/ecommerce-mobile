@@ -12,7 +12,7 @@ import 'app/config/themes.dart';
 import 'app/utils/assets_utils.dart';
 import 'controller/bloc/authentication/authentication_bloc.dart';
 import 'controller/cubit/app/app_cubit.dart';
-import 'views/screens/splash_screen/pages.dart';
+import 'views/screens/welcome_screen/pages.dart';
 
 void main() async {
   // Catcher.reportCheckedError(error, stackTrace);
@@ -98,12 +98,13 @@ class MyApp extends StatelessWidget {
             }),
           ],
           child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            buildWhen: (previous, current) => current is!AuthenticationExpired,
               builder: (BuildContext context, AuthenticationState state) {
             if (state is AuthenticationUnauthenticated) {
               return LoginScreen();
             }
             if (state is AuthenticationAuthenticated) {
-              return SplashScreen();
+              return WelcomeScreen();
             }
             return Center(child: CircularProgressIndicator());
           }),

@@ -50,6 +50,4 @@ class AuthenticationExpired extends AuthenticationState {
   @override
   String toString() => 'AuthenticationExpiredState { error: $message }';
 }
-
-class AuthenticationPaymentPinNotExist extends AuthenticationState {}
 class AuthenticationLoading extends AuthenticationState {}

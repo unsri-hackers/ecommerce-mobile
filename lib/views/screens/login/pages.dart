@@ -8,19 +8,39 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'component.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  LoginModel loginModel = LoginModel();
+  LoginBloc loginBloc = LoginBloc();
+
+  @override
+  void initState() {
+   loginBloc = LoginBloc();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    loginBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-    LoginModel loginModel = LoginModel();
     return BlocProvider<LoginBloc>(
-      create: (context) => LoginBloc(),
+      create: (context) => loginBloc,
       child: Scaffold(
         body: Form(
           key: _formKey,
           child: BlocConsumer<LoginBloc, LoginState>(
+            bloc: loginBloc,
             listener: (context, state) {
               if (state is LoginUserNotExisted) {
                 Utils.showDialogError(context);
@@ -31,7 +51,12 @@ class LoginScreen extends StatelessWidget {
                     message: "Gagal melakukan login. terjadi kesalahan")
                   ..show(context);
               }
-            
+
+              if (state is LoginSuccess) {
+                BlocProvider.of<AuthenticationBloc>(context)
+                    .add(AuthenticationLoggedInEvent());
+                Navigator.popUntil(context, (route) => route.isFirst);
+              }
             },
             builder: (context, state) {
               bool isDisabled = state is LoginSuccess;
@@ -71,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState?.save();
 
-                              BlocProvider.of<LoginBloc>(context)
+                            loginBloc
                                   .add(LoginStarted(loginModel));
                             }
                           },
