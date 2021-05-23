@@ -28,6 +28,9 @@ __Optional:__
 - shan.code-settings-sync
 
 
+### Supporting Tools
+- Convert Json to Dart Classes https://javiercbk.github.io/json_to_dart/
+
 ### BLOC Pattern
 BLOC Pattern terdiri diri 4 layer utama dan flow yang terintegrasi:
 
