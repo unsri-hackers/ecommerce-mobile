@@ -7,11 +7,11 @@ abstract class LoginEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoginButtonPressed extends LoginEvent {
-  // final FormLoginModel formLoginModel;
+class LoginStarted extends LoginEvent {
+  final LoginModel form;
 
-  // const LoginButtonPressed({this.formLoginModel});
+  const LoginStarted(this.form);
 
-  // @override
-  // List<Object> get props => [formLoginModel];
+  @override
+  List<Object> get props => [form];
 }

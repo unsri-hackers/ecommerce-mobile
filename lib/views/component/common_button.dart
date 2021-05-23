@@ -64,7 +64,7 @@ class CButtonFilled extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.resolveWith<Color>(
                         (Set<MaterialState> states) {
                       if (states.contains(MaterialState.disabled))
-                        return Theme.of(context).primaryColor;
+                        return Theme.of(context).disabledColor;
                       else
                         return primaryColor ?? Theme.of(context).primaryColor;
                     }),
@@ -80,7 +80,7 @@ class CButtonFilled extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.resolveWith<Color>(
                         (Set<MaterialState> states) {
                       if (states.contains(MaterialState.disabled))
-                        return Theme.of(context).primaryColor;
+                        return Theme.of(context).disabledColor;
                       else
                         return primaryColor ?? Theme.of(context).primaryColor;
                     }),

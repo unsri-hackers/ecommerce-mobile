@@ -5,7 +5,7 @@ class CApiRes {
   String? errorCode;
   late String message;
   /// response data. E.g User Data.
-  dynamic? data;
+  dynamic data;
 
   CApiRes({required this.success, this.errorCode,required this.message, this.data});
 

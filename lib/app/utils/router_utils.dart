@@ -1,6 +1,7 @@
 /// Routes Path to Navigate between Screen
 class RouterUtils {
   static const String root = '/';
-  static const String splashScreen = '/splashscreen';
-  static const String loginScreen = '/loginScreen';
+  static const String welcomeScreen = '/welcome';
+  static const String loginScreen = '/login';
+   static const String uploadItemSCreen = '/uploadItem';
 }
