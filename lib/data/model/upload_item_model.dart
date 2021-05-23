@@ -1,4 +1,4 @@
-class ItemModel {
+class UploadItemModel {
   late String id;
   late String name;
   late int price;
@@ -6,15 +6,16 @@ class ItemModel {
   late double weight;
   late String filename;
 
-  ItemModel(
-      {required this.id,
-      required this.name,
-      required this.price,
-      required this.condition,
-      required this.weight,
-      required this.filename});
+  UploadItemModel({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.condition,
+    required this.weight,
+    required this.filename,
+  });
 
-  ItemModel.fromJson(Map<String, dynamic> json) {
+  UploadItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     price = json['price'];
