@@ -12,7 +12,6 @@ import 'app/config/themes.dart';
 import 'app/utils/assets_utils.dart';
 import 'controller/bloc/authentication/authentication_bloc.dart';
 import 'controller/cubit/app/app_cubit.dart';
-import 'views/screens/upload_screen/pages.dart';
 import 'views/screens/welcome_screen/pages.dart';
 
 void main() async {
