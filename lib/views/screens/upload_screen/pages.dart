@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:deuvox/controller/bloc/uploadimage/upload_image_bloc.dart';
+import 'package:deuvox/controller/bloc/uploaditem/upload_item_bloc.dart';
 import 'package:deuvox/data/model/upload_image_model.dart';
+import 'package:deuvox/data/model/upload_item_model.dart';
 import 'package:deuvox/views/component/common_button.dart';
 import 'package:deuvox/views/component/common_form.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,9 @@ class UploadScreen extends StatefulWidget {
 
 class _UploadScreenState extends State<UploadScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  UploadItemBloc uploadItemBloc = UploadItemBloc();
   UploadImageBloc uploadImageBloc = UploadImageBloc();
+  UploadItemModel uploadItemModel = UploadItemModel();
   List<UploadImageModel> uploadImageModels = [];
   List<File> images = [];
   final index = ValueNotifier<int>(0);
@@ -33,12 +37,14 @@ class _UploadScreenState extends State<UploadScreen> {
 
   @override
   void initState() {
+    uploadItemBloc = UploadItemBloc();
     uploadImageBloc = UploadImageBloc();
     super.initState();
   }
 
   @override
   void dispose() {
+    uploadItemBloc.close();
     uploadImageBloc.close();
     super.dispose();
   }
@@ -136,105 +142,169 @@ class _UploadScreenState extends State<UploadScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: CButtonFilled(textLabel: "Submit",onPressed: (){}),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 16,vertical: 20),
-          children: [
-            Text(
-              "Upload Barang",
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            SizedBox(height: 30),
-            CTextFormFilled(
-              labelText: "Nama Barang*",
-              validator: (value) =>
-                  value!.isEmpty ? "Data belum lengkap" : null,
-            ),
-             SizedBox(height: 20),
-              CTextFormFilled(
-              labelText: "Harga*",
-              validator: (value) =>
-                  value!.isEmpty ? "Data belum lengkap" : null,
-            ),
-             SizedBox(height: 20),
-             Text("Detail Barang",style: Theme.of(context).textTheme.bodyText1!.copyWith(
-               fontWeight: FontWeight.bold,
-               fontSize: 16
-             )),
-             SizedBox(height: 20),
-              CTextFormFilled(
-              labelText: "Kondisi Barang*",
-              hintText: "Baru",
-              validator: (value) =>
-                  value!.isEmpty ? "Data belum lengkap" : null,
-            ),
-            SizedBox(height: 20),
-              CTextFormFilled(
-              labelText: "Berat*",
-              validator: (value) =>
-                  value!.isEmpty ? "Data belum lengkap" : null,
-            ),
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<UploadItemBloc>(
+              create: (context) => uploadItemBloc
+          ),
+          BlocProvider<UploadImageBloc>(
+              create: (context) => uploadImageBloc
+          )
+        ],
+        child: Scaffold(
+          body: Form(
+            key: _formKey,
+            child: BlocConsumer<UploadItemBloc, UploadItemState>(
+              bloc: uploadItemBloc,
+              listener: (context, state) {
+                if (state is UploadItemFailure) {
+                  FlushbarHelper.createError(
+                      message: "Upload gagal, terjadi kesalahan dalam mengupload item")
+                    ..show(context);
+                }
+                if (state is UploadItemSuccess) {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  print(uploadItemModel.name);
+                  print(uploadItemModel.price);
+                  print(uploadItemModel.condition);
+                  print(uploadItemModel.weight);
+                  print(uploadItemModel.description);
+                }
+              },
+              builder: (context, state) {
+                return ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 16,vertical: 20),
+                  children: [
+                    Text(
+                      "Upload Barang",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    SizedBox(height: 30),
+                    CTextFormFilled(
+                      labelText: "Nama Barang*",
+                      onSaved: (val) => uploadItemModel.name = val,
+                      validator: (value) =>
+                      value!.isEmpty ? "Data belum lengkap" : null,
+                    ),
+                    SizedBox(height: 20),
+                    CTextFormFilled(
+                      labelText: "Harga*",
+                      isNumber: true,
+                      onSaved: (val) =>
+                        {
+                          if(val != null) uploadItemModel.price = int.parse(val)
+                        },
+                      validator: (value) =>
+                      value!.isEmpty ? "Data belum lengkap" : null,
+                    ),
+                    SizedBox(height: 20),
+                    Text("Detail Barang",style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16
+                    )),
+                    SizedBox(height: 20),
+                    CTextFormFilled(
+                      labelText: "Kondisi Barang*",
+                      hintText: "Baru",
+                      onSaved: (val) => uploadItemModel.condition = val,
+                      validator: (value) =>
+                      value!.isEmpty ? "Data belum lengkap" : null,
+                    ),
+                    SizedBox(height: 20),
+                    CTextFormFilled(
+                      labelText: "Berat*",
+                      isNumber: true,
+                      onSaved: (val) =>
+                        {
+                          if(val != null) uploadItemModel.weight = double.parse(val)
+                        },
+                      validator: (value) =>
+                      value!.isEmpty ? "Data belum lengkap" : null,
+                    ),
 
-            SizedBox(height: 20),
-              CTextFormFilled(
-              labelText: "Deskripsi Barang*",
-              maxLines: 4,
-              validator: (value) =>
-                  value!.isEmpty ? "Data belum lengkap" : null,
-            ),
-            SizedBox(height: 20),
-              Text("Upload Photo*"),
-            SizedBox(height: 20),
-              BlocProvider<UploadImageBloc>(
-                create: (context) => uploadImageBloc,
-                child: BlocConsumer(
-                  bloc: uploadImageBloc,
-                  listener: (context, state) {
-                    if (state is UploadImageSuccess) {
-                      //get resdata from uploadimagesuccess
-                      uploadImageBloc.add(UploadImagePreview("image_name"));
-                    }
+                    SizedBox(height: 20),
+                    CTextFormFilled(
+                      labelText: "Deskripsi Barang*",
+                      maxLines: 4,
+                      onSaved: (val) => uploadItemModel.description = val,
+                      validator: (value) =>
+                      value!.isEmpty ? "Data belum lengkap" : null,
+                    ),
+                    SizedBox(height: 20),
+                    Text("Upload Photo*"),
+                    SizedBox(height: 10),
+                    BlocConsumer(
+                        bloc: uploadImageBloc,
+                        listener: (context, state) {
+                          if (state is UploadImageSuccess) {
+                            //get resdata from uploadimagesuccess
+                            uploadImageBloc.add(UploadImagePreview("image_name"));
+                            //uploadItemModel.filename = state.image
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is UploadImagePreviewSuccess) {
+                            return Flex(
+                                direction: Axis.horizontal,
+                                children: [
+                                  Container(
+                                      height: 150,
+                                      width: 150,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(width: 1)
+                                      ),
+                                      child: //Image.file(state.image)
+                                      SizedBox.shrink() //image file after api available later
+                                  )
+                                ]
+                            );
+                          } else {
+                            return SizedBox.shrink();
+                          }
+                        }
+                    ),
+                    SizedBox(height: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            child: CButtonFilled(
+                                textLabel: "Upload",
+                                onPressed: (){
+                                  showDialogUploadImage(context);
+                                }
+                            )
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Flex(
+                      direction: Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 40,
+                          width: 300,
+                          child: CButtonFilled(
+                            textLabel: "Submit",
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState?.save();
 
-                  },
-                  builder: (context, state) {
-                    if (state is UploadImagePreviewSuccess) {
-                      return Flex(
-                          direction: Axis.horizontal,
-                          children: [
-                            Container(
-                              height: 150,
-                              width: 150,
-                              decoration: BoxDecoration(
-                                  border: Border.all(width: 1)
-                              ),
-                              child: //Image.file(state.image)
-                              SizedBox.shrink() //image file after api available later
+                                uploadItemBloc.add(UploadItemStarted(uploadItemModel));
+                              }
+                            }
                           )
-                        ]
-                      );
-                    } else {
-                      return SizedBox.shrink();
-                    }
-                  }
-                )
-              ),
-            SizedBox(height: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    child: CButtonFilled(textLabel: "Upload",onPressed: (){
-                      showDialogUploadImage(context);
-                    })),
-                ],
-              )
-          ],
-        ),
-      ),
+                        ),
+                      ]
+                    )
+                  ],
+                );
+              }
+            )
+          ),
+        )
     );
   }
 }

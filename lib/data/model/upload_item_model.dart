@@ -1,18 +1,20 @@
 class UploadItemModel {
-  late String id;
-  late String name;
-  late int price;
-  late String condition;
-  late double weight;
-  late String filename;
+  String? id;
+  String? name;
+  int? price;
+  String? condition;
+  double? weight;
+  String? description;
+  String? filename;
 
   UploadItemModel({
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.condition,
-    required this.weight,
-    required this.filename,
+    this.id,
+    this.name,
+    this.price,
+    this.condition,
+    this.weight,
+    this.description,
+    this.filename,
   });
 
   UploadItemModel.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class UploadItemModel {
     price = json['price'];
     condition = json['condition'];
     weight = json['weight'];
+    description = json['description'];
     filename = json['filename'];
   }
 
@@ -31,6 +34,7 @@ class UploadItemModel {
     data['price'] = this.price;
     data['condition'] = this.condition;
     data['weight'] = this.weight;
+    data['description'] = this.description;
     data['filename'] = this.filename;
     return data;
   }

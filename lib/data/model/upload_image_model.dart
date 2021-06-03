@@ -1,6 +1,6 @@
 class UploadImageModel {
-  String? image_name;
-  
+  late String? image_name;
+
   UploadImageModel({this.image_name});
 
   UploadImageModel.fromJson(Map<String, dynamic> json) {
