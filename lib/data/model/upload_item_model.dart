@@ -1,7 +1,7 @@
 class UploadItemModel {
   String? id;
   String? name;
-  int? price;
+  double? price;
   String? condition;
   double? weight;
   String? description;

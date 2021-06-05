@@ -38,10 +38,10 @@ class MockUploadItemModel extends _i1.Mock implements _i3.UploadItemModel {
   set name(String? _name) => super.noSuchMethod(Invocation.setter(#name, _name),
       returnValueForMissingStub: null);
   @override
-  int get price =>
-      (super.noSuchMethod(Invocation.getter(#price), returnValue: 0) as int);
+  double get price =>
+      (super.noSuchMethod(Invocation.getter(#price), returnValue: 0) as double);
   @override
-  set price(int? _price) =>
+  set price(double? _price) =>
       super.noSuchMethod(Invocation.setter(#price, _price),
           returnValueForMissingStub: null);
   @override

@@ -193,7 +193,7 @@ class _UploadScreenState extends State<UploadScreen> {
                       isNumber: true,
                       onSaved: (val) =>
                         {
-                          if(val != null) uploadItemModel.price = int.parse(val)
+                          if(val != null) uploadItemModel.price = double.parse(val)
                         },
                       validator: (value) =>
                       value!.isEmpty ? "Data belum lengkap" : null,
