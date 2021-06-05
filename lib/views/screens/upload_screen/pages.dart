@@ -190,7 +190,7 @@ class _UploadScreenState extends State<UploadScreen> {
                     SizedBox(height: 20),
                     CTextFormFilled(
                       labelText: "Harga*",
-                      isNumber: true,
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
                       onSaved: (val) =>
                         {
                           if(val != null) uploadItemModel.price = double.parse(val)
@@ -214,7 +214,7 @@ class _UploadScreenState extends State<UploadScreen> {
                     SizedBox(height: 20),
                     CTextFormFilled(
                       labelText: "Berat*",
-                      isNumber: true,
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
                       onSaved: (val) =>
                         {
                           if(val != null) uploadItemModel.weight = double.parse(val)
