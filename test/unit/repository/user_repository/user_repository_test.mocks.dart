@@ -2,10 +2,12 @@
 // in deuvox/test/unit/repository/user_repository/user_repository_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
-import 'package:deuvox/data/model/user_model.dart' as _i2;
-import 'package:deuvox/data/repository/user_repository.dart' as _i3;
+import 'package:deuvox/data/model/base_response.dart' as _i2;
+import 'package:deuvox/data/model/login_model.dart' as _i6;
+import 'package:deuvox/data/model/user_model.dart' as _i3;
+import 'package:deuvox/data/repository/user_repository.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -14,19 +16,28 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: unnecessary_parenthesis
 
-class _FakeUserModel extends _i1.Fake implements _i2.UserModel {}
+class _FakeBaseResponse<T> extends _i1.Fake implements _i2.BaseResponse<T> {}
+
+class _FakeUserModel extends _i1.Fake implements _i3.UserModel {}
 
 /// A class which mocks [UserRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserRepository extends _i1.Mock implements _i3.UserRepository {
+class MockUserRepository extends _i1.Mock implements _i4.UserRepository {
   MockUserRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.UserModel> getUser(int? id) =>
+  _i5.Future<_i2.BaseResponse<_i3.UserModel>> login(
+          _i6.LoginModel? loginModel) =>
+      (super.noSuchMethod(Invocation.method(#login, [loginModel]),
+              returnValue: Future<_i2.BaseResponse<_i3.UserModel>>.value(
+                  _FakeBaseResponse<_i3.UserModel>()))
+          as _i5.Future<_i2.BaseResponse<_i3.UserModel>>);
+  @override
+  _i5.Future<_i3.UserModel> getUser(int? id) =>
       (super.noSuchMethod(Invocation.method(#getUser, [id]),
-              returnValue: Future<_i2.UserModel>.value(_FakeUserModel()))
-          as _i4.Future<_i2.UserModel>);
+              returnValue: Future<_i3.UserModel>.value(_FakeUserModel()))
+          as _i5.Future<_i3.UserModel>);
 }
