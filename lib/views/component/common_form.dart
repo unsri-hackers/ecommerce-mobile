@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CTextFormFilled extends StatelessWidget {
   final String? labelText;
@@ -6,8 +7,9 @@ class CTextFormFilled extends StatelessWidget {
   final void Function(String?)? onSaved;
   final String? Function(String?)? validator;
   final int? maxLines;
+  final TextInputType? keyboardType;
   const CTextFormFilled(
-      {Key? key, this.labelText, this.hintText,this.maxLines=1, this.onSaved, this.validator})
+      {Key? key, this.labelText, this.hintText,this.maxLines=1, this.onSaved, this.validator, this.keyboardType})
       : super(key: key);
 
   @override
@@ -18,12 +20,14 @@ class CTextFormFilled extends StatelessWidget {
         if (labelText != null) Text(labelText!),
         TextFormField(
           decoration:
-              InputDecoration(hintText: hintText, border: OutlineInputBorder()),
+          InputDecoration(hintText: hintText, border: OutlineInputBorder()),
           onSaved: onSaved,
           validator: validator,
           maxLines: maxLines,
+          keyboardType: keyboardType,
         ),
       ],
     );
   }
 }
+
