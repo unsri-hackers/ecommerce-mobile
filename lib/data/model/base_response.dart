@@ -9,8 +9,8 @@ class BaseResponse<T> {
     required this.result,
   });
 
-  factory BaseResponse.fromJson(
-      Map<String, dynamic> json, T Function(Object json) fromJsonT) {
+  factory BaseResponse.fromJson(Map<String, dynamic> json,
+      T Function(Object? json) fromJsonT) {
     return BaseResponse<T>(
       status: json['status'] as String,
       statusCode: json['status_code'] as int,
