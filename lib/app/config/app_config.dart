@@ -15,9 +15,9 @@ class AppConfig {
   /// base URL for Restful API
   static String get baseUrl {
     if (ENV_DEBUGGING) {
-      return "http://ws.mytimor.tl/mytimor_api_dev/api/mobile/merchant";
+      return "https://deuvox.api.com/dev/v1";
     } else {
-      return "http://ws.mytimor.tl/mytimor_api/v2/api/mobile/merchant";
+      return "https://deuvox.api.com/v1";
     }
   }
 
