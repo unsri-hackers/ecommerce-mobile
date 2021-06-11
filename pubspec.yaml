@@ -37,6 +37,9 @@ dependencies:
   google_fonts: ^2.1.0
   hive_flutter: ^1.0.0
   infinite_scroll_pagination: ^3.0.1
+  rxdart: ^0.27.0
+  shimmer: ^2.0.0
+  image_picker: ^0.7.5+2
   json_serializable: ^4.1.2
   mockito: ^5.0.9
   rxdart: ^0.27.0

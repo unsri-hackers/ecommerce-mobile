@@ -5,6 +5,8 @@ class ErrorCode {
   /// For Example
   static const USER_NOT_EXIST = "E1";
     static const USER_SUSPEND = "E2";
+  static const IMAGE_EXCEEDS_SIZE_LIMIT = "E3";
+  static const IMAGE_WRONG_RESOLUTION = "E4";
   ///======
   /// Unknow error, Unexpected
   static const UNKNOWN = "E999999";
