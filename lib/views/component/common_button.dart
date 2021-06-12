@@ -88,7 +88,10 @@ class CButtonFilled extends StatelessWidget {
                         shape),
                   ),
                   onPressed: onPressed,
-                  child: Text(textLabel),
+                  child: Text(
+                      textLabel,
+                      style: TextStyle(color: Theme.of(context).accentColor)
+                  ),
                 ),
     );
   }
