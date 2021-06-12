@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:deuvox/controller/bloc/authentication/authentication_bloc.dart';
 import 'package:deuvox/controller/bloc/login/login_bloc.dart';
 import 'package:deuvox/data/model/login_model.dart';
+import 'package:deuvox/views/component/common_alert.dart';
 import 'package:deuvox/views/component/common_button.dart';
 import 'package:deuvox/views/component/common_form.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-   loginBloc = LoginBloc();
+    loginBloc = LoginBloc();
     super.initState();
   }
 
@@ -54,9 +55,17 @@ class _LoginScreenState extends State<LoginScreen> {
               }
 
               if (state is LoginSuccess) {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CAlert(
+                      imagePath: 'assets/images/success.svg',
+                      message: 'Login\nSuccess',
+                    );
+                  },
+                );
                 BlocProvider.of<AuthenticationBloc>(context)
                     .add(AuthenticationLoggedInEvent());
-                Navigator.popUntil(context, (route) => route.isFirst);
               }
             },
             builder: (context, state) {
@@ -73,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: 20),
                   CTextFormFilled(
-                        hintText: "Username",
+                    hintText: "Username",
                     onSaved: (val) => loginModel.username = val,
                     validator: (value) =>
                         value!.isEmpty ? "Data belum lengkap" : null,
@@ -95,8 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState?.save();
 
-                            loginBloc
-                                  .add(LoginStarted(loginModel));
+                              loginBloc.add(LoginStarted(loginModel));
                             }
                           },
                   )
