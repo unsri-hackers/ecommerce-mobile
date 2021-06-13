@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:deuvox/app/utils/assets_utils.dart';
 import 'package:deuvox/controller/bloc/authentication/authentication_bloc.dart';
 import 'package:deuvox/controller/bloc/login/login_bloc.dart';
 import 'package:deuvox/data/model/login_model.dart';
@@ -59,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   context: context,
                   builder: (context) {
                     return CAlert(
-                      imagePath: 'assets/images/success.svg',
+                      imagePath: AssetsUtils.success,
                       message: 'Login\nSuccess',
                     );
                   },
