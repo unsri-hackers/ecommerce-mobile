@@ -9,4 +9,10 @@ class AssetsUtils {
   static const String logo = "${imagePath}deuvox_logo.png";
   static const String googleLogo = "${imagePath}google_logo.png";
   static const String order = "${imagePath}order.png";
+  static const String notification = "${imagePath}notification.png";
+  static const String present = "${imagePath}present.png";
+  static const String userTemp = "${imagePath}user_temp.png";
+  static const String productTemp = "${imagePath}hoodie.png";
+  static const String productTemp2 = "${imagePath}fluff.png";
+  static const String foodTemp = "${imagePath}food.jpg";
 }
