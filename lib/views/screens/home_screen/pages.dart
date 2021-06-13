@@ -67,49 +67,49 @@ class HomeScreen extends StatelessWidget {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              Utils.onGoingOrderListItem(
+              OnGoingOrderListItem(
                 isFirst: true,
                 isLast: false,
                 title: 'Barney Stinson',
                 date: 'Due to 29 May 2021',
               ),
-              Utils.onGoingOrderListItem(
+              OnGoingOrderListItem(
                 isFirst: false,
                 isLast: false,
                 title: 'Ted Mosby',
                 date: 'Due to 29 May 2021',
               ),
-              Utils.onGoingOrderListItem(
+              OnGoingOrderListItem(
                 isFirst: false,
                 isLast: false,
                 title: 'Jake Peralta',
                 date: 'Due to 29 May 2021',
               ),
-              Utils.onGoingOrderListItem(
+              OnGoingOrderListItem(
                 isFirst: false,
                 isLast: false,
                 title: 'Barney Stinson',
                 date: 'Due to 29 May 2021',
               ),
-              Utils.onGoingOrderListItem(
+              OnGoingOrderListItem(
                 isFirst: false,
                 isLast: false,
                 title: 'Jake Peralta',
                 date: 'Due to 29 May 2021',
               ),
-              Utils.onGoingOrderListItem(
+              OnGoingOrderListItem(
                 isFirst: false,
                 isLast: false,
                 title: 'Ted Mosby',
                 date: 'Due to 29 May 2021',
               ),
-              Utils.onGoingOrderListItem(
+              OnGoingOrderListItem(
                 isFirst: false,
                 isLast: false,
                 title: 'Barney Stinson',
                 date: 'Due to 29 May 2021',
               ),
-              Utils.onGoingOrderListItem(
+              OnGoingOrderListItem(
                 isFirst: false,
                 isLast: true,
                 title: 'Jake Peralta',
@@ -137,19 +137,19 @@ class HomeScreen extends StatelessWidget {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              Utils.productCategoryListItem(
+              ProductCategoryListItem(
                 isFirst: true,
                 isLast: false,
                 title: 'Music',
                 imagePath: AssetsUtils.userTemp,
               ),
-              Utils.productCategoryListItem(
+              ProductCategoryListItem(
                 isFirst: false,
                 isLast: false,
                 title: 'Hoodie',
                 imagePath: AssetsUtils.productTemp,
               ),
-              Utils.productCategoryListItem(
+              ProductCategoryListItem(
                 isFirst: false,
                 isLast: true,
                 title: 'Food',
@@ -177,7 +177,7 @@ class HomeScreen extends StatelessWidget {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              Utils.yourProductListItem(
+              YourProductListItem(
                 isFirst: true,
                 isLast: false,
                 title: 'Fluff Top',
@@ -185,7 +185,7 @@ class HomeScreen extends StatelessWidget {
                 imagePath: AssetsUtils.productTemp2,
                 rating: '2.5',
               ),
-              Utils.yourProductListItem(
+              YourProductListItem(
                 isFirst: false,
                 isLast: false,
                 title: 'Fluff Top',
@@ -193,7 +193,7 @@ class HomeScreen extends StatelessWidget {
                 imagePath: AssetsUtils.productTemp2,
                 rating: '2.5',
               ),
-              Utils.yourProductListItem(
+              YourProductListItem(
                 isFirst: true,
                 isLast: false,
                 title: 'Fluff Top',

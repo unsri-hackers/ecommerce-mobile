@@ -10,13 +10,22 @@ class Utils {
       ),
     );
   }
+}
 
-  static Widget onGoingOrderListItem({
-    required bool isFirst,
-    required bool isLast,
-    required String title,
-    required String date,
-  }) {
+class OnGoingOrderListItem extends StatelessWidget {
+  final bool isFirst;
+  final bool isLast;
+  final String title;
+  final String date;
+
+  OnGoingOrderListItem({
+    required this.isFirst,
+    required this.isLast,
+    required this.title,
+    required this.date,
+  });
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: isFirst ? 24 : 10, right: isLast ? 24 : 0),
       child: Column(
@@ -88,13 +97,23 @@ class Utils {
       ),
     );
   }
+}
 
-  static Widget productCategoryListItem({
-    required bool isFirst,
-    required bool isLast,
-    required String title,
-    required String imagePath,
-  }) {
+class ProductCategoryListItem extends StatelessWidget {
+  final bool isFirst;
+  final bool isLast;
+  final String title;
+  final String imagePath;
+
+  ProductCategoryListItem({
+    required this.isFirst,
+    required this.isLast,
+    required this.title,
+    required this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 130,
       width: 130,
@@ -134,15 +153,27 @@ class Utils {
       ),
     );
   }
+}
 
-  static Widget yourProductListItem({
-    required bool isFirst,
-    required bool isLast,
-    required String title,
-    required String price,
-    required String imagePath,
-    required String rating,
-  }) {
+class YourProductListItem extends StatelessWidget {
+  final bool isFirst;
+  final bool isLast;
+  final String title;
+  final String price;
+  final String imagePath;
+  final String rating;
+
+  YourProductListItem({
+    required this.isFirst,
+    required this.isLast,
+    required this.title,
+    required this.price,
+    required this.imagePath,
+    required this.rating,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 75,
       width: 120,
