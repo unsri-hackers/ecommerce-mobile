@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
 class CAlert extends StatelessWidget {
   final String imagePath;
   final String message;
@@ -16,7 +14,7 @@ class CAlert extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              SvgPicture.asset(this.imagePath),
+              Image.asset(this.imagePath),
               Container(
                 child: Text(
                   this.message,
