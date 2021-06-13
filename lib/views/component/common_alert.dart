@@ -1,3 +1,4 @@
+import 'package:deuvox/app/utils/font_utils.dart';
 import 'package:flutter/material.dart';
 class CAlert extends StatelessWidget {
   final String imagePath;
@@ -20,7 +21,7 @@ class CAlert extends StatelessWidget {
                   this.message,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: 'LouisGeorgeCafe',
+                    fontFamily: FontUtils.louisGeorgeCafe,
                     fontSize: 36,
                     fontWeight: FontWeight.w700,
                   ),

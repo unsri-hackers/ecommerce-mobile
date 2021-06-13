@@ -4,17 +4,26 @@ import 'package:flutter/material.dart';
 class CButtonFilled extends StatelessWidget {
   /// Primary Text for Button
   final String textLabel;
+
   /// onPressed event, set as null to disabled
   final VoidCallback? onPressed;
-  /// Show Button without pressed event and using CircularProgressIndicator. 
+
+  /// Show Button without pressed event and using CircularProgressIndicator.
   /// Default: `false`
   final bool isLoading;
+
   /// Show button with rounded border instead of Squared
   /// Default: `false`
   final bool rounded;
+
   /// Use this to add left icon in the button
   final Icon? icon;
+
+  /// Use this to add left image in the button
+  final Image? image;
+
   /// Override Button Primary Color. Default will use MaterialApp Styles
+  ///
   final Color? primaryColor;
   const CButtonFilled(
       {Key? key,
@@ -22,6 +31,7 @@ class CButtonFilled extends StatelessWidget {
       required this.textLabel,
       this.isLoading = false,
       this.icon,
+      this.image,
       this.rounded = false,
       this.primaryColor})
       : super(key: key);
@@ -55,25 +65,8 @@ class CButtonFilled extends StatelessWidget {
                 ),
               ),
             )
-          : icon != null
-              ? ElevatedButton.icon(
-                  onPressed: onPressed,
-                  icon: icon!,
-                  label: Text(textLabel),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.disabled))
-                        return Theme.of(context).disabledColor;
-                      else
-                        return primaryColor ?? Theme.of(context).primaryColor;
-                    }),
-                    foregroundColor: MaterialStateProperty.all(
-                        Theme.of(context).scaffoldBackgroundColor),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        shape),
-                  ))
-              : ElevatedButton(
+          : image != null
+              ? ElevatedButton(
                   style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all(
                         Theme.of(context).scaffoldBackgroundColor),
@@ -88,11 +81,60 @@ class CButtonFilled extends StatelessWidget {
                         shape),
                   ),
                   onPressed: onPressed,
-                  child: Text(
-                      textLabel,
-                      style: TextStyle(color: Theme.of(context).accentColor)
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      this.image!,
+                      SizedBox(width: 16),
+                      Text(textLabel,
+                          style:
+                              TextStyle(color: Theme.of(context).accentColor))
+                    ],
                   ),
-                ),
+                )
+              : icon != null
+                  ? ElevatedButton.icon(
+                      onPressed: onPressed,
+                      icon: icon!,
+                      label: Text(textLabel),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled))
+                            return Theme.of(context).disabledColor;
+                          else
+                            return primaryColor ??
+                                Theme.of(context).primaryColor;
+                        }),
+                        foregroundColor: MaterialStateProperty.all(
+                            Theme.of(context).scaffoldBackgroundColor),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                shape),
+                      ))
+                  : ElevatedButton(
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all(
+                            Theme.of(context).scaffoldBackgroundColor),
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.disabled))
+                            return Theme.of(context).disabledColor;
+                          else
+                            return primaryColor ??
+                                Theme.of(context).primaryColor;
+                        }),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                shape),
+                      ),
+                      onPressed: onPressed,
+                      child: Text(textLabel,
+                          style:
+                              TextStyle(color: Theme.of(context).accentColor)),
+                    ),
     );
   }
 }
