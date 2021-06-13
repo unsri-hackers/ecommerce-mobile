@@ -1,5 +1,5 @@
 import 'package:deuvox/views/screens/upload_screen/pages.dart';
-import 'package:deuvox/views/screens/welcome_screen/pages.dart';
+import 'package:deuvox/views/screens/main_screen/pages.dart';
 
 import '../../views/screens/login/pages.dart';
 import '../utils/router_utils.dart';
@@ -12,7 +12,7 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case RouterUtils.welcomeScreen:
-        return MaterialPageRoute(builder: (_) => WelcomeScreen());
+        return MaterialPageRoute(builder: (_) => MainScreen());
       case RouterUtils.loginScreen:
         return MaterialPageRoute(
             builder: (_) => LoginScreen(), settings: routeSettings);

@@ -8,4 +8,5 @@ class AssetsUtils {
   static const String login = "${imagePath}login.png";
   static const String logo = "${imagePath}deuvox_logo.png";
   static const String googleLogo = "${imagePath}google_logo.png";
+  static const String order = "${imagePath}order.png";
 }
