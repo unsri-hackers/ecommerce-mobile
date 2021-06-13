@@ -1,11 +1,13 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:deuvox/app/utils/assets_utils.dart';
+import 'package:deuvox/app/utils/font_utils.dart';
 import 'package:deuvox/controller/bloc/authentication/authentication_bloc.dart';
 import 'package:deuvox/controller/bloc/login/login_bloc.dart';
 import 'package:deuvox/data/model/login_model.dart';
 import 'package:deuvox/views/component/common_alert.dart';
 import 'package:deuvox/views/component/common_button.dart';
 import 'package:deuvox/views/component/common_form.dart';
+import 'package:deuvox/views/component/curve_clipper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,79 +42,207 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider<LoginBloc>(
       create: (context) => loginBloc,
       child: Scaffold(
-        body: Form(
-          key: _formKey,
-          child: BlocConsumer<LoginBloc, LoginState>(
-            bloc: loginBloc,
-            listener: (context, state) {
-              if (state is LoginUserNotExisted) {
-                Utils.showDialogError(context);
-              }
+        body: ListView(
+          children: [
+            Container(
+              child: Stack(
+                children: [
+                  ClipPath(
+                    clipper: CurveClipper(),
+                    child: Container(
+                      height: 250,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 29, top: 28),
+                    child: Image.asset(AssetsUtils.logo),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 48),
+                      child: Image.asset(AssetsUtils.login),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              'Welcome Back!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: FontUtils.louisGeorgeCafe,
+                fontSize: 36,
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              child: Text(
+                'Sign in to your account',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: FontUtils.louisGeorgeCafe,
+                  fontSize: 13,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Container(
+              child: Form(
+                key: _formKey,
+                child: BlocConsumer<LoginBloc, LoginState>(
+                  bloc: loginBloc,
+                  listener: (context, state) {
+                    if (state is LoginUserNotExisted) {
+                      Utils.showDialogError(context);
+                    }
 
-              if (state is LoginFailure) {
-                FlushbarHelper.createError(
-                    message: "Gagal melakukan login. terjadi kesalahan")
-                  ..show(context);
-              }
+                    if (state is LoginFailure) {
+                      FlushbarHelper.createError(
+                          message: "Gagal melakukan login. terjadi kesalahan")
+                        ..show(context);
+                    }
 
-              if (state is LoginSuccess) {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CAlert(
-                      imagePath: AssetsUtils.success,
-                      message: 'Login\nSuccess',
+                    if (state is LoginSuccess) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CAlert(
+                            imagePath: AssetsUtils.success,
+                            message: 'Login\nSuccess',
+                          );
+                        },
+                      );
+                      BlocProvider.of<AuthenticationBloc>(context)
+                          .add(AuthenticationLoggedInEvent());
+                    }
+                  },
+                  builder: (context, state) {
+                    bool isDisabled = state is LoginSuccess;
+                    bool isLoading = state is LoginLoading;
+                    return ListView(
+                      padding: EdgeInsets.symmetric(horizontal: 24),
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        SizedBox(height: 12),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Text(
+                            'Email Address',
+                            style: TextStyle(
+                              fontFamily: FontUtils.louisGeorgeCafe,
+                              fontSize: 13,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        CTextFormFilled(
+                          hintText: "Email Address",
+                          onSaved: (val) => loginModel.username = val,
+                          validator: (value) =>
+                              value!.isEmpty ? "Data belum lengkap" : null,
+                        ),
+                        SizedBox(height: 8),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Text(
+                            'Password',
+                            style: TextStyle(
+                              fontFamily: FontUtils.louisGeorgeCafe,
+                              fontSize: 13,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        CTextFormFilled(
+                          hintText: "Password",
+                          onSaved: (val) => loginModel.password = val,
+                          validator: (value) =>
+                              value!.isEmpty ? "Data belum lengkap" : null,
+                        ),
+                        SizedBox(height: 12),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 32),
+                          child: CButtonFilled(
+                            textLabel: "Login",
+                            isLoading: isLoading,
+                            rounded: true,
+                            onPressed: isDisabled
+                                ? null
+                                : () {
+                                    if (_formKey.currentState!.validate()) {
+                                      _formKey.currentState?.save();
+
+                                      loginBloc.add(LoginStarted(loginModel));
+                                    }
+                                  },
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          child: Divider(thickness: 2),
+                        ),
+                        SizedBox(height: 12),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 32),
+                          child: CButtonFilled(
+                            textLabel: "Login with Google",
+                            isLoading: isLoading,
+                            rounded: true,
+                            image: Image.asset(AssetsUtils.googleLogo),
+                            primaryColor: Colors.white,
+                            onPressed: isDisabled
+                                ? null
+                                : () {
+                                    if (_formKey.currentState!.validate()) {
+                                      _formKey.currentState?.save();
+
+                                      loginBloc.add(LoginStarted(loginModel));
+                                    }
+                                  },
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Text(
+                            'Forgot Password?',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: FontUtils.louisGeorgeCafe,
+                              fontSize: 13,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Text(
+                            "Haven't register yet? Register Now",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: FontUtils.louisGeorgeCafe,
+                              fontSize: 13,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                      ],
                     );
                   },
-                );
-                BlocProvider.of<AuthenticationBloc>(context)
-                    .add(AuthenticationLoggedInEvent());
-              }
-            },
-            builder: (context, state) {
-              bool isDisabled = state is LoginSuccess;
-              bool isLoading = state is LoginLoading;
-              return ListView(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-                  Text(
-                    "Attack E-commerce",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                  SizedBox(height: 20),
-                  CTextFormFilled(
-                    hintText: "Username",
-                    onSaved: (val) => loginModel.username = val,
-                    validator: (value) =>
-                        value!.isEmpty ? "Data belum lengkap" : null,
-                  ),
-                  SizedBox(height: 20),
-                  CTextFormFilled(
-                    hintText: "Password",
-                    onSaved: (val) => loginModel.password = val,
-                    validator: (value) =>
-                        value!.isEmpty ? "Data belum lengkap" : null,
-                  ),
-                  SizedBox(height: 20),
-                  CButtonFilled(
-                    textLabel: "Login",
-                    isLoading: isLoading,
-                    onPressed: isDisabled
-                        ? null
-                        : () {
-                            if (_formKey.currentState!.validate()) {
-                              _formKey.currentState?.save();
-
-                              loginBloc.add(LoginStarted(loginModel));
-                            }
-                          },
-                  )
-                ],
-              );
-            },
-          ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
