@@ -1,5 +1,6 @@
 name: deuvox
-description: A new Flutter project.
+description: Aplikasi Versi Mobile untuk Seamless Vendor Onboarding. Hasil
+  Kolaborasi bersama Generasi Teknik Informatika UNSRI
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -15,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 0.1.0+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -23,31 +24,33 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  another_flushbar: ^1.10.22
+  another_flushbar: ^1.10.23
   cached_network_image: ^3.0.0
   carousel_slider: ^3.0.0
   catcher: ^0.6.6
   cupertino_icons: ^1.0.2
+  custom_pop_up_menu: ^1.2.0
+  device_info: ^2.0.2
   dio: ^4.0.0
   dio_cache_interceptor: ^2.3.1
   easy_localization: ^3.0.0
   equatable: ^2.0.2
-  flutter_bloc: ^7.0.0
+  flutter_bloc: ^7.0.1
   google_fonts: ^2.1.0
   hive_flutter: ^1.0.0
-  infinite_scroll_pagination: ^3.0.1
-  rxdart: ^0.27.0
+  image_picker: ^0.8.0+3
+  infinite_scroll_pagination: ^3.0.1+1
+  mockito: ^5.0.10
+  platform_device_id: ^1.0.1
+  rxdart: ^0.27.1
   shimmer: ^2.0.0
-  image_picker: ^0.7.5+2
-  json_serializable: ^4.1.2
-  mockito: ^5.0.9
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.9.0
-  build_runner: ^2.0.3
-  test: 
   flutter_test:
     sdk: flutter
+  build_runner: ^2.0.4
+  flutter_launcher_icons: ^0.9.0
+  json_serializable: ^4.1.3
 
 flutter_icons:
   android: true
@@ -67,9 +70,9 @@ flutter:
   fonts:
     - family: LouisGeorgeCafe
       fonts:
-          - asset: assets/fonts/louis_george_cafe/louis_george_cafe.ttf
-          - asset: assets/fonts/louis_george_cafe/louis_george_cafe_bold.ttf
-            weight: 700
+        - asset: assets/fonts/louis_george_cafe/louis_george_cafe.ttf
+        - asset: assets/fonts/louis_george_cafe/louis_george_cafe_bold.ttf
+          weight: 700
   assets:
     - assets/images/
     - assets/langs/

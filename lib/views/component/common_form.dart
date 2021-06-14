@@ -1,3 +1,4 @@
+import 'package:deuvox/app/utils/font_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,10 +18,25 @@ class CTextFormFilled extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (labelText != null) Text(labelText!),
+        if (labelText != null)   Container(
+                          margin: EdgeInsets.only(top: 10,bottom: 4),
+                          child: Text(
+                           labelText!,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        
         TextFormField(
           decoration:
-          InputDecoration(hintText: hintText, border: OutlineInputBorder()),
+          InputDecoration(hintText: hintText, 
+          contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 10),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10)
+          )),
           onSaved: onSaved,
           validator: validator,
           maxLines: maxLines,

@@ -40,11 +40,11 @@ class MockUserDomain extends _i1.Mock implements _i3.UserDomain {
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future.value()) as _i4.Future<void>);
   @override
-  _i4.Future<bool> addSession(_i2.UserModel? userModel) =>
+  _i4.Future<bool> addSession(_i2.UserSessionModel? userModel) =>
       (super.noSuchMethod(Invocation.method(#addSession, [userModel]),
           returnValue: Future<bool>.value(false)) as _i4.Future<bool>);
   @override
-  _i4.Future<bool> updateSession(_i2.UserModel? userModel) =>
+  _i4.Future<bool> updateSession(_i2.UserSessionModel? userModel) =>
       (super.noSuchMethod(Invocation.method(#updateSession, [userModel]),
           returnValue: Future<bool>.value(false)) as _i4.Future<bool>);
   @override

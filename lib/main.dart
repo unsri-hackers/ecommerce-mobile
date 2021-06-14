@@ -1,5 +1,6 @@
 import 'package:catcher/catcher.dart';
 import 'package:deuvox/views/screens/login/pages.dart';
+import 'package:deuvox/views/screens/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -106,7 +107,7 @@ class MyApp extends StatelessWidget {
                 if (state is AuthenticationAuthenticated) {
                   return MainScreen();
                 }
-                return Center(child: CircularProgressIndicator());
+                return SplashScreen();
               }),
         ));
   }
@@ -124,8 +125,8 @@ class MyBlocObserver extends BlocObserver {
   }
 
   @override
-  void onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
+  void onTransition(Bloc? bloc, Transition? transition) {
+    super.onTransition(bloc!, transition!);
     print('onTransition -- bloc: ${bloc.runtimeType}, transition: $transition');
   }
 

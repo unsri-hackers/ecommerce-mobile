@@ -1,3 +1,4 @@
+import 'package:deuvox/app/utils/font_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,6 +27,8 @@ class ThemeColors {
 
   ///Product specific color for T-PAY
   static const Color blue50 = const Color(0xFF388BF2);
+
+  static const Color grey = const Color(0xFFE0E0E0);
 
   static const MaterialColor blue = MaterialColor(
     0xFF388BF2,
@@ -71,16 +74,21 @@ class ThemeStyle {
       return ThemeData(
         brightness: Brightness.light,
         primaryColor: ThemeColors.yellow100,
+        indicatorColor: ThemeColors.yellow100,
         accentColor: ThemeColors.black100,
         errorColor: ThemeColors.red80,
-
-        fontFamily: 'Louis George Café',
-
+        fontFamily:  FontUtils.louisGeorgeCafe,
+ pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder>{
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+          },
+        ),
         textTheme: TextTheme(
-          headline6: TextStyle(fontSize: 36.0, height: 42.19, letterSpacing: -0.015), //Untuk Login Page "Welcome Back"
-          subtitle2: TextStyle(fontSize: 13.0, height: 15.23, letterSpacing: -0.015), //Untuk Login Page, semua text kecuali "Welcome Back"
-          bodyText1: TextStyle(fontSize: 16.0, height: 20.63), //Untuk isian form Upload Page
-        )
+          // headline6: TextStyle(fontSize: 36.0, height: 42.19, letterSpacing: -0.015), //Untuk Login Page "Welcome Back"
+          // subtitle2: TextStyle(fontSize: 13.0, height: 15.23, letterSpacing: -0.015), //Untuk Login Page, semua text kecuali "Welcome Back"
+          // bodyText1: TextStyle(fontSize: 16.0, height: 20.63), //Untuk isian form Upload Page
+        ),
+      
       );
     } else {
       return ThemeData.dark().copyWith(

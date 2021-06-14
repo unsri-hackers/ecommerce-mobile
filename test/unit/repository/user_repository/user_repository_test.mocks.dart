@@ -29,12 +29,12 @@ class MockUserRepository extends _i1.Mock implements _i4.UserRepository {
   }
 
   @override
-  _i5.Future<_i2.BaseResponse<_i3.UserModel>> login(
+  _i5.Future<_i2.BaseResponse<_i3.UserSessionModel>> login(
           _i6.LoginModel? loginModel) =>
       (super.noSuchMethod(Invocation.method(#login, [loginModel]),
-              returnValue: Future<_i2.BaseResponse<_i3.UserModel>>.value(
-                  _FakeBaseResponse<_i3.UserModel>()))
-          as _i5.Future<_i2.BaseResponse<_i3.UserModel>>);
+              returnValue: Future<_i2.BaseResponse<_i3.UserSessionModel>>.value(
+                  _FakeBaseResponse<_i3.UserSessionModel>()))
+          as _i5.Future<_i2.BaseResponse<_i3.UserSessionModel>>);
   @override
   _i5.Future<_i3.UserModel> getUser(int? id) =>
       (super.noSuchMethod(Invocation.method(#getUser, [id]),

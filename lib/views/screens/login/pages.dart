@@ -1,13 +1,17 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:deuvox/app/utils/assets_utils.dart';
 import 'package:deuvox/app/utils/font_utils.dart';
+import 'package:deuvox/app/utils/router_utils.dart';
 import 'package:deuvox/controller/bloc/authentication/authentication_bloc.dart';
 import 'package:deuvox/controller/bloc/login/login_bloc.dart';
 import 'package:deuvox/data/model/login_model.dart';
+import 'package:deuvox/generated/lang_utils.dart';
 import 'package:deuvox/views/component/common_alert.dart';
 import 'package:deuvox/views/component/common_button.dart';
 import 'package:deuvox/views/component/common_form.dart';
+import 'package:deuvox/views/component/common_widget.dart';
 import 'package:deuvox/views/component/curve_clipper.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     loginBloc = LoginBloc();
+
     super.initState();
   }
 
@@ -44,35 +49,14 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         body: ListView(
           children: [
-            Container(
-              child: Stack(
-                children: [
-                  ClipPath(
-                    clipper: CurveClipper(),
-                    child: Container(
-                      height: 250,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 29, top: 28),
-                    child: Image.asset(AssetsUtils.logo),
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      margin: EdgeInsets.only(top: 48),
-                      child: Image.asset(AssetsUtils.login),
-                    ),
-                  ),
-                ],
-              ),
+            CurveHeader(
+              imgAssetPlaceholder: AssetsUtils.login
             ),
             Text(
-              'Welcome Back!',
+              LocaleKeys.welcome_back.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: FontUtils.louisGeorgeCafe,
+                
                 fontSize: 36,
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
@@ -81,10 +65,10 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               margin: EdgeInsets.only(top: 10),
               child: Text(
-                'Sign in to your account',
+                LocaleKeys.sign_in_to_your_account.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: FontUtils.louisGeorgeCafe,
+                  
                   fontSize: 13,
                   color: Colors.black,
                 ),
@@ -102,22 +86,28 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     if (state is LoginFailure) {
                       FlushbarHelper.createError(
-                          message: "Gagal melakukan login. terjadi kesalahan")
+                          message: LocaleKeys.failed_to_login.tr())
                         ..show(context);
                     }
 
                     if (state is LoginSuccess) {
+                      bool popupOpened = true;
                       showDialog(
                         context: context,
                         builder: (context) {
                           return CAlert(
                             imagePath: AssetsUtils.success,
-                            message: 'Login\nSuccess',
+                            message: LocaleKeys.login_success.tr(),
                           );
                         },
-                      );
-                      BlocProvider.of<AuthenticationBloc>(context)
-                          .add(AuthenticationLoggedInEvent());
+                      ).then((value) {
+                        popupOpened = false;
+                        BlocProvider.of<AuthenticationBloc>(context)
+                            .add(AuthenticationLoggedInEvent());
+                      });
+                      Future.delayed(Duration(seconds: 2)).then((value) {
+                        if (popupOpened) Navigator.pop(context);
+                      });
                     }
                   },
                   builder: (context, state) {
@@ -129,48 +119,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       physics: NeverScrollableScrollPhysics(),
                       children: [
                         SizedBox(height: 12),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            'Email Address',
-                            style: TextStyle(
-                              fontFamily: FontUtils.louisGeorgeCafe,
-                              fontSize: 13,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
                         CTextFormFilled(
-                          hintText: "Email Address",
+                          labelText: LocaleKeys.email_address.tr(),
                           onSaved: (val) => loginModel.username = val,
-                          validator: (value) =>
-                              value!.isEmpty ? "Data belum lengkap" : null,
+                          validator: (value) => value!.isEmpty
+                              ? LocaleKeys.data_not_complete.tr()
+                              : null,
                         ),
                         SizedBox(height: 8),
-                        Container(
-                          margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            'Password',
-                            style: TextStyle(
-                              fontFamily: FontUtils.louisGeorgeCafe,
-                              fontSize: 13,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
                         CTextFormFilled(
-                          hintText: "Password",
+                          labelText: LocaleKeys.password.tr(),
                           onSaved: (val) => loginModel.password = val,
-                          validator: (value) =>
-                              value!.isEmpty ? "Data belum lengkap" : null,
+                          validator: (value) => value!.isEmpty
+                              ? LocaleKeys.data_not_complete.tr()
+                              : null,
                         ),
                         SizedBox(height: 12),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 32),
                           child: CButtonFilled(
-                            textLabel: "Login",
+                            textLabel: LocaleKeys.login.tr(),
                             isLoading: isLoading,
                             rounded: true,
                             onPressed: isDisabled
@@ -193,45 +161,58 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 32),
                           child: CButtonFilled(
-                            textLabel: "Login with Google",
+                            textLabel: LocaleKeys.login_with_google.tr(),
                             isLoading: isLoading,
                             rounded: true,
+                            outlined: true,
                             image: Image.asset(AssetsUtils.googleLogo),
                             primaryColor: Colors.white,
                             onPressed: isDisabled
                                 ? null
                                 : () {
-                                    if (_formKey.currentState!.validate()) {
-                                      _formKey.currentState?.save();
-
-                                      loginBloc.add(LoginStarted(loginModel));
-                                    }
+                                    FlushbarHelper.createInformation(
+                                        message: LocaleKeys.coming_soon.tr())
+                                      ..show(context);
                                   },
                           ),
                         ),
                         SizedBox(height: 12),
                         Container(
                           margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            'Forgot Password?',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: FontUtils.louisGeorgeCafe,
-                              fontSize: 13,
-                              color: Colors.black,
+                          child: GestureDetector(
+                            onTap: () {
+                              FlushbarHelper.createInformation(
+                                  message: LocaleKeys.coming_soon.tr())
+                                ..show(context);
+                            },
+                            child: Text(
+                              LocaleKeys.forgot_password.tr(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                
+                                fontSize: 13,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(height: 12),
                         Container(
                           margin: EdgeInsets.only(top: 10),
-                          child: Text(
-                            "Haven't register yet? Register Now",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: FontUtils.louisGeorgeCafe,
-                              fontSize: 13,
-                              color: Colors.black,
+                          child: GestureDetector(
+                            onTap: () {
+                              FlushbarHelper.createInformation(
+                                  message: LocaleKeys.coming_soon.tr())
+                                ..show(context);
+                            },
+                            child: Text(
+                              LocaleKeys.havent_register_yet_register_now.tr(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                
+                                fontSize: 13,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),

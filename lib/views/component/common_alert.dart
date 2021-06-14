@@ -15,13 +15,13 @@ class CAlert extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              Image.asset(this.imagePath),
+              Expanded(child: Image.asset(this.imagePath)),
               Container(
+                margin: EdgeInsets.symmetric(vertical: 30),
                 child: Text(
                   this.message,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: FontUtils.louisGeorgeCafe,
                     fontSize: 36,
                     fontWeight: FontWeight.w700,
                   ),

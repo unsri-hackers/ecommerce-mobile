@@ -8,18 +8,18 @@ import '../model/api_model.dart';
 class UserRepository {
   final NetworkUtils _networkUtils = NetworkUtils();
 
-  Future<BaseResponse<UserModel>> login(LoginModel loginModel) async {
+  Future<BaseResponse<UserSessionModel>> login(LoginModel loginModel) async {
     Map<String, dynamic> result =
-        await _networkUtils.post('', body: loginModel.toJson());
+        await _networkUtils.post(ApiUtils.login, body: loginModel.toJson());
 
-    BaseResponse<UserModel> response = BaseResponse<UserModel>.fromJson(
-        result, (e) => UserModel.fromJson(e as Map<String, dynamic>));
+    BaseResponse<UserSessionModel> response = BaseResponse<UserSessionModel>.fromJson(
+        result, (e) => UserSessionModel.fromJson(e as Map<String, dynamic>));
 
     return response;
   }
 
-  Future<UserModel> getUser(int id) async {
-    Map<String, dynamic> result = await _networkUtils.get(ApiUtils.users);
+  Future<UserModel> getUserProfile(int id) async {
+    Map<String, dynamic> result = await _networkUtils.get(ApiUtils.userProfile);
 
     CApiRes apiModel = CApiRes.fromJson(result);
     if (apiModel.success)

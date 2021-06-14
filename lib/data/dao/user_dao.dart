@@ -8,13 +8,13 @@ class UserDao {
 
   String _userKey = "user";
 
-  Future<bool> createUser(UserModel user) async {
+  Future<bool> createUser(UserSessionModel user) async {
     final Box db = await dbProvider.dataBox;
     await db.put(_userKey, user.toJson());
     return true;
   }
 
-  Future<bool> updateUser(UserModel user) async {
+  Future<bool> updateUser(UserSessionModel user) async {
     final Box db = await dbProvider.dataBox;
     await db.put(_userKey, user.toJson());
     return true;

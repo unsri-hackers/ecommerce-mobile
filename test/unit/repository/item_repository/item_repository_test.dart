@@ -3,7 +3,7 @@ import 'package:deuvox/data/model/upload_item_model.dart';
 import 'package:deuvox/data/repository/item_repository.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../item_repository/item_repository_test.mocks.dart';
 
@@ -18,12 +18,10 @@ void main() {
         .thenAnswer((_) async => expected);
 
     var res = await itemRepository.uploadItem(uploadItemModel);
-
-    expect(res.status, 'Success');
-    expect(res.statusCode, 200);
+    expect(res.statusCode, "200");
   });
 }
 
 Future<BaseResponse<void>> successResponse() async {
-  return BaseResponse<void>(status: 'Success', statusCode: 200, result: null);
+  return BaseResponse<void>(statusCode: "200", result: null,message: "null");
 }

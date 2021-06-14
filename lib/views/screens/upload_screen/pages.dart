@@ -152,6 +152,11 @@ class _UploadScreenState extends State<UploadScreen> {
           )
         ],
         child: Scaffold(
+          appBar: AppBar(title: Text(
+                          "Upload Barang",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headline5,
+                        ),),
           body: Form(
               key: _formKey,
               child: BlocConsumer<UploadItemBloc, UploadItemState>(
@@ -164,23 +169,13 @@ class _UploadScreenState extends State<UploadScreen> {
                     }
                     if (state is UploadItemSuccess) {
                       Navigator.popUntil(context, (route) => route.isFirst);
-                      print(uploadItemModel.name);
-                      print(uploadItemModel.price);
-                      print(uploadItemModel.condition);
-                      print(uploadItemModel.weight);
-                      print(uploadItemModel.description);
                     }
                   },
                   builder: (context, state) {
                     return ListView(
                       padding: EdgeInsets.symmetric(horizontal: 16,vertical: 20),
                       children: [
-                        Text(
-                          "Upload Barang",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline5,
-                        ),
-                        SizedBox(height: 30),
+                        
                         CTextFormFilled(
                           labelText: "Nama Barang*",
                           onSaved: (val) => uploadItemModel.name = val,

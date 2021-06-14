@@ -22,6 +22,8 @@ class CButtonFilled extends StatelessWidget {
   /// Use this to add left image in the button
   final Image? image;
 
+  final bool outlined;
+
   /// Override Button Primary Color. Default will use MaterialApp Styles
   ///
   final Color? primaryColor;
@@ -33,14 +35,20 @@ class CButtonFilled extends StatelessWidget {
       this.icon,
       this.image,
       this.rounded = false,
-      this.primaryColor})
+      this.primaryColor,this.outlined=false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final shape = rounded
-        ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))
+    RoundedRectangleBorder shape = rounded
+        ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)
+        )
         : RoundedRectangleBorder();
+
+        if(outlined){
+          shape=shape.copyWith(side: BorderSide(color: Colors.black));
+        }
+        
     return Container(
       height: 44,
       child: isLoading
@@ -50,6 +58,7 @@ class CButtonFilled extends StatelessWidget {
                   valueColor: AlwaysStoppedAnimation(
                       Theme.of(context).backgroundColor)),
               style: ButtonStyle(
+                
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(shape),
                 backgroundColor: MaterialStateProperty.resolveWith<Color>(
                   (Set<MaterialState> states) {

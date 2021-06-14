@@ -1,10 +1,11 @@
 class BaseResponse<T> {
-  String status;
-  int statusCode;
+ 
+  String message;
+  String statusCode;
   T result;
 
   BaseResponse({
-    required this.status,
+    required this.message,
     required this.statusCode,
     required this.result,
   });
@@ -12,8 +13,8 @@ class BaseResponse<T> {
   factory BaseResponse.fromJson(Map<String, dynamic> json,
       T Function(Object? json) fromJsonT) {
     return BaseResponse<T>(
-      status: json['status'] as String,
-      statusCode: json['status_code'] as int,
+      message:json['message'] as String,
+      statusCode: json['statusCode'] as String,
       result: fromJsonT(
         json['result'],
       ),
@@ -22,8 +23,8 @@ class BaseResponse<T> {
 
   Map<String, dynamic> toJson(Object Function(T value) toJsonT) {
     return {
-      'status': this.status,
-      'status_code': this.statusCode,
+      'message':this.message,
+      'statusCode': this.statusCode,
       'result': toJsonT(this.result),
     };
   }

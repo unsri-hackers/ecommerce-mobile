@@ -10,14 +10,11 @@ class UserDomain {
   final UserDao _userDao = UserDao();
 
   Future<bool> login(LoginModel loginModel) async {
-    BaseResponse response = await _userRepository.login(loginModel);
-
+    BaseResponse<UserSessionModel> response = await _userRepository.login(loginModel);
+    print(response);
     // Add Session After Login Success
-    if (response.status == Status.SUCCESS) {
-      UserModel res = response.result;
+      UserSessionModel res = response.result;
       return await addSession(res);
-    }
-    return false;
   }
 
   Future<UserModel> getCurrentSession() async {
@@ -31,11 +28,11 @@ class UserDomain {
     await _userDao.deleteUser();
   }
 
-  Future<bool> addSession(UserModel userModel) {
+  Future<bool> addSession(UserSessionModel userModel) {
     return _userDao.createUser(userModel);
   }
 
-  Future<bool> updateSession(UserModel userModel) {
+  Future<bool> updateSession(UserSessionModel userModel) {
     return _userDao.updateUser(userModel);
   }
 

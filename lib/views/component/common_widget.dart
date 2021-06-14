@@ -1,6 +1,8 @@
+import 'package:deuvox/app/utils/assets_utils.dart';
 import 'package:flutter/material.dart';
 
 import 'common_button.dart';
+import 'curve_clipper.dart';
 
 /// Placeholder Widget shared across any screen
 class PlaceholderWidget extends StatelessWidget {
@@ -12,17 +14,20 @@ class PlaceholderWidget extends StatelessWidget {
       this.onPressed,
       this.mainAxisAlignment = MainAxisAlignment.start,
       this.fullWidthButton = false,
-       this.buttonText})
-      :  assert(onPressed != null && buttonText!=null),super(key: key);
+      this.buttonText})
+      : assert(onPressed != null && buttonText != null),
+        super(key: key);
 
-      
   /// Optional asset Path Image. Use `AssetsUtils` to get right Asset Path
   final String? imagePath;
+
   /// Optional Subtitle/description placeholder
   final String? subtitle;
   final String title;
+
   /// Add onPressed Method will show Button
   final VoidCallback? onPressed;
+
   /// It can't be empty if onPress is not null
   final String? buttonText;
   final MainAxisAlignment mainAxisAlignment;
@@ -79,6 +84,39 @@ class PlaceholderWidget extends StatelessWidget {
                       textLabel: buttonText!,
                       onPressed: onPressed!)
               : Container()
+        ],
+      ),
+    );
+  }
+}
+
+class CurveHeader extends StatelessWidget {
+  final String imgAssetPlaceholder;
+  const CurveHeader({Key? key,required this.imgAssetPlaceholder}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Stack(
+        children: [
+          ClipPath(
+            clipper: CurveClipper(),
+            child: Container(
+              height: 250,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 29, top: 28),
+            child: Image.asset(AssetsUtils.logo),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              margin: EdgeInsets.only(top: 48),
+              child: Image.asset(imgAssetPlaceholder),
+            ),
+          ),
         ],
       ),
     );

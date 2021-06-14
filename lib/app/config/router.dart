@@ -16,10 +16,10 @@ class Routes {
       case RouterUtils.loginScreen:
         return MaterialPageRoute(
             builder: (_) => LoginScreen(), settings: routeSettings);
- case RouterUtils.uploadItemSCreen:
+      case RouterUtils.uploadItemSCreen:
         return MaterialPageRoute(
             builder: (_) => UploadScreen(), settings: routeSettings);
-            
+
       default: //redirect to appinfoview
         return PageRouteBuilder<dynamic>(
             pageBuilder: (_, Animation<double> a1, Animation<double> a2) =>

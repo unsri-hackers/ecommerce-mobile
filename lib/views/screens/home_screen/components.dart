@@ -1,5 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:deuvox/app/config/themes.dart';
+import 'package:deuvox/app/utils/assets_utils.dart';
 import 'package:deuvox/app/utils/color_utils.dart';
-import 'package:deuvox/app/utils/font_utils.dart';
+import 'package:deuvox/generated/lang_utils.dart';
+import 'package:deuvox/views/component/common_icon_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -13,21 +18,16 @@ class Utils {
 }
 
 class OnGoingOrderListItem extends StatelessWidget {
-  final bool isFirst;
-  final bool isLast;
   final String title;
   final String date;
 
   OnGoingOrderListItem({
-    required this.isFirst,
-    required this.isLast,
     required this.title,
     required this.date,
   });
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: isFirst ? 24 : 10, right: isLast ? 24 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -79,7 +79,6 @@ class OnGoingOrderListItem extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              fontFamily: FontUtils.louisGeorgeCafe,
               fontSize: 14,
               color: Colors.black,
             ),
@@ -88,7 +87,6 @@ class OnGoingOrderListItem extends StatelessWidget {
           Text(
             date,
             style: TextStyle(
-              fontFamily: FontUtils.louisGeorgeCafe,
               fontSize: 11,
               color: ColorHex(ColorUtils.gray_text),
             ),
@@ -100,72 +98,62 @@ class OnGoingOrderListItem extends StatelessWidget {
 }
 
 class ProductCategoryListItem extends StatelessWidget {
-  final bool isFirst;
-  final bool isLast;
   final String title;
   final String imagePath;
 
   ProductCategoryListItem({
-    required this.isFirst,
-    required this.isLast,
     required this.title,
     required this.imagePath,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 130,
-      width: 130,
-      margin: EdgeInsets.only(left: isFirst ? 24 : 10, right: isLast ? 24 : 0),
-      child: Stack(
-        children: [
-          ClipRRect(
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          height: 130,
+          width: 130,
+          foregroundDecoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            child: Image.asset(imagePath),
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                Colors.black54,
+                Colors.transparent,
+              ],
+            ),
           ),
-          Container(
-            decoration: BoxDecoration(
+          decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [
-                  Colors.black54,
-                  Colors.transparent,
-                ],
-              ),
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: CachedNetworkImageProvider(imagePath))),
+        ),
+        Center(
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
             ),
           ),
-          Center(
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: FontUtils.louisGeorgeCafe,
-                fontSize: 16,
-                color: Colors.white,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }
 
 class YourProductListItem extends StatelessWidget {
-  final bool isFirst;
-  final bool isLast;
   final String title;
   final String price;
   final String imagePath;
   final String rating;
 
   YourProductListItem({
-    required this.isFirst,
-    required this.isLast,
     required this.title,
     required this.price,
     required this.imagePath,
@@ -174,78 +162,135 @@ class YourProductListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 75,
-      width: 120,
-      margin: EdgeInsets.only(left: isFirst ? 24 : 10, right: isLast ? 24 : 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  imagePath,
-                  fit: BoxFit.cover,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          children: [
+            Container(
+              height: 75,
+              width: 120,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: CachedNetworkImageProvider(imagePath))),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
                 ),
+                color: Colors.black38,
               ),
-              Container(
-                height: 25,
-                width: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                  ),
-                  color: Colors.black54,
-                ),
-              ),
-              Row(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(left: 6, top: 3),
-                    child: Icon(
-                      Icons.star,
-                      color: Colors.yellow,
-                      size: 16,
-                    ),
+                  Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                    size: 16,
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 3, top: 3),
-                    child: Text(
-                      rating,
-                      style: TextStyle(
-                        fontFamily: FontUtils.louisGeorgeCafe,
-                        fontSize: 11,
-                        color: Colors.white,
-                      ),
+                  SizedBox(width: 5),
+                  Text(
+                    rating,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.white,
                     ),
                   ),
                 ],
-              )
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 6),
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(height: 3),
+        Text(
+          price,
+          style: TextStyle(
+            fontSize: 11,
+            color: ColorHex(ColorUtils.gray_text),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class HomeAppBar extends StatefulWidget {
+  final VoidCallback? onPressAvatar;
+  const HomeAppBar({Key? key, this.onPressAvatar}) : super(key: key);
+
+  @override
+  _HomeAppBarState createState() => _HomeAppBarState();
+}
+
+class _HomeAppBarState extends State<HomeAppBar> {
+  //  CustomPopupMenuController _controller = CustomPopupMenuController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: widget.onPressAvatar,
+          child: Container(
+            width: 40,
+            height: 40,
+            child: Utils.circularImage(AssetsUtils.userTemp),
+          ),
+        ),
+        SizedBox(width: 16),
+        Expanded(
+            child: Container(
+          height: 34,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: ThemeColors.grey)),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    LocaleKeys.search_for_good_things.tr(),
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ),
+              ),
+              Container(
+                  height: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  color: ThemeColors.grey,
+                  child: Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ))
             ],
           ),
-          SizedBox(height: 6),
-          Text(
-            title,
-            style: TextStyle(
-              fontFamily: FontUtils.louisGeorgeCafe,
-              fontSize: 12,
-              color: Colors.black,
-            ),
-          ),
-          SizedBox(height: 3),
-          Text(
-            price,
-            style: TextStyle(
-              fontFamily: FontUtils.louisGeorgeCafe,
-              fontSize: 11,
-              color: ColorHex(ColorUtils.gray_text),
-            ),
-          ),
-        ],
-      ),
+        )),
+        SizedBox(width: 16),
+        CIconButton(
+          imageIcon: ImageIcon(AssetImage(AssetsUtils.present)),
+          onPress: () {},
+        ),
+        SizedBox(width: 5),
+        CIconButton(
+          imageIcon: ImageIcon(AssetImage(AssetsUtils.notification)),
+          onPress: () {},
+        ),
+      ],
     );
   }
 }

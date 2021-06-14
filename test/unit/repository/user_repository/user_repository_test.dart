@@ -2,7 +2,7 @@ import 'package:deuvox/data/model/base_response.dart';
 import 'package:deuvox/data/model/login_model.dart';
 import 'package:deuvox/data/model/user_model.dart';
 import 'package:deuvox/data/repository/user_repository.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
@@ -17,19 +17,19 @@ void main() {
           LoginModel(username: 'ichsanachmad', password: '123456');
 
       when(userRepository.login(loginModel))
-          .thenAnswer((realInvocation) => Future.value(BaseResponse<UserModel>(
-                status: 'Success',
-                statusCode: 200,
-                result: UserModel(
-                  id: 1,
-                  authtoken: 'authtoken001',
-                  fcmToken: 'fcmtoken001',
+          .thenAnswer((realInvocation) => Future.value(BaseResponse<UserSessionModel>(
+            message: "",
+                statusCode: "200",
+                result: UserSessionModel(
+                  accessToken: "123",
+                  tokenType: "Bearer",
+                  username: "aws",
                 ),
               )));
 
       var res = await userRepository.login(loginModel);
 
-      expect(res.status, 'Success');
+      expect(res.statusCode, "200");
     });
   });
 
