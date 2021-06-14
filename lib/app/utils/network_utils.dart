@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import '../constant/error_code.dart';
 import '../../data/model/api_model.dart';
 import '../config/app_config.dart';
@@ -37,25 +38,30 @@ class NetworkUtils {
   NetworkUtils() {
     dio = new Dio(options);
     dio.interceptors.add(DioCacheInterceptor(options: optionsCache));
+    
     if (AppConfig.ENABLE_LOGGING) {
       dio.interceptors.add(LogInterceptor(
           requestBody: true,
           requestHeader: true,
           error: true,
-          // request: true,
+          request: true,
           responseHeader: true,
           responseBody: true,
           logPrint: (obj) {
             log(obj.toString());
           }));
     }
+
+    
   }
 
   ///Usually the authorization token will be added here
   Future<Map<String, String?>> get headerAuth async {
    return {
-      'Authorization': "user?.token",
-      'debug': AppConfig.ENV_DEBUGGING ? 'true' : null,
+      "Client-Type":Platform.operatingSystem,
+      "App-Ver":AppConfig.appVersion,
+      "Device-Id":await PlatformDeviceId.getDeviceId,
+    //  "User-Agent":Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36
     };
   }
 
@@ -97,7 +103,7 @@ class NetworkUtils {
       {Map<String, String?> ?headers, Map<String, dynamic>? body}) async {
     Map<String, String?> authHeaders = await headerAuth;
 authHeaders.addAll({
-      HttpHeaders.contentTypeHeader: " application/x-www-form-urlencoded",
+      HttpHeaders.contentTypeHeader: "application/json",
     });
    
     if (headers != null) authHeaders.addAll(headers);
@@ -177,8 +183,6 @@ authHeaders.addAll({
       throw CApiResError(errorCode: ErrorCode.API_NOT_SUCCESS);
     }
     try {
-      // return json.decode(response.data);
-      //dio already encode the responses;
       return response.data;
     } catch (e) {
       throw CApiResError(
@@ -197,4 +201,7 @@ authHeaders.addAll({
     return CApiResError(
         errorCode: ErrorCode.API_UNKNOWN_ERROR, message: e.message);
   }
+
 }
+
+

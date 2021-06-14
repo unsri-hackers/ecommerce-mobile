@@ -31,3 +31,34 @@ class UserModel {
         fcmToken: fcmToken ?? this.fcmToken);
   }
 }
+
+
+class UserSessionModel {
+  late String? accessToken;
+  late String? tokenType;
+  late String? username;
+
+  UserSessionModel({this.accessToken, this.tokenType, this.username});
+
+  UserSessionModel.fromJson(Map<String, dynamic> json) {
+    accessToken = json['accessToken'];
+    tokenType = json['tokenType'];
+    username = json['username'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['accessToken'] = this.accessToken;
+    data['tokenType'] = this.tokenType;
+    data['username'] = this.username;
+    return data;
+  }
+
+  UserSessionModel copyWith(
+      { String? accessToken, String? tokenType, String? username}) {
+    return UserSessionModel(
+        accessToken: accessToken ?? this.accessToken,
+        tokenType: tokenType ?? this.tokenType,
+        username: username ?? this.username);
+  }
+}

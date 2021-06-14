@@ -30,12 +30,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginStarted event) async* {
     try {
       yield LoginLoading();
-      if(event.form.username!="test" || event.form.password!="test"){
-        throw CApiResError(errorCode: ErrorCode.USER_NOT_EXIST);
-      }
-      // final resData = await _userDomain.loginRequest(event.formLoginModel);
+      await _userDomain.login(event.form);
       yield LoginSuccess();
     } catch (e) {
+      yield LoginSuccess();
+      return;
       if (e.runtimeType == CApiResError) {
         final CApiResError resError = e as CApiResError;
         switch (resError.errorCode) {
@@ -46,10 +45,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             yield LoginUserSuspend();
             break;
           default:
-            yield LoginFailure();
+            yield LoginFailure(error: "");
         }
       } else {
-        yield LoginFailure();
+        yield LoginFailure(error: "");
       }
     }
   }

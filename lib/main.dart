@@ -1,5 +1,6 @@
 import 'package:catcher/catcher.dart';
 import 'package:deuvox/views/screens/login/pages.dart';
+import 'package:deuvox/views/screens/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +13,7 @@ import 'app/config/themes.dart';
 import 'app/utils/assets_utils.dart';
 import 'controller/bloc/authentication/authentication_bloc.dart';
 import 'controller/cubit/app/app_cubit.dart';
-import 'views/screens/upload_screen/pages.dart';
-import 'views/screens/welcome_screen/pages.dart';
+import 'views/screens/main_screen/pages.dart';
 
 void main() async {
   // Catcher.reportCheckedError(error, stackTrace);
@@ -30,7 +30,6 @@ void main() async {
       handleWhenRejected: true,
     ),
     ToastHandler(customMessage: "An Application error has occured"),
-    
   ]);
 
   CatcherOptions releaseOptions = CatcherOptions(SilentReportMode(), [
@@ -67,13 +66,13 @@ class MyApp extends StatelessWidget {
           create: (BuildContext context) =>
               AuthenticationBloc()..add(AuthenticationStartedEvent()),
         ),
-          BlocProvider<AppCubit>(
+        BlocProvider<AppCubit>(
           create: (BuildContext context) => AppCubit(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppState>(
-        listener: (context, state) async =>await
-            context.setLocale(state.language.toLocale()),
+        listener: (context, state) async =>
+            await context.setLocale(state.language.toLocale()),
         builder: _buildWithTheme,
       ),
     );
@@ -99,16 +98,17 @@ class MyApp extends StatelessWidget {
             }),
           ],
           child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            buildWhen: (previous, current) => current is!AuthenticationExpired,
+              buildWhen: (previous, current) =>
+                  current is! AuthenticationExpired,
               builder: (BuildContext context, AuthenticationState state) {
-            if (state is AuthenticationUnauthenticated) {
-              return LoginScreen();
-            }
-            if (state is AuthenticationAuthenticated) {
-              return WelcomeScreen();
-            }
-            return Center(child: CircularProgressIndicator());
-          }),
+                if (state is AuthenticationUnauthenticated) {
+                  return LoginScreen();
+                }
+                if (state is AuthenticationAuthenticated) {
+                  return MainScreen();
+                }
+                return SplashScreen();
+              }),
         ));
   }
 
@@ -125,8 +125,8 @@ class MyBlocObserver extends BlocObserver {
   }
 
   @override
-  void onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
+  void onTransition(Bloc? bloc, Transition? transition) {
+    super.onTransition(bloc!, transition!);
     print('onTransition -- bloc: ${bloc.runtimeType}, transition: $transition');
   }
 

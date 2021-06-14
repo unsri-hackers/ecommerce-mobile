@@ -6,7 +6,9 @@ import '../config/themes.dart';
 /// APP Configuration. Can be customized.
 class AppConfig {
   static const String appName = "Deuvox";
-  /// Optional Variable for development environment 
+  static const String appVersion = "0.0.1";
+
+  /// Optional Variable for development environment
   /// `false` = production
   static const ENV_DEBUGGING = true; //false = production
   /// Default: `true`. disable this to hide any log
@@ -15,14 +17,14 @@ class AppConfig {
   /// base URL for Restful API
   static String get baseUrl {
     if (ENV_DEBUGGING) {
-      return "https://deuvox.api.com/dev/v1";
+      return "https://deuvox-dev-1.herokuapp.com/api/v1";
     } else {
-      return "https://deuvox.api.com/v1";
+      return "https://deuvox-dev-1.herokuapp.com/api/v1";
     }
   }
 
   ///Endpoint api server to collect error/crash log in application
-  static String get logsServerUrl => baseUrl + "/logCatcher";
+  static String get logsServerUrl => baseUrl + "/crashlog";
 
   static const int connectTimeout = 20000; //milisecond
   static const int receiveTimeout = 15000;
@@ -39,8 +41,10 @@ class AppConfig {
 
   /// Default Theme
   static final ThemeType defaultTheme = ThemeType.Light;
+
   /// Limit of data when using pagination
   static const int paginationLimit = 6;
-  /// Default date format 
+
+  /// Default date format
   static final DateFormat dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
 }
