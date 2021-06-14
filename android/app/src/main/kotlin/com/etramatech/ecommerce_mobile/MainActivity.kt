@@ -1,4 +1,4 @@
-package com.etramatech.unsri.deuvox
+package com.unsrihackers.deuvox
 
 import io.flutter.embedding.android.FlutterActivity
 

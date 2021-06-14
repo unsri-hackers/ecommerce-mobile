@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.etramatech.unsri.deuvox">
+    package="com.unsrihackers.deuvox">
    <application
         android:label="deuvox"
         android:icon="@mipmap/ic_launcher">
