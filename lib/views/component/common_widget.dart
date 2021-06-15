@@ -1,5 +1,6 @@
 import 'package:deuvox/app/utils/assets_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'common_button.dart';
 import 'curve_clipper.dart';
@@ -121,4 +122,26 @@ class CurveHeader extends StatelessWidget {
       ),
     );
   }
+}
+
+class ShimmerLoader extends StatelessWidget {
+  final Color baseColor;
+  final Color highlightColor;
+  final Widget child;
+  final bool enabled;
+  const ShimmerLoader(
+      {Key? key, this.baseColor = Colors.grey, this.highlightColor = Colors.white, required this.child, this.enabled = true})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+        child: child,
+        baseColor: baseColor,
+        highlightColor: highlightColor,
+        enabled: true
+    );
+  }
+
+
 }
