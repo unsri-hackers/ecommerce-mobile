@@ -6,11 +6,11 @@ import '../config/themes.dart';
 /// APP Configuration. Can be customized.
 class AppConfig {
   static const String appName = "Deuvox";
-  static const String appVersion = "0.0.1";
+  static const String appVersion = "0.1.0";
 
   /// Optional Variable for development environment
   /// `false` = production
-  static const ENV_DEBUGGING = true; //false = production
+  static const ENV_DEBUGGING = false; //false = production
   /// Default: `true`. disable this to hide any log
   static const ENABLE_LOGGING = true;
 

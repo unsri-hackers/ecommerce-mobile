@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'package:deuvox/app/utils/platform_utils.dart';
+
 
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+// import 'package:platform_device_id/platform_device_id.dart';
 import '../constant/error_code.dart';
 import '../../data/model/api_model.dart';
 import '../config/app_config.dart';
@@ -58,10 +61,9 @@ class NetworkUtils {
   ///Usually the authorization token will be added here
   Future<Map<String, String?>> get headerAuth async {
    return {
-      "Client-Type":Platform.operatingSystem,
+      "Client-Type":PlatformUtils.getPlatformType(),
       "App-Ver":AppConfig.appVersion,
       "Device-Id":await PlatformDeviceId.getDeviceId,
-    //  "User-Agent":Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36
     };
   }
 
