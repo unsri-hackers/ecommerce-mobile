@@ -65,6 +65,10 @@ class ThemeColors {
 
   ///Dividers & borders
   static const Color black10 = Color(0xFFE8E8E8);
+
+  ///Shimmers gradient
+  static const Color grey100 = Color(0xFFF5F5F5);
+  static const Color grey200 = Color(0xFFEEEEEE);
 }
 
 /// Defined Style for Light and Dark Theme
