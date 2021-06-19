@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:deuvox/app/utils/platform_utils.dart';
 
-
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:platform_device_id/platform_device_id.dart';
@@ -13,6 +12,7 @@ import '../../data/model/api_model.dart';
 import '../config/app_config.dart';
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
+
 /// Utilization to Connect with Restful API
 /// Cache will be implemented here. Default method: `GET`
 class NetworkUtils {
@@ -41,7 +41,7 @@ class NetworkUtils {
   NetworkUtils() {
     dio = new Dio(options);
     dio.interceptors.add(DioCacheInterceptor(options: optionsCache));
-    
+
     if (AppConfig.ENABLE_LOGGING) {
       dio.interceptors.add(LogInterceptor(
           requestBody: true,
@@ -54,21 +54,19 @@ class NetworkUtils {
             log(obj.toString());
           }));
     }
-
-    
   }
 
   ///Usually the authorization token will be added here
   Future<Map<String, String?>> get headerAuth async {
-   return {
-      "Client-Type":PlatformUtils.getPlatformType(),
-      "App-Ver":AppConfig.appVersion,
-      "Device-Id":await PlatformDeviceId.getDeviceId,
+    return {
+      "Client-Type": PlatformUtils.getPlatformType(),
+      "App-Ver": AppConfig.appVersion,
+      "Device-Id": await PlatformDeviceId.getDeviceId,
     };
   }
 
   Future<Map<String, dynamic>> get(String pathUrl,
-      {Map<String, dynamic> ?headers, Map<String, dynamic>? body}) async {
+      {Map<String, dynamic>? headers, Map<String, dynamic>? body}) async {
     Map<String, dynamic> authHeaders = await headerAuth;
     if (headers != null) authHeaders.addAll(headers);
     try {
@@ -102,19 +100,20 @@ class NetworkUtils {
   }
 
   Future<Map<String, dynamic>> delete(String pathUrl,
-      {Map<String, String?> ?headers, Map<String, dynamic>? body}) async {
+      {Map<String, String?>? headers, Map<String, dynamic>? body}) async {
     Map<String, String?> authHeaders = await headerAuth;
-authHeaders.addAll({
+    authHeaders.addAll({
       HttpHeaders.contentTypeHeader: "application/json",
     });
-   
+
     if (headers != null) authHeaders.addAll(headers);
 
     try {
       final response = await dio.delete(pathUrl,
-      // queryParameters: body,
-          data: body, 
-          options: Options(headers: authHeaders,
+          // queryParameters: body,
+          data: body,
+          options: Options(
+            headers: authHeaders,
           ));
       return handleResponse(response);
     } on DioError catch (e) {
@@ -203,7 +202,4 @@ authHeaders.addAll({
     return CApiResError(
         errorCode: ErrorCode.API_UNKNOWN_ERROR, message: e.message);
   }
-
 }
-
-

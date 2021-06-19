@@ -26,15 +26,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Stream<LoginState> _mapLoginButtonPressedToState(
-      LoginStarted event) async* {
+  Stream<LoginState> _mapLoginButtonPressedToState(LoginStarted event) async* {
     try {
       yield LoginLoading();
-      await _userDomain.login(event.form);
-      yield LoginSuccess();
+      var result = await _userDomain.login(event.form);
+      if (result) {
+        yield LoginSuccess();
+      } else {
+        yield LoginFailure(error: "");
+      }
     } catch (e) {
-      yield LoginSuccess();
-      return;
       if (e.runtimeType == CApiResError) {
         final CApiResError resError = e as CApiResError;
         switch (resError.errorCode) {
