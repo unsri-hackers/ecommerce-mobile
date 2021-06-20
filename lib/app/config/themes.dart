@@ -41,7 +41,8 @@ class ThemeColors {
       800: Color(0xFF114D96),
     },
   );
-
+  ///Upload Photo grey color
+  static const Color white100 = Color(0xFFF6F7FB);
   ///Product specific color for MY-POINTS
   static const Color yellow50 = Color(0xFFFBAF18);
 

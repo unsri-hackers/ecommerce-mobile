@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:deuvox/app/config/themes.dart';
 import 'package:deuvox/controller/bloc/uploadimage/upload_image_bloc.dart';
 import 'package:deuvox/controller/bloc/uploaditem/upload_item_bloc.dart';
 import 'package:deuvox/data/model/upload_image_model.dart';
@@ -140,6 +141,7 @@ class _UploadScreenState extends State<UploadScreen> {
         )
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -152,11 +154,20 @@ class _UploadScreenState extends State<UploadScreen> {
           )
         ],
         child: Scaffold(
-          appBar: AppBar(title: Text(
-                          "Upload Barang",
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline5,
-                        ),),
+          appBar: AppBar(
+            title: Text(
+              "Add Product",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).accentColor
+              ),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            bottomOpacity: 0.0,
+          ),
           body: Form(
               key: _formKey,
               child: BlocConsumer<UploadItemBloc, UploadItemState>(
@@ -173,18 +184,18 @@ class _UploadScreenState extends State<UploadScreen> {
                   },
                   builder: (context, state) {
                     return ListView(
-                      padding: EdgeInsets.symmetric(horizontal: 16,vertical: 20),
+                      padding: EdgeInsets.only(left: 24, right: 40),
                       children: [
-                        
-                        CTextFormFilled(
-                          labelText: "Nama Barang*",
+                        SizedBox(height: 10),
+                        CGhostInputField(
+                          labelText: "Product Name*",
                           onSaved: (val) => uploadItemModel.name = val,
                           validator: (value) =>
                           value!.isEmpty ? "Data belum lengkap" : null,
                         ),
                         SizedBox(height: 20),
-                        CTextFormFilled(
-                          labelText: "Harga*",
+                        CGhostInputField(
+                          labelText: "Price*",
                           keyboardType: TextInputType.numberWithOptions(decimal: true),
                           onSaved: (val) =>
                           {
@@ -193,9 +204,15 @@ class _UploadScreenState extends State<UploadScreen> {
                           validator: (value) =>
                           value!.isEmpty ? "Data belum lengkap" : null,
                         ),
-                        SizedBox(height: 20),
-                        Text("Detail Barang"),
-                        SizedBox(height: 20),
+                        SizedBox(height: 24),
+                        Text("Item Details",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(height: 24),
                         CDropdownFormField(
                           labelText: "Category",
                           items: ["Food and Drink", "Clothes"],
@@ -204,36 +221,48 @@ class _UploadScreenState extends State<UploadScreen> {
                           value!.isEmpty ? "Data belum lengkap" : null,
                         ),
                         SizedBox(height: 20),
-                        CDropdownFormField(
-                          labelText: "Condition",
-                          items: ["New", "Second"],
-                          onSaved: (val) => uploadItemModel.condition = val,
-                          validator: (value) =>
-                          value!.isEmpty ? "Data belum lengkap" : null,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Flexible(
+                                child: CDropdownFormField(
+                                  labelText: "Condition",
+                                  items: ["New", "Second"],
+                                  onSaved: (val) => uploadItemModel.condition = val,
+                                  validator: (value) =>
+                                  value!.isEmpty ? "Data belum lengkap" : null,
+                                ),
+                            ),
+                            SizedBox(width: 20),
+                            Flexible(
+                                child: CGhostInputField(
+                                  labelText: "Weight*",
+                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                  onSaved: (val) =>
+                                  {
+                                    if(val != null) uploadItemModel.weight = double.parse(val)
+                                  },
+                                  validator: (value) =>
+                                  value!.isEmpty ? "Data belum lengkap" : null,
+                                ),
+                            ),
+                            SizedBox(width: 20),
+                            Flexible(
+                                child: CGhostInputField(
+                                  labelText: "Stock*",
+                                  keyboardType: TextInputType.number,
+                                  onSaved: (val) =>
+                                  {
+                                    if(val != null) uploadItemModel.stock = int.parse(val)
+                                  },
+                                  validator: (value) =>
+                                  value!.isEmpty ? "Data belum lengkap" : null,
+                                ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 20),
-                        CTextFormFilled(
-                          labelText: "Weight*",
-                          keyboardType: TextInputType.numberWithOptions(decimal: true),
-                          onSaved: (val) =>
-                          {
-                            if(val != null) uploadItemModel.weight = double.parse(val)
-                          },
-                          validator: (value) =>
-                          value!.isEmpty ? "Data belum lengkap" : null,
-                        ),
-                        CTextFormFilled(
-                          labelText: "Stock*",
-                          keyboardType: TextInputType.number,
-                          onSaved: (val) =>
-                          {
-                            if(val != null) uploadItemModel.stock = int.parse(val)
-                          },
-                          validator: (value) =>
-                          value!.isEmpty ? "Data belum lengkap" : null,
-                        ),
-                        SizedBox(height: 20),
-                        CTextFormFilled(
+                        CGhostInputField(
                           labelText: "Description*",
                           maxLines: 4,
                           onSaved: (val) => uploadItemModel.description = val,
@@ -241,7 +270,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           value!.isEmpty ? "Data belum lengkap" : null,
                         ),
                         SizedBox(height: 20),
-                        Text("Upload Photo*"),
+                        Text("Photos Upload*"),
                         SizedBox(height: 10),
                         BlocConsumer(
                             bloc: uploadImageBloc,
@@ -278,12 +307,15 @@ class _UploadScreenState extends State<UploadScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                child: CButtonFilled(
-                                    textLabel: "Upload",
-                                    onPressed: (){
-                                      showDialogUploadImage(context);
-                                    }
-                                )
+                              height: 80,
+                              width: 80,
+                              child: CButtonFilled(
+                                primaryColor: ThemeColors.white100,
+                                textLabel: "Upload",
+                                onPressed: (){
+                                  showDialogUploadImage(context);
+                                }
+                              )
                             ),
                           ],
                         ),
@@ -293,18 +325,19 @@ class _UploadScreenState extends State<UploadScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                  height: 40,
-                                  width: 300,
-                                  child: CButtonFilled(
-                                      textLabel: "Submit",
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          _formKey.currentState?.save();
+                                height: 40,
+                                width: 345,
+                                child: CButtonFilled(
+                                  rounded: true,
+                                  textLabel: "Save",
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      _formKey.currentState?.save();
 
-                                          uploadItemBloc.add(UploadItemStarted(uploadItemModel));
-                                        }
-                                      }
-                                  )
+                                      uploadItemBloc.add(UploadItemStarted(uploadItemModel));
+                                    }
+                                  }
+                                )
                               ),
                             ]
                         )
