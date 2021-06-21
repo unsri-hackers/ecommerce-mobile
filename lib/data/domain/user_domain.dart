@@ -10,11 +10,12 @@ class UserDomain {
   final UserDao _userDao = UserDao();
 
   Future<bool> login(LoginModel loginModel) async {
-    BaseResponse<UserSessionModel> response = await _userRepository.login(loginModel);
-    print(response);
+    BaseResponse<UserSessionModel> response =
+        await _userRepository.login(loginModel);
+    print(response.result.username);
     // Add Session After Login Success
-      UserSessionModel res = response.result;
-      return await addSession(res);
+    UserSessionModel res = response.result;
+    return await addSession(res);
   }
 
   Future<UserModel> getCurrentSession() async {

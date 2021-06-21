@@ -49,14 +49,11 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         body: ListView(
           children: [
-            CurveHeader(
-              imgAssetPlaceholder: AssetsUtils.login
-            ),
+            CurveHeader(imgAssetPlaceholder: AssetsUtils.login),
             Text(
               LocaleKeys.welcome_back.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(
-                
                 fontSize: 36,
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
@@ -68,7 +65,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 LocaleKeys.sign_in_to_your_account.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  
                   fontSize: 13,
                   color: Colors.black,
                 ),
@@ -189,7 +185,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               LocaleKeys.forgot_password.tr(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                
                                 fontSize: 13,
                                 color: Colors.black,
                               ),
@@ -209,7 +204,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               LocaleKeys.havent_register_yet_register_now.tr(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                
                                 fontSize: 13,
                                 color: Colors.black,
                               ),
