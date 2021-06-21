@@ -26,6 +26,9 @@ class _UploadScreenState extends State<UploadScreen> {
   UploadItemModel uploadItemModel = UploadItemModel();
   List<UploadImageModel> uploadImageModels = [];
   List<File> images = [];
+  List<String> variant = ["Pedas", "Manis"];
+  String _categoryValue = "Food and Drinks";
+  String _conditionValue = "New";
   final index = ValueNotifier<int>(0);
 
   Widget displayImage(int index) {
@@ -180,11 +183,18 @@ class _UploadScreenState extends State<UploadScreen> {
                     }
                     if (state is UploadItemSuccess) {
                       Navigator.popUntil(context, (route) => route.isFirst);
+                      print(uploadItemModel.name);
+                      print(uploadItemModel.price);
+                      print(uploadItemModel.category);
+                      print(uploadItemModel.variant);
+                      print(uploadItemModel.weight);
+                      print(uploadItemModel.stock);
+                      print(uploadItemModel.description);
                     }
                   },
                   builder: (context, state) {
                     return ListView(
-                      padding: EdgeInsets.only(left: 24, right: 40),
+                      padding: EdgeInsets.only(left: 24, right: 40, bottom: 50),
                       children: [
                         SizedBox(height: 10),
                         CGhostInputField(
@@ -213,51 +223,205 @@ class _UploadScreenState extends State<UploadScreen> {
                           ),
                         ),
                         SizedBox(height: 24),
-                        CDropdownFormField(
-                          labelText: "Category",
-                          items: ["Food and Drink", "Clothes"],
+                        Container(
+                          margin: EdgeInsets.only(left: 2),
+                          child: Text(
+                            "Category",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        DropdownButtonFormField<String>(
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700
+                          ),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 3),
+                            isDense: true,
+                          ),
+                          value: _categoryValue,
+                          items: [
+                            DropdownMenuItem(
+                              child: Text("Food and Drinks"),
+                              value: "Food and Drinks",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("Clothes"),
+                              value: "Clothes",
+                            ),
+                          ],
+                          onChanged: (value) {
+                            setState(() {
+                              _categoryValue = value!;
+                            });
+                          },
                           onSaved: (val) => uploadItemModel.category = val,
                           validator: (value) =>
                           value!.isEmpty ? "Data belum lengkap" : null,
                         ),
                         SizedBox(height: 20),
+                        Container(
+                          margin: EdgeInsets.only(left: 2),
+                          child: Text(
+                            "Variant",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          height: 60,
+                          width: 30,
+                          child: GridView.builder(
+                            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 1,
+                              mainAxisSpacing: 8,
+                            ),
+                            itemCount: variant.length + 1,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              if(index == variant.length) {
+                                return GestureDetector(
+                                  onTap: () => showDialogUploadImage(context),
+                                  child: Container(
+                                      padding: EdgeInsets.only(top: 7),
+                                      color: ThemeColors.white100,
+                                      width: 80,
+                                      height: 30,
+                                      child: Text(
+                                        " +Variant",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      )
+                                  ),
+                                );
+                              }
+                              return Stack(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    color: ThemeColors.white100,
+                                    width: 60,
+                                    height: 30,
+                                    child: Text(
+                                      variant[index],
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Container(
+                                      width: 10,
+                                      height: 10,
+                                      decoration: BoxDecoration(
+                                        color: ThemeColors.red80,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: ThemeColors.white100,
+                                        size: 8,
+                                      )
+                                    ),
+                                  )
+                                ],
+                              );
+                            },
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Flexible(
-                                child: CDropdownFormField(
-                                  labelText: "Condition",
-                                  items: ["New", "Second"],
-                                  onSaved: (val) => uploadItemModel.condition = val,
-                                  validator: (value) =>
-                                  value!.isEmpty ? "Data belum lengkap" : null,
-                                ),
+                              fit: FlexFit.tight,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(left: 2),
+                                    child: Text(
+                                      "Condition",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                  DropdownButtonFormField<String>(
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700
+                                    ),
+                                    decoration:
+                                    InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 3),
+                                      isDense: true,
+                                    ),
+                                    value: _conditionValue,
+                                    items: [
+                                      DropdownMenuItem(
+                                        child: Text("New"),
+                                        value: "New",
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text("Second"),
+                                        value: "Second",
+                                      ),
+                                    ],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _conditionValue = value!;
+                                      });
+                                    },
+                                    onSaved: (val) => uploadItemModel.condition = val,
+                                    validator: (value) =>
+                                    value!.isEmpty ? "Data belum lengkap" : null,
+                                  ),
+                                ],
+                              )
                             ),
                             SizedBox(width: 20),
                             Flexible(
-                                child: CGhostInputField(
-                                  labelText: "Weight*",
-                                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                  onSaved: (val) =>
-                                  {
-                                    if(val != null) uploadItemModel.weight = double.parse(val)
-                                  },
-                                  validator: (value) =>
-                                  value!.isEmpty ? "Data belum lengkap" : null,
-                                ),
+                              child: CGhostInputField(
+                                labelText: "Weight*",
+                                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                onSaved: (val) =>
+                                {
+                                  if(val != null) uploadItemModel.weight = double.parse(val)
+                                },
+                                validator: (value) =>
+                                value!.isEmpty ? "Data belum lengkap" : null,
+                              ),
                             ),
                             SizedBox(width: 20),
                             Flexible(
-                                child: CGhostInputField(
-                                  labelText: "Stock*",
-                                  keyboardType: TextInputType.number,
-                                  onSaved: (val) =>
-                                  {
-                                    if(val != null) uploadItemModel.stock = int.parse(val)
-                                  },
-                                  validator: (value) =>
-                                  value!.isEmpty ? "Data belum lengkap" : null,
-                                ),
+                              child: CGhostInputField(
+                                labelText: "Stock*",
+                                keyboardType: TextInputType.number,
+                                onSaved: (val) =>
+                                {
+                                  if(val != null) uploadItemModel.stock = int.parse(val)
+                                },
+                                validator: (value) =>
+                                value!.isEmpty ? "Data belum lengkap" : null,
+                              ),
                             ),
                           ],
                         ),

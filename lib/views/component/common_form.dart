@@ -64,7 +64,7 @@ class CGhostInputField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (labelText != null)   Container(
-          margin: EdgeInsets.only(left: 2),
+          margin: EdgeInsets.only(left: 2, bottom: 4),
           child: Text(
             labelText!,
             style: TextStyle(
@@ -82,11 +82,11 @@ class CGhostInputField extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
           decoration:
-          InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 3),
-            border: UnderlineInputBorder(),
-            isDense: true,
-          ),
+            InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 3),
+              border: UnderlineInputBorder(),
+              isDense: true,
+            ),
           onSaved: onSaved,
           validator: validator,
           maxLines: maxLines,
@@ -96,12 +96,12 @@ class CGhostInputField extends StatelessWidget {
     );
   }
 }
-
+/*
 class CDropdownFormField extends StatelessWidget {
   final String? labelText;
-  final List<String> items;
-  final void Function(String?)? onSaved;
-  final String? Function(String?)? validator;
+  final List<DropdownMenuItem<int>> items;
+  final void Function(int?)? onSaved;
+  final String? Function(int?)? validator;
 
   const CDropdownFormField(
     {Key? key, this.labelText, required this.items, this.onSaved, this.validator})
@@ -112,31 +112,27 @@ class CDropdownFormField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (labelText != null) Text(labelText!),
-        FormField(
-          builder: (FormFieldState state) {
-            return DropdownButtonHideUnderline(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                       DropdownButton<String>(
-                        value: items.first,
-                        isDense: true,
-                        items: items.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                  ],
-                )
-            );
-          },
+        if (labelText != null)   Container(
+          margin: EdgeInsets.only(left: 2),
+          child: Text(
+            labelText!,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+
+        DropdownButtonFormField(
+          items: items,
+          isDense: true,
+          onTap: ,
           onSaved: onSaved,
           validator: validator,
-        )
+        ),
       ],
     );
   }
 }
+*/
