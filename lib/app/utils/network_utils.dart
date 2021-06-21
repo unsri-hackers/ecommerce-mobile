@@ -66,8 +66,8 @@ class NetworkUtils {
   }
 
   Future<Map<String, dynamic>> get(String pathUrl,
-      {Map<String, dynamic>? headers, Map<String, dynamic>? body}) async {
-    Map<String, dynamic> authHeaders = await headerAuth;
+      {Map<String, String?>? headers, Map<String, dynamic>? body}) async {
+    Map<String, String?> authHeaders = await headerAuth;
     if (headers != null) authHeaders.addAll(headers);
     try {
       final response = await dio.get(pathUrl,
@@ -84,7 +84,7 @@ class NetworkUtils {
     Map<String, String>? headers,
     Map<String, dynamic>? body,
   }) async {
-    Map<String, dynamic> authHeaders = await headerAuth;
+    Map<String, String?> authHeaders = await headerAuth;
     authHeaders.addAll({
       HttpHeaders.contentTypeHeader: "application/json",
     });
