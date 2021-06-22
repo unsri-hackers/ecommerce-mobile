@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:deuvox/app/config/themes.dart';
 import 'package:deuvox/controller/bloc/uploadimage/upload_image_bloc.dart';
 import 'package:deuvox/controller/bloc/uploaditem/upload_item_bloc.dart';
@@ -26,7 +27,7 @@ class _UploadScreenState extends State<UploadScreen> {
   UploadItemModel uploadItemModel = UploadItemModel();
   List<UploadImageModel> uploadImageModels = [];
   List<File> images = [];
-  List<String> variant = ["Pedas", "Manis"];
+  List<String> variant = [];
   String _categoryValue = "Food and Drinks";
   String _conditionValue = "New";
   final index = ValueNotifier<int>(0);
@@ -37,6 +38,9 @@ class _UploadScreenState extends State<UploadScreen> {
     } else {
       return Image.file(images[index]);
     }
+  }
+  void variantDelete(int index) {
+    variant.removeAt(index);
   }
 
   @override
@@ -194,7 +198,7 @@ class _UploadScreenState extends State<UploadScreen> {
                   },
                   builder: (context, state) {
                     return ListView(
-                      padding: EdgeInsets.only(left: 24, right: 40, bottom: 50),
+                      padding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
                       children: [
                         SizedBox(height: 10),
                         CGhostInputField(
@@ -290,12 +294,72 @@ class _UploadScreenState extends State<UploadScreen> {
                             itemBuilder: (context, index) {
                               if(index == variant.length) {
                                 return GestureDetector(
-                                  onTap: () => showDialogUploadImage(context),
+                                  onTap: () => showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (context) => Container(
+                                      margin: EdgeInsets.only(left: 14, top: 10, right: 24),
+                                      padding: MediaQuery.of(context).viewInsets,
+                                      height: MediaQuery.of(context).viewInsets.bottom + 70,
+                                      child: Stack(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(left: 2),
+                                                child: Text(
+                                                  "Variant",
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                              TextFormField(
+                                                autofocus: true,
+                                                decoration:
+                                                InputDecoration(
+                                                  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 3),
+                                                  border: UnderlineInputBorder(),
+                                                  isDense: true,
+                                                ),
+                                                textInputAction: TextInputAction.done,
+                                                onFieldSubmitted: (value) {
+                                                  setState(() {
+                                                    variant.add(value);
+                                                    Navigator.pop(context);
+                                                  });
+                                                },
+                                              )
+                                            ],
+                                          ),
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Container(
+                                              margin: EdgeInsets.only(right: 8),
+                                              width: 15,
+                                              height: 15,
+                                              decoration: BoxDecoration(color: Colors.transparent,),
+                                              child: GestureDetector(
+                                                onTap: () => Navigator.pop(context),
+                                                child: Icon(
+                                                  Icons.close,
+                                                  color: ThemeColors.black100,
+                                                  size: 20,
+                                                ),
+                                              )
+                                            ),
+                                          )
+                                        ]
+                                      ),
+                                    )
+                                  ),
                                   child: Container(
                                       padding: EdgeInsets.only(top: 7),
                                       color: ThemeColors.white100,
                                       width: 80,
-                                      height: 30,
                                       child: Text(
                                         " +Variant",
                                         style: TextStyle(
@@ -332,10 +396,17 @@ class _UploadScreenState extends State<UploadScreen> {
                                         color: ThemeColors.red80,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: Icon(
-                                        Icons.close,
-                                        color: ThemeColors.white100,
-                                        size: 8,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            variantDelete(index);
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.close,
+                                          color: ThemeColors.white100,
+                                          size: 8,
+                                        ),
                                       )
                                     ),
                                   )
@@ -437,75 +508,125 @@ class _UploadScreenState extends State<UploadScreen> {
                         Text("Photos Upload*"),
                         SizedBox(height: 10),
                         BlocConsumer(
-                            bloc: uploadImageBloc,
-                            listener: (context, state) {
-                              if (state is UploadImageSuccess) {
-                                //get resdata from uploadimagesuccess
-                                uploadImageBloc.add(UploadImagePreview("image_name"));
-                                //uploadItemModel.filename = state.image
-                              }
-                            },
-                            builder: (context, state) {
-                              if (state is UploadImagePreviewSuccess) {
-                                return Flex(
-                                    direction: Axis.horizontal,
-                                    children: [
-                                      Container(
-                                          height: 150,
-                                          width: 150,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(width: 1)
-                                          ),
-                                          child: //Image.file(state.image)
-                                          SizedBox.shrink() //image file after api available later
-                                      )
-                                    ]
-                                );
-                              } else {
-                                return SizedBox.shrink();
-                              }
+                          bloc: uploadImageBloc,
+                          listener: (context, state) {
+                            if (state is UploadImageSuccess) {
+                              //get resdata from uploadimagesuccess
+                              uploadImageBloc.add(UploadImagePreview("image_name"));
+                              //uploadItemModel.filename = state.image
                             }
-                        ),
-                        SizedBox(height: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 80,
-                              width: 80,
-                              child: CButtonFilled(
-                                primaryColor: ThemeColors.white100,
-                                textLabel: "Upload",
-                                onPressed: (){
-                                  showDialogUploadImage(context);
-                                }
-                              )
-                            ),
-                          ],
+                          },
+                          builder: (context, state) {
+                            if (state is UploadImagePreviewSuccess) {
+                              return Container(
+                                height: 90,
+                                width: 90,
+                                child: GridView.builder(
+                                  gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 1,
+                                    mainAxisSpacing: 3,
+                                  ),
+                                  itemCount: images.length + 1,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    if(index == images.length) {
+                                      return Row(
+                                        children: [
+                                          Container(
+                                              height: 80,
+                                              width: 80,
+                                              child: CButtonFilled(
+                                                  primaryColor: ThemeColors.white100,
+                                                  textLabel: "Upload",
+                                                  onPressed: (){
+                                                    showDialogUploadImage(context);
+                                                  }
+                                              )
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    return Container(
+                                      height: 60,
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: CachedNetworkImageProvider("https://cf.shopee.co.id/file/fd71b0fc1e91217d07fc0cb30ec7c87f")
+                                        )
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                            }
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  height: 80,
+                                  width: 80,
+                                  child: CButtonFilled(
+                                    primaryColor: ThemeColors.white100,
+                                    textLabel: "Upload",
+                                    onPressed: (){
+                                      showDialogUploadImage(context);
+                                    }
+                                  )
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "* Capacity below 2MB on one photo",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: ThemeColors.red80,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    Text(
+                                      "* Size photos 200 x 200 pixels",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: ThemeColors.red80,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            );
+                          }
                         ),
                         SizedBox(height: 20),
-                        Flex(
+
+                        Container(
+                          height: 40,
+                          width: double.infinity,
+                          child: Flex(
                             direction: Axis.horizontal,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                height: 40,
-                                width: 345,
+                              Expanded(
                                 child: CButtonFilled(
-                                  rounded: true,
-                                  textLabel: "Save",
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      _formKey.currentState?.save();
+                                    rounded: true,
+                                    textLabel: "Save",
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        _formKey.currentState?.save();
 
-                                      uploadItemBloc.add(UploadItemStarted(uploadItemModel));
+                                        uploadItemBloc.add(UploadItemStarted(uploadItemModel));
+                                      }
                                     }
-                                  }
-                                )
-                              ),
-                            ]
-                        )
-                      ],
+                                ),
+                              )
+                            ],
+                          )
+                        ),
+                      ]
                     );
                   }
               )
