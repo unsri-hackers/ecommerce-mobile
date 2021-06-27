@@ -33,9 +33,7 @@ class AuthenticationBloc
       try {
         final isSignedIn = await _userDomain.isLoggedIn();
         if (isSignedIn) {
-          yield AuthenticationExpired(
-              message:
-                  "Login Expired");
+          yield AuthenticationExpired(message: "Login Expired");
         }
       } catch (e) {
         print(e);
@@ -47,7 +45,8 @@ class AuthenticationBloc
     try {
       final isSignedIn = await _userDomain.isLoggedIn();
       if (isSignedIn) {
-        UserModel? userModel = await _userDomain.getCurrentSession();
+        UserSessionModel? userModel = await _userDomain.getCurrentSession();
+        
         yield AuthenticationAuthenticated(user: userModel);
       } else {
         yield AuthenticationUnauthenticated();
@@ -60,8 +59,7 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapLoggedInToState() async* {
     try {
       //TODO: only for wifreframe. Create real implementation later
-      // UserModel userModel = await _userDomain.getCurrentSession();
-      UserModel userModel = UserModel(id: 1,authtoken: "test",fcmToken: "test",name: "Tester");
+      UserSessionModel userModel = await _userDomain.getCurrentSession();
       yield AuthenticationAuthenticated(user: userModel);
     } catch (e) {
       yield AuthenticationFailure(message: e.toString());
@@ -76,6 +74,4 @@ class AuthenticationBloc
       yield AuthenticationFailure(message: e.toString());
     }
   }
-
-  
 }

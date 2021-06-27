@@ -129,6 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           validator: (value) => value!.isEmpty
                               ? LocaleKeys.data_not_complete.tr()
                               : null,
+                          isPassword: true,
                         ),
                         SizedBox(height: 12),
                         Container(

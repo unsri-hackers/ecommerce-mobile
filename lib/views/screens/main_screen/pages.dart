@@ -60,6 +60,7 @@ class _MainScreenState extends State<MainScreen>
                         )),
                     TextButton(
                         onPressed: () {
+                          Navigator.pop(context);
                           BlocProvider.of<AuthenticationBloc>(context)
                               .add(AuthenticationLoggedOutEvent());
                         },

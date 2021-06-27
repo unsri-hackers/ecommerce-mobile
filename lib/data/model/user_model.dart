@@ -32,15 +32,16 @@ class UserModel {
   }
 }
 
-
 class UserSessionModel {
+  late int id;
   late String? accessToken;
   late String? tokenType;
   late String? username;
 
-  UserSessionModel({this.accessToken, this.tokenType, this.username});
+  UserSessionModel({required this.id, this.accessToken, this.tokenType, this.username});
 
   UserSessionModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     accessToken = json['accessToken'];
     tokenType = json['tokenType'];
     username = json['username'];
@@ -48,6 +49,7 @@ class UserSessionModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['accessToken'] = this.accessToken;
     data['tokenType'] = this.tokenType;
     data['username'] = this.username;
@@ -55,8 +57,9 @@ class UserSessionModel {
   }
 
   UserSessionModel copyWith(
-      { String? accessToken, String? tokenType, String? username}) {
+      {int? id, String? accessToken, String? tokenType, String? username}) {
     return UserSessionModel(
+        id: id ?? this.id,
         accessToken: accessToken ?? this.accessToken,
         tokenType: tokenType ?? this.tokenType,
         username: username ?? this.username);
