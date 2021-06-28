@@ -16,11 +16,12 @@ void main() {
       LoginModel loginModel =
           LoginModel(username: 'ichsanachmad', password: '123456');
 
-      when(userRepository.login(loginModel))
-          .thenAnswer((realInvocation) => Future.value(BaseResponse<UserSessionModel>(
-            message: "",
+      when(userRepository.login(loginModel)).thenAnswer(
+          (realInvocation) => Future.value(BaseResponse<UserSessionModel>(
+                message: "",
                 statusCode: "200",
                 result: UserSessionModel(
+                  id: 5,
                   accessToken: "123",
                   tokenType: "Bearer",
                   username: "aws",
@@ -37,7 +38,7 @@ void main() {
     test('Test Get User (Success Scenario)', () async {
       final userRepository = MockUserRepository();
       int id = 1;
-      when(userRepository.getUser(id))
+      when(userRepository.getUserProfile(id))
           .thenAnswer((realInvocation) => Future.value(UserModel(
                 id: id,
                 name: 'Achmad Ichsan',
@@ -45,7 +46,7 @@ void main() {
                 fcmToken: 'FcmCode001',
               )));
 
-      var res = await userRepository.getUser(id);
+      var res = await userRepository.getUserProfile(id);
 
       expect(res.id, id);
       expect(res.id, isA<int>());
@@ -56,12 +57,12 @@ void main() {
     test('Test Get User (User Not Found Scenario)', () async {
       final userRepository = MockUserRepository();
       int id = 2;
-      when(userRepository.getUser(id))
+      when(userRepository.getUserProfile(id))
           .thenAnswer((realInvocation) => Future.value(UserModel(id: id)));
 
-      expect((await userRepository.getUser(id)).name, isNull);
-      expect((await userRepository.getUser(id)).authtoken, isNull);
-      expect((await userRepository.getUser(id)).fcmToken, isNull);
+      expect((await userRepository.getUserProfile(id)).name, isNull);
+      expect((await userRepository.getUserProfile(id)).authtoken, isNull);
+      expect((await userRepository.getUserProfile(id)).fcmToken, isNull);
     });
   });
 }

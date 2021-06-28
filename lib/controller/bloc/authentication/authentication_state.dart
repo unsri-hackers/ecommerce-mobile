@@ -10,7 +10,7 @@ class AuthenticationInitial extends AuthenticationState {}
 class AuthenticationUnauthenticated extends AuthenticationState {}
 
 class AuthenticationAuthenticated extends AuthenticationState {
-  final UserModel user;
+  final UserSessionModel user;
 
   AuthenticationAuthenticated({required this.user});
 

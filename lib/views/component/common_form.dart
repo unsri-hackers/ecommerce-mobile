@@ -6,12 +6,20 @@ import 'package:flutter/services.dart';
 class CFilledInputField extends StatelessWidget {
   final String? labelText;
   final String? hintText;
+  final bool? isPassword;
   final void Function(String?)? onSaved;
   final String? Function(String?)? validator;
   final int? maxLines;
   final TextInputType? keyboardType;
   const CFilledInputField(
-      {Key? key, this.labelText, this.hintText,this.maxLines=1, this.onSaved, this.validator, this.keyboardType})
+      {Key? key,
+      this.labelText,
+      this.hintText,
+      this.isPassword,
+      this.maxLines = 1,
+      this.onSaved,
+      this.validator,
+      this.keyboardType})
       : super(key: key);
 
   @override
@@ -42,6 +50,7 @@ class CFilledInputField extends StatelessWidget {
           validator: validator,
           maxLines: maxLines,
           keyboardType: keyboardType,
+          obscureText: isPassword ?? false,
         ),
       ],
     );
@@ -104,8 +113,12 @@ class CDropdownFormField extends StatelessWidget {
   final String? Function(int?)? validator;
 
   const CDropdownFormField(
-    {Key? key, this.labelText, required this.items, this.onSaved, this.validator})
-      : super (key: key);
+      {Key? key,
+      this.labelText,
+      required this.items,
+      this.onSaved,
+      this.validator})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
