@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       physics: NeverScrollableScrollPhysics(),
                       children: [
                         SizedBox(height: 12),
-                        CTextFormFilled(
+                        CFilledInputField(
                           labelText: LocaleKeys.email_address.tr(),
                           onSaved: (val) => loginModel.username = val,
                           validator: (value) => value!.isEmpty
@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               : null,
                         ),
                         SizedBox(height: 8),
-                        CTextFormFilled(
+                        CFilledInputField(
                           labelText: LocaleKeys.password.tr(),
                           onSaved: (val) => loginModel.password = val,
                           validator: (value) => value!.isEmpty
