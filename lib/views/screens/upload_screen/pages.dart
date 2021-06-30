@@ -28,7 +28,7 @@ class _UploadScreenState extends State<UploadScreen> {
   UploadItemModel uploadItemModel = UploadItemModel();
   List<UploadImageModel> uploadImageModels = [];
   List<File> images = [];
-  List<String> variant = [];
+  //List<String> variant = [];
   String _categoryValue = LocaleKeys.category_food;
   String _conditionValue = LocaleKeys.condition_new;
   final index = ValueNotifier<int>(0);
@@ -40,9 +40,12 @@ class _UploadScreenState extends State<UploadScreen> {
       return Image.file(images[index]);
     }
   }
+
+  /*
   void variantDelete(int index) {
     variant.removeAt(index);
   }
+   */
 
   @override
   void initState() {
@@ -188,13 +191,6 @@ class _UploadScreenState extends State<UploadScreen> {
                     }
                     if (state is UploadItemSuccess) {
                       Navigator.popUntil(context, (route) => route.isFirst);
-                      print(uploadItemModel.name);
-                      print(uploadItemModel.price);
-                      print(uploadItemModel.category);
-                      print(uploadItemModel.variant);
-                      print(uploadItemModel.weight);
-                      print(uploadItemModel.stock);
-                      print(uploadItemModel.description);
                     }
                   },
                   builder: (context, state) {
@@ -282,6 +278,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           ),
                         ),
                         SizedBox(height: 10),
+                        /*
                         Container(
                           height: 60,
                           width: 30,
@@ -416,6 +413,7 @@ class _UploadScreenState extends State<UploadScreen> {
                             },
                           ),
                         ),
+                         */
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
