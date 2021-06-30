@@ -30,8 +30,8 @@ class _UploadScreenState extends State<UploadScreen> {
   List<UploadImageModel> uploadImageModels = [];
   List<File> images = [];
   //List<String> variant = [];
-  String _categoryValue = LocaleKeys.category_food.tr();
-  String _conditionValue = LocaleKeys.condition_new.tr();
+  String _categoryValue = LocaleKeys.category_food.tr(); //dropdown must be same value
+  String _conditionValue = LocaleKeys.condition_new.tr(); //dropdown must be same value
   final index = ValueNotifier<int>(0);
 
   Widget displayImage(int index) {
