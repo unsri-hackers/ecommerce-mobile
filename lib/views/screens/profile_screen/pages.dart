@@ -55,6 +55,9 @@ class _ProfileScreenContainer extends StatelessWidget {
                     ],
                   );
                 }
+                if (state is GetUserProfileLoadingState) {
+                  return ProfileLoadingShimmer();
+                }
                 return Container();
               }),
               SizedBox(height: 16),

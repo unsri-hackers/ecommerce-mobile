@@ -1,3 +1,4 @@
+import 'package:deuvox/views/component/common_widget.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -21,7 +22,7 @@ class TileMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-          child: Column(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           InkWell(
@@ -40,13 +41,32 @@ class TileMenu extends StatelessWidget {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 )),
                 Container(
-                    padding: EdgeInsets.all(16), child: Icon(Icons.chevron_right))
+                    padding: EdgeInsets.all(16),
+                    child: Icon(Icons.chevron_right))
               ],
             ),
           ),
           Divider(indent: 70)
         ],
       ),
+    );
+  }
+}
+
+class ProfileLoadingShimmer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 80,
+          height: 80,
+          margin: EdgeInsets.only(top: 16),
+          child: ShimmerCircleLoader(),
+        ),
+        SizedBox(height: 8),
+        ShimmerRectangle(width: 150, height: 28)
+      ],
     );
   }
 }
