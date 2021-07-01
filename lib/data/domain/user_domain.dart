@@ -39,4 +39,9 @@ class UserDomain {
   Future<bool> isLoggedIn() async {
     return await _userDao.isLoggedIn();
   }
+
+  Future<UserModel> getUserProfile() async {
+    var result = await _userRepository.getUserProfile();
+    return result.result;
+  }
 }

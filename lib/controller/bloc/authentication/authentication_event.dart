@@ -14,5 +14,3 @@ class AuthenticationLoggedInEvent extends AuthenticationEvent {}
 class AuthenticationLoggedOutEvent extends AuthenticationEvent {}
 
 class AuthenticationShowExpired extends AuthenticationEvent {}
-
-class AuthenticationGetLoginProfile extends AuthenticationEvent {}

@@ -38,69 +38,6 @@ class _MainScreenState extends State<MainScreen>
     super.dispose();
   }
 
-  Widget _buildDrawer(BuildContext context) {
-    final drawerItems = [
-      DrawerItem(LocaleKeys.logout.tr(), Icons.logout, onPressed: () {
-        Navigator.pop(context);
-        showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  content:
-                      Text(LocaleKeys.logout_of.tr(args: [AppConfig.appName])),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          LocaleKeys.cancel.tr(),
-                          style: TextStyle(color: Colors.black),
-                        )),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          BlocProvider.of<AuthenticationBloc>(context)
-                              .add(AuthenticationLoggedOutEvent());
-                        },
-                        child: Text(LocaleKeys.logout.tr(),
-                            style: TextStyle(color: Colors.black)))
-                  ],
-                ));
-      }),
-      DrawerItem(LocaleKeys.add_product.tr(), Icons.add_shopping_cart_rounded,
-          onPressed: () {
-        Navigator.pushNamed(context, RouterUtils.uploadItemSCreen);
-      })
-    ];
-    return Drawer(
-      child: ListView(
-        physics: ClampingScrollPhysics(),
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          UserAccountsDrawerHeader(
-              accountName: Text(
-                "Jon Doe",
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              accountEmail: Text(
-                "Jondoe@deuvox.com",
-              ),
-              currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage(AssetsUtils.userTemp))),
-          Column(
-              children: drawerItems.map<Widget>((data) {
-            return TileMenu(
-                icon: Icon(data.icon),
-                title: data.title,
-                onPressed: data.onPressed);
-          }).toList())
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final _listPage = <Widget>[
@@ -123,7 +60,6 @@ class _MainScreenState extends State<MainScreen>
         initialIndex: _selectedIndex,
         child: Scaffold(
           key: _scaffoldKey,
-          drawer: _buildDrawer(context),
           body: PageView(children: _listPage, controller: _pageController),
           bottomNavigationBar: BottomNavigationBar(
             selectedItemColor: Theme.of(context).primaryColor,

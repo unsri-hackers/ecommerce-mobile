@@ -94,7 +94,8 @@ class PlaceholderWidget extends StatelessWidget {
 
 class CurveHeader extends StatelessWidget {
   final String imgAssetPlaceholder;
-  const CurveHeader({Key? key,required this.imgAssetPlaceholder}) : super(key: key);
+  const CurveHeader({Key? key, required this.imgAssetPlaceholder})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -129,9 +130,12 @@ class ShimmerLoader extends StatelessWidget {
   final Color baseColor;
   final Color highlightColor;
   final Widget child;
-  const ShimmerLoader(
-      {Key? key, this.baseColor = ThemeColors.grey200, this.highlightColor = ThemeColors.grey100, required this.child,})
-      : super(key: key);
+  const ShimmerLoader({
+    Key? key,
+    this.baseColor = ThemeColors.grey200,
+    this.highlightColor = ThemeColors.grey100,
+    required this.child,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +152,10 @@ class ShimmerCircleLoader extends StatelessWidget {
   final Color highlightColor;
   final double radius;
   const ShimmerCircleLoader(
-      {Key? key, this.baseColor = ThemeColors.grey200, this.highlightColor = ThemeColors.grey100, this.radius = 40})
+      {Key? key,
+      this.baseColor = ThemeColors.grey200,
+      this.highlightColor = ThemeColors.grey100,
+      this.radius = 40})
       : super(key: key);
 
   @override
@@ -157,16 +164,13 @@ class ShimmerCircleLoader extends StatelessWidget {
       baseColor: baseColor,
       highlightColor: highlightColor,
       child: Container(
-        height: radius,
-        width: radius,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          shape: BoxShape.circle
-        ),
-        child: ClipOval(
-            child: Image.network("https://flutter.dev/assets/cookbook/effects/UILoadingAnimation-1d2d3b79d31436379724d8ef7ec5d138df5ec4252d002d5d667dbb40412a5fbf.gif")
-        )
-      ),
+          height: radius,
+          width: radius,
+          decoration:
+              BoxDecoration(color: Colors.black, shape: BoxShape.circle),
+          child: ClipOval(
+              child: Image.network(
+                  "https://flutter.dev/assets/cookbook/effects/UILoadingAnimation-1d2d3b79d31436379724d8ef7ec5d138df5ec4252d002d5d667dbb40412a5fbf.gif"))),
     );
   }
 }
@@ -178,53 +182,82 @@ class ShimmerSquareLoader extends StatelessWidget {
   final double? width;
   final EdgeInsetsGeometry margin;
   const ShimmerSquareLoader(
-      {Key? key, this.baseColor = ThemeColors.grey200, this.highlightColor = ThemeColors.grey100,
-      required this.height, required this.width, this.margin = const EdgeInsets.only(left: 10)})
+      {Key? key,
+      this.baseColor = ThemeColors.grey200,
+      this.highlightColor = ThemeColors.grey100,
+      required this.height,
+      required this.width,
+      this.margin = const EdgeInsets.only(left: 10)})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: baseColor,
-      highlightColor: highlightColor,
+        baseColor: baseColor,
+        highlightColor: highlightColor,
+        child: Container(
+          margin: margin,
+          height: height,
+          width: width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  width: double.infinity,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(16),
+                  )),
+              SizedBox(height: 6),
+              Container(
+                width: double.infinity,
+                height: 14,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              SizedBox(height: 3),
+              Container(
+                width: 110,
+                height: 14,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
+class ShimmerRectangle extends StatelessWidget {
+  final double height;
+  final double width;
+  final Color? baseColor;
+  final Color? highlightColor;
+
+  ShimmerRectangle(
+      {required this.height,
+      required this.width,
+      this.baseColor,
+      this.highlightColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
       child: Container(
-        margin: margin,
-        height: height,
-        width: width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(16),
-              )
-            ),
-            SizedBox(height: 6),
-            Container(
-              width: double.infinity,
-              height: 14,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-            SizedBox(height: 3),
-            Container(
-              width: 110,
-              height: 14,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-          ],
+        width: this.width,
+        height: this.height,
+        decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.circular(20),
         ),
-      )
+      ),
+      baseColor: baseColor ?? ThemeColors.grey200,
+      highlightColor: highlightColor ?? ThemeColors.grey100,
     );
   }
-
-
 }

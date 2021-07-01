@@ -46,7 +46,7 @@ class AuthenticationBloc
       final isSignedIn = await _userDomain.isLoggedIn();
       if (isSignedIn) {
         UserSessionModel? userModel = await _userDomain.getCurrentSession();
-        
+
         yield AuthenticationAuthenticated(user: userModel);
       } else {
         yield AuthenticationUnauthenticated();

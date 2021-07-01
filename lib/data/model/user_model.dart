@@ -1,34 +1,31 @@
 class UserModel {
-  late int id;
+  late String id;
   late String? name;
-  late String? authtoken;
-  late String? fcmToken;
+  late String? avatar;
 
-  UserModel({required this.id, this.name, this.authtoken, this.fcmToken});
+  UserModel({required this.id, this.name, this.avatar});
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    authtoken = json['authtoken'];
-    fcmToken = json['fcmToken'];
+    id = json['sellerId'];
+    name = json['sellerName'];
+    avatar = json['avatar'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['authtoken'] = this.authtoken;
-    data['fcmToken'] = this.fcmToken;
+    data['sellerId'] = this.id;
+    data['sellerName'] = this.name;
+    data['avatar'] = this.avatar;
     return data;
   }
 
   UserModel copyWith(
       {required int id, String? name, String? authtoken, String? fcmToken}) {
     return UserModel(
-        id: this.id,
-        name: name ?? this.name,
-        authtoken: authtoken ?? this.authtoken,
-        fcmToken: fcmToken ?? this.fcmToken);
+      id: this.id,
+      name: name ?? this.name,
+      avatar: authtoken ?? this.avatar,
+    );
   }
 }
 
@@ -38,7 +35,8 @@ class UserSessionModel {
   late String? tokenType;
   late String? username;
 
-  UserSessionModel({required this.id, this.accessToken, this.tokenType, this.username});
+  UserSessionModel(
+      {required this.id, this.accessToken, this.tokenType, this.username});
 
   UserSessionModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
