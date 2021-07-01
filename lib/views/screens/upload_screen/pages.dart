@@ -12,6 +12,7 @@ import 'package:deuvox/views/component/common_button.dart';
 import 'package:deuvox/views/component/common_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UploadScreen extends StatefulWidget {
   const UploadScreen({Key? key}) : super(key: key);
@@ -28,9 +29,9 @@ class _UploadScreenState extends State<UploadScreen> {
   UploadItemModel uploadItemModel = UploadItemModel();
   List<UploadImageModel> uploadImageModels = [];
   List<File> images = [];
-  List<String> variant = [];
-  String _categoryValue = LocaleKeys.category_food;
-  String _conditionValue = LocaleKeys.condition_new;
+  //List<String> variant = [];
+  String _categoryValue = LocaleKeys.category_food.tr();
+  String _conditionValue = LocaleKeys.condition_new.tr();
   final index = ValueNotifier<int>(0);
 
   Widget displayImage(int index) {
@@ -40,9 +41,12 @@ class _UploadScreenState extends State<UploadScreen> {
       return Image.file(images[index]);
     }
   }
+
+  /*
   void variantDelete(int index) {
     variant.removeAt(index);
   }
+   */
 
   @override
   void initState() {
@@ -164,7 +168,7 @@ class _UploadScreenState extends State<UploadScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              LocaleKeys.add_product,
+              LocaleKeys.add_product.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
@@ -183,18 +187,11 @@ class _UploadScreenState extends State<UploadScreen> {
                   listener: (context, state) {
                     if (state is UploadItemFailure) {
                       FlushbarHelper.createError(
-                          message: LocaleKeys.failed_to_upload_item)
+                          message: LocaleKeys.failed_to_upload_item.tr())
                         ..show(context);
                     }
                     if (state is UploadItemSuccess) {
                       Navigator.popUntil(context, (route) => route.isFirst);
-                      print(uploadItemModel.name);
-                      print(uploadItemModel.price);
-                      print(uploadItemModel.category);
-                      print(uploadItemModel.variant);
-                      print(uploadItemModel.weight);
-                      print(uploadItemModel.stock);
-                      print(uploadItemModel.description);
                     }
                   },
                   builder: (context, state) {
@@ -203,24 +200,24 @@ class _UploadScreenState extends State<UploadScreen> {
                       children: [
                         SizedBox(height: 10),
                         CGhostInputField(
-                          labelText: LocaleKeys.product_name,
+                          labelText: LocaleKeys.product_name.tr(),
                           onSaved: (val) => uploadItemModel.name = val,
                           validator: (value) =>
-                          value!.isEmpty ? LocaleKeys.product_name + " is required" : null,
+                          value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_name.tr()]) : null,
                         ),
                         SizedBox(height: 20),
                         CGhostInputField(
-                          labelText: LocaleKeys.product_price,
+                          labelText: LocaleKeys.product_price.tr(),
                           keyboardType: TextInputType.numberWithOptions(decimal: true),
                           onSaved: (val) =>
                           {
                             if(val != null) uploadItemModel.price = int.parse(val)
                           },
                           validator: (value) =>
-                          value!.isEmpty ? LocaleKeys.product_price + " is required" : null,
+                          value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_price.tr()]) : null,
                         ),
                         SizedBox(height: 24),
-                        Text(LocaleKeys.item_details,
+                        Text(LocaleKeys.item_details.tr(),
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -231,7 +228,7 @@ class _UploadScreenState extends State<UploadScreen> {
                         Container(
                           margin: EdgeInsets.only(left: 2),
                           child: Text(
-                            LocaleKeys.product_category,
+                            LocaleKeys.product_category.tr(),
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
@@ -252,12 +249,12 @@ class _UploadScreenState extends State<UploadScreen> {
                           value: _categoryValue,
                           items: [
                             DropdownMenuItem(
-                              child: Text(LocaleKeys.category_food),
-                              value: LocaleKeys.category_food,
+                              child: Text(LocaleKeys.category_food.tr()),
+                              value: LocaleKeys.category_food.tr(),
                             ),
                             DropdownMenuItem(
-                              child: Text(LocaleKeys.category_clothes),
-                              value: LocaleKeys.category_clothes,
+                              child: Text(LocaleKeys.category_clothes.tr()),
+                              value: LocaleKeys.category_clothes.tr(),
                             ),
                           ],
                           onChanged: (value) {
@@ -267,13 +264,13 @@ class _UploadScreenState extends State<UploadScreen> {
                           },
                           onSaved: (val) => uploadItemModel.category = val,
                           validator: (value) =>
-                          value!.isEmpty ? LocaleKeys.product_category + " is required" : null,
+                          value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_category.tr()]) : null,
                         ),
                         SizedBox(height: 20),
                         Container(
                           margin: EdgeInsets.only(left: 2),
                           child: Text(
-                            LocaleKeys.product_variant,
+                            LocaleKeys.product_variant.tr(),
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.black,
@@ -282,6 +279,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           ),
                         ),
                         SizedBox(height: 10),
+                        /*
                         Container(
                           height: 60,
                           width: 30,
@@ -310,7 +308,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                               Container(
                                                 margin: EdgeInsets.only(left: 2),
                                                 child: Text(
-                                                  LocaleKeys.product_variant,
+                                                  LocaleKeys.product_variant.tr(),
                                                   style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.black,
@@ -362,7 +360,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                       color: ThemeColors.white100,
                                       width: 80,
                                       child: Text(
-                                        " +" + LocaleKeys.product_variant,
+                                        " +" + LocaleKeys.product_variant.tr(),
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
@@ -416,6 +414,7 @@ class _UploadScreenState extends State<UploadScreen> {
                             },
                           ),
                         ),
+                         */
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -427,7 +426,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                   Container(
                                     margin: EdgeInsets.only(left: 2),
                                     child: Text(
-                                      LocaleKeys.product_condition,
+                                      LocaleKeys.product_condition.tr(),
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.black,
@@ -449,12 +448,12 @@ class _UploadScreenState extends State<UploadScreen> {
                                     value: _conditionValue,
                                     items: [
                                       DropdownMenuItem(
-                                        child: Text(LocaleKeys.condition_new),
-                                        value: LocaleKeys.condition_new,
+                                        child: Text(LocaleKeys.condition_new.tr()),
+                                        value: LocaleKeys.condition_new.tr(),
                                       ),
                                       DropdownMenuItem(
-                                        child: Text(LocaleKeys.condition_second),
-                                        value: LocaleKeys.condition_second,
+                                        child: Text(LocaleKeys.condition_second.tr()),
+                                        value: LocaleKeys.condition_second.tr(),
                                       ),
                                     ],
                                     onChanged: (value) {
@@ -464,7 +463,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                     },
                                     onSaved: (val) => uploadItemModel.condition = val,
                                     validator: (value) =>
-                                    value!.isEmpty ? LocaleKeys.product_condition + " is required" : null,
+                                    value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_condition.tr()]) : null,
                                   ),
                                 ],
                               )
@@ -472,41 +471,41 @@ class _UploadScreenState extends State<UploadScreen> {
                             SizedBox(width: 20),
                             Flexible(
                               child: CGhostInputField(
-                                labelText: LocaleKeys.product_weight,
+                                labelText: LocaleKeys.product_weight.tr(),
                                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                                 onSaved: (val) =>
                                 {
                                   if(val != null) uploadItemModel.weight = double.parse(val)
                                 },
                                 validator: (value) =>
-                                value!.isEmpty ? LocaleKeys.product_weight + " is required" : null,
+                                value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_weight.tr()]) : null,
                               ),
                             ),
                             SizedBox(width: 20),
                             Flexible(
                               child: CGhostInputField(
-                                labelText: LocaleKeys.product_stock,
+                                labelText: LocaleKeys.product_stock.tr(),
                                 keyboardType: TextInputType.number,
                                 onSaved: (val) =>
                                 {
                                   if(val != null) uploadItemModel.stock = int.parse(val)
                                 },
                                 validator: (value) =>
-                                value!.isEmpty ? LocaleKeys.product_stock + " is required" : null,
+                                value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_stock.tr()]) : null,
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: 20),
                         CGhostInputField(
-                          labelText: LocaleKeys.product_description,
+                          labelText: LocaleKeys.product_description.tr(),
                           maxLines: 4,
                           onSaved: (val) => uploadItemModel.description = val,
                           validator: (value) =>
-                          value!.isEmpty ? LocaleKeys.product_description + " is required" : null,
+                          value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_description.tr()]) : null,
                         ),
                         SizedBox(height: 20),
-                        Text(LocaleKeys.upload_image),
+                        Text(LocaleKeys.upload_image.tr()),
                         SizedBox(height: 10),
                         BlocConsumer(
                           bloc: uploadImageBloc,
@@ -581,7 +580,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      LocaleKeys.limit_image_size,
+                                      LocaleKeys.limit_image_size.tr(),
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: ThemeColors.red80,
@@ -589,7 +588,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                       ),
                                     ),
                                     Text(
-                                      LocaleKeys.limit_image_pixel,
+                                      LocaleKeys.limit_image_pixel.tr(),
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: ThemeColors.red80,
@@ -614,7 +613,7 @@ class _UploadScreenState extends State<UploadScreen> {
                               Expanded(
                                 child: CButtonFilled(
                                     rounded: true,
-                                    textLabel: LocaleKeys.save,
+                                    textLabel: LocaleKeys.save.tr(),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         _formKey.currentState?.save();
