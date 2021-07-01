@@ -1,6 +1,8 @@
 import 'package:deuvox/app/config/app_config.dart';
-import 'package:deuvox/app/utils/assets_utils.dart';
 import 'package:deuvox/controller/bloc/authentication/authentication_bloc.dart';
+import 'package:deuvox/controller/bloc/getuserprofile/get_user_profile_bloc.dart';
+import 'package:deuvox/controller/bloc/getuserprofile/get_user_profile_event.dart';
+import 'package:deuvox/controller/bloc/getuserprofile/get_user_profile_state.dart';
 import 'package:deuvox/generated/lang_utils.dart';
 import 'package:deuvox/views/screens/profile_screen/components.dart';
 import 'package:flutter/material.dart';
@@ -11,40 +13,43 @@ class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    context.read<AuthenticationBloc>().add(AuthenticationGetLoginProfile());
+    return BlocProvider(
+      create: (context) => GetUserProfileBloc(),
+      child: _ProfileScreenContainer(),
+    );
+  }
+}
+
+class _ProfileScreenContainer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    context.read<GetUserProfileBloc>().add(GetUserProfileEvent());
     return Scaffold(
       body: Center(
         child: SafeArea(
           child: Column(
             children: [
-              Container(
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  margin: EdgeInsets.only(top: 16),
-                  child: Utils.circularImage(AssetsUtils.userTemp),
-                ),
-              ),
-              BlocBuilder<AuthenticationBloc, AuthenticationState>(
+              BlocBuilder<GetUserProfileBloc, GetUserProfileState>(
                   builder: (context, state) {
-                if (state is AuthenticationAuthenticated) {
+                if (state is GetUserProfileSuccessState) {
                   return Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: 24),
+                        child: Container(
+                          width: 80,
+                          height: 80,
+                          margin: EdgeInsets.only(top: 16),
+                          child: Utils.circularImage(state.user.avatar ?? ''),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 8),
                         child: Text(
-                          'John Doe',
+                          state.user.name ?? '',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
                           ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 2),
-                        child: Text(
-                          state.user.username ?? '',
-                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                     ],

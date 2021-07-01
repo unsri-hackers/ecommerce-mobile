@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Utils {
-  static Widget circularImage(String path) {
+  static Widget circularImage(String url) {
     return ClipOval(
       child: Container(
-        child: Image.asset(path),
+        child: Image.network(url),
       ),
     );
   }
