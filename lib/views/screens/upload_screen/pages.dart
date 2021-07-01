@@ -30,8 +30,8 @@ class _UploadScreenState extends State<UploadScreen> {
   List<UploadImageModel> uploadImageModels = [];
   List<File> images = [];
   //List<String> variant = [];
-  String _categoryValue = LocaleKeys.category_food.tr(); //dropdown must be same value
-  String _conditionValue = LocaleKeys.condition_new.tr(); //dropdown must be same value
+  String _categoryValue = LocaleKeys.category_food.tr();
+  String _conditionValue = LocaleKeys.condition_new.tr();
   final index = ValueNotifier<int>(0);
 
   Widget displayImage(int index) {
@@ -203,7 +203,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           labelText: LocaleKeys.product_name.tr(),
                           onSaved: (val) => uploadItemModel.name = val,
                           validator: (value) =>
-                          value!.isEmpty ? LocaleKeys.product_name.tr() + " is required" : null,
+                          value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_name.tr()]) : null,
                         ),
                         SizedBox(height: 20),
                         CGhostInputField(
@@ -214,7 +214,7 @@ class _UploadScreenState extends State<UploadScreen> {
                             if(val != null) uploadItemModel.price = int.parse(val)
                           },
                           validator: (value) =>
-                          value!.isEmpty ? LocaleKeys.product_price.tr() + " is required" : null,
+                          value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_price.tr()]) : null,
                         ),
                         SizedBox(height: 24),
                         Text(LocaleKeys.item_details.tr(),
@@ -264,7 +264,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           },
                           onSaved: (val) => uploadItemModel.category = val,
                           validator: (value) =>
-                          value!.isEmpty ? LocaleKeys.product_category.tr() + " is required" : null,
+                          value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_category.tr()]) : null,
                         ),
                         SizedBox(height: 20),
                         Container(
@@ -463,7 +463,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                     },
                                     onSaved: (val) => uploadItemModel.condition = val,
                                     validator: (value) =>
-                                    value!.isEmpty ? LocaleKeys.product_condition.tr() + " is required" : null,
+                                    value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_condition.tr()]) : null,
                                   ),
                                 ],
                               )
@@ -478,7 +478,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                   if(val != null) uploadItemModel.weight = double.parse(val)
                                 },
                                 validator: (value) =>
-                                value!.isEmpty ? LocaleKeys.product_weight.tr() + " is required" : null,
+                                value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_weight.tr()]) : null,
                               ),
                             ),
                             SizedBox(width: 20),
@@ -491,7 +491,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                   if(val != null) uploadItemModel.stock = int.parse(val)
                                 },
                                 validator: (value) =>
-                                value!.isEmpty ? LocaleKeys.product_stock.tr() + " is required" : null,
+                                value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_stock.tr()]) : null,
                               ),
                             ),
                           ],
@@ -502,7 +502,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           maxLines: 4,
                           onSaved: (val) => uploadItemModel.description = val,
                           validator: (value) =>
-                          value!.isEmpty ? LocaleKeys.product_description.tr() + " is required" : null,
+                          value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_description.tr()]) : null,
                         ),
                         SizedBox(height: 20),
                         Text(LocaleKeys.upload_image.tr()),
