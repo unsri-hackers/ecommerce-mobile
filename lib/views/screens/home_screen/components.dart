@@ -229,7 +229,8 @@ class YourProductListItem extends StatelessWidget {
 
 class HomeAppBar extends StatefulWidget {
   final VoidCallback? onPressAvatar;
-  const HomeAppBar({Key? key, this.onPressAvatar}) : super(key: key);
+  final VoidCallback? onPressAddProduct;
+  const HomeAppBar({Key? key, this.onPressAvatar, this.onPressAddProduct}) : super(key: key);
 
   @override
   _HomeAppBarState createState() => _HomeAppBarState();
@@ -283,7 +284,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
         SizedBox(width: 16),
         CIconButton(
           imageIcon: ImageIcon(AssetImage(AssetsUtils.present)),
-          onPress: () {},
+          onPress: widget.onPressAddProduct??() {},
         ),
         SizedBox(width: 5),
         CIconButton(
