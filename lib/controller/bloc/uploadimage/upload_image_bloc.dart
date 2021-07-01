@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:bloc/bloc.dart';
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:deuvox/data/model/upload_image_model.dart';
 import '../../../app/constant/error_code.dart';
 import '../../../data/model/api_model.dart';
@@ -14,6 +13,7 @@ part 'upload_image_state.dart';
 
 class UploadImageBloc extends Bloc<UploadImageEvent, UploadImageState> {
   UploadImageBloc() : super(UploadImageInitial());
+  final cloudinary = CloudinaryPublic('deuvox', 'deuvox-products-unsigned', cache: false);
 
   //final UploadImageDomain _uploadImageDomain;
 
@@ -41,9 +41,20 @@ class UploadImageBloc extends Bloc<UploadImageEvent, UploadImageState> {
   Stream<UploadImageState> _mapBrowseFilesButtonPressedToState(
       UploadImageBrowsingFiles event) async* {
     try {
-      final pickedfile = await ImagePicker().getImage(source: ImageSource.gallery, maxWidth: 150.0, maxHeight: 150.0);
-      File image = File(pickedfile!.path);
-      yield UploadImagePickerSelected(image);
+      late final imagelink;
+      final image = await ImagePicker().getImage(source: ImageSource.gallery, maxWidth: 150.0, maxHeight: 150.0);
+      yield UploadImageCloudinaryLoading();
+      try {
+        CloudinaryResponse response = await cloudinary.uploadFile(
+            CloudinaryFile.fromFile(image!.path, resourceType: CloudinaryResourceType.Image)
+        );
+        imagelink = response.secureUrl;
+      } on CloudinaryException catch (e) {
+        yield UploadImageCloudinaryFailure();
+      }
+      final cloudinaryImage = CloudinaryImage(imagelink);
+      final String imageurl = cloudinaryImage.thumbnail(height: 150, width: 150).generate();
+      yield UploadImagePickerSelected(imageurl);
     } catch (e) {
       yield UploadImagePickerFailure();
     }
@@ -53,8 +64,13 @@ class UploadImageBloc extends Bloc<UploadImageEvent, UploadImageState> {
       UploadImageStarted event) async* {
     try {
       yield UploadImageLoading();
-      // final resData = await _uploadImageDomain.UploadImageRequest(event.imageUploadImageModel);
-      yield UploadImageSuccess(); //get resdata string image_name if successful later
+      print(event.images.length);
+      print(event.images[0].image_url);
+      List<String?> imageurls = [];
+      for(int i = 0; i < event.images.length; i++) {
+        imageurls.add(event.images[i].image_url);
+      }
+      yield UploadImageSuccess(imageurls);
     } catch (e) {
       if (e.runtimeType == CApiResError) {
         final CApiResError resError = e as CApiResError;
@@ -78,8 +94,7 @@ class UploadImageBloc extends Bloc<UploadImageEvent, UploadImageState> {
       UploadImagePreview event) async* {
     try {
       yield UploadImagePreviewLoading();
-      // final resData = await _uploadImageDomain.UploadImagePreviewRequest(event.image_name);
-      yield UploadImagePreviewSuccess(File("image_name")); //get resdata image file if successful later
+      yield UploadImagePreviewSuccess(event.imageurls);
     } catch (e) {
         yield UploadImageFailure();
       }
