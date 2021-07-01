@@ -39,9 +39,6 @@ class AuthenticationBloc
         print(e);
       }
     }
-    if (event is AuthenticationGetLoginProfile) {
-      yield* _mapGetProfileToState();
-    }
   }
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
@@ -62,15 +59,6 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapLoggedInToState() async* {
     try {
       //TODO: only for wifreframe. Create real implementation later
-      UserSessionModel userModel = await _userDomain.getCurrentSession();
-      yield AuthenticationAuthenticated(user: userModel);
-    } catch (e) {
-      yield AuthenticationFailure(message: e.toString());
-    }
-  }
-
-  Stream<AuthenticationState> _mapGetProfileToState() async* {
-    try {
       UserSessionModel userModel = await _userDomain.getCurrentSession();
       yield AuthenticationAuthenticated(user: userModel);
     } catch (e) {
