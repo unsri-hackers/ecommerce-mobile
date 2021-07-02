@@ -8,7 +8,7 @@ abstract class UploadImageEvent extends Equatable {
 }
 
 class UploadImageStarted extends UploadImageEvent {
-  final List<UploadImageModel> images;
+  final List<PickedFile> images;
 
   const UploadImageStarted(this.images);
 

@@ -28,14 +28,13 @@ class UploadItemBloc extends Bloc<UploadItemEvent, UploadItemState> {
       UploadItemStarted event) async* {
     try {
       yield UploadItemLoading();
-      /*
       final resData = await _itemDomain.uploadItem(event.form);
-      if (resData.status == Status.SUCCESS) {
+      if (resData.statusCode == "200") {
         yield UploadItemSuccess();
-      }  else if(resData.status == Status.ERROR) {
+      }  else {
         yield UploadItemFailure();
+        print(resData.statusCode);
       }
-      */
       yield UploadItemSuccess();
     } catch (e) {
       yield UploadItemFailure();

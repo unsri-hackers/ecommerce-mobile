@@ -8,7 +8,7 @@ class UploadItemModel {
   double? weight;
   int? stock;
   String? description;
-  String? filename;
+  List<String>? imageurls;
 
   UploadItemModel({
     this.id,
@@ -20,7 +20,7 @@ class UploadItemModel {
     this.weight,
     this.description,
     this.stock,
-    this.filename,
+    this.imageurls,
   });
 
   UploadItemModel.fromJson(Map<String, dynamic> json) {
@@ -33,7 +33,7 @@ class UploadItemModel {
     weight = json['weight'];
     stock = json['stock'];
     description = json['description'];
-    filename = json['filename'];
+    imageurls = json['imageurls'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,7 +47,7 @@ class UploadItemModel {
     data['weight'] = this.weight;
     data['stock'] = this.stock;
     data['description'] = this.description;
-    data['filename'] = this.filename;
+    data['imageurls'] = this.imageurls;
     return data;
   }
 }

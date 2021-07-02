@@ -47,12 +47,12 @@ class UploadImageCloudinaryFailure extends UploadImageState {
 }
 
 class UploadImagePickerSelected extends UploadImageState {
-  final String imageurl;
+  final List<PickedFile>? pickedImageList;
 
-  const UploadImagePickerSelected(this.imageurl);
+  const UploadImagePickerSelected(this.pickedImageList);
 
   @override
-  List<Object> get props => [imageurl];
+  List<Object> get props => [pickedImageList!];
 }
 
 class UploadImageCloudinaryLoading extends UploadImageState {}

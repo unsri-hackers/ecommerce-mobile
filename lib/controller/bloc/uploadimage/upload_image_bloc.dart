@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
-import 'package:deuvox/data/model/upload_image_model.dart';
 import '../../../app/constant/error_code.dart';
 import '../../../data/model/api_model.dart';
 import 'package:equatable/equatable.dart';
@@ -41,21 +40,10 @@ class UploadImageBloc extends Bloc<UploadImageEvent, UploadImageState> {
   Stream<UploadImageState> _mapBrowseFilesButtonPressedToState(
       UploadImageBrowsingFiles event) async* {
     try {
-      late final imagelink;
-      final image = await ImagePicker().getImage(source: ImageSource.gallery, maxWidth: 150.0, maxHeight: 150.0);
-      yield UploadImageCloudinaryLoading();
-      try {
-        CloudinaryResponse response = await cloudinary.uploadFile(
-            CloudinaryFile.fromFile(image!.path, resourceType: CloudinaryResourceType.Image)
-        );
-        imagelink = response.secureUrl;
-      } on CloudinaryException catch (e) {
-        yield UploadImageCloudinaryFailure();
-      }
-      final cloudinaryImage = CloudinaryImage(imagelink);
-      final String imageurl = cloudinaryImage.thumbnail(height: 150, width: 150).generate();
-      yield UploadImagePickerSelected(imageurl);
+      final pickedImageList = await ImagePicker().getMultiImage();
+      yield UploadImagePickerSelected(pickedImageList);
     } catch (e) {
+      print(e.toString());
       yield UploadImagePickerFailure();
     }
   }
@@ -65,10 +53,17 @@ class UploadImageBloc extends Bloc<UploadImageEvent, UploadImageState> {
     try {
       yield UploadImageLoading();
       print(event.images.length);
-      print(event.images[0].image_url);
+      print(event.images[0].path);
       List<String?> imageurls = [];
-      for(int i = 0; i < event.images.length; i++) {
-        imageurls.add(event.images[i].image_url);
+      try {
+        for(int i = 0; i < event.images.length; i++) {
+          CloudinaryResponse response = await cloudinary.uploadFile(
+              CloudinaryFile.fromFile(event.images[i].path, resourceType: CloudinaryResourceType.Image)
+          );
+          imageurls.add(response.secureUrl);
+        }
+      } on CloudinaryException catch (e) {
+        yield UploadImageCloudinaryFailure();
       }
       yield UploadImageSuccess(imageurls);
     } catch (e) {
