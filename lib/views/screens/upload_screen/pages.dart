@@ -33,6 +33,7 @@ class _UploadScreenState extends State<UploadScreen> {
   UploadItemModel uploadItemModel = UploadItemModel();
   List<UploadImageModel> uploadImageModels = [];
   List<String> images = [];
+  List<dynamic> photos = [];
   List<PickedFile> imagesPicked = [];
   bool imageloading = false;
   //List<String> variant = [];
@@ -137,7 +138,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                 width: 160,
                                 child: CButtonFilled(
                                     primaryColor: ThemeColors.white100,
-                                    textLabel: "Browse Photos",
+                                    textLabel: LocaleKeys.browse_image.tr(),
                                     onPressed: () => uploadImageBloc.add(UploadImageBrowsingFiles())
                                 )
                             ),
@@ -152,6 +153,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                   },
                                 ),
                                 Stack(
+                                  alignment: Alignment.topRight,
                                   children: [
                                     ValueListenableBuilder(
                                       valueListenable: index,
@@ -169,8 +171,8 @@ class _UploadScreenState extends State<UploadScreen> {
                                     Align(
                                       alignment: Alignment.topRight,
                                       child: Container(
-                                        width: 20,
-                                        height: 20,
+                                        width: 25,
+                                        height: 25,
                                         decoration: BoxDecoration(
                                             color: ThemeColors.red80,
                                             shape: BoxShape.circle
@@ -192,8 +194,8 @@ class _UploadScreenState extends State<UploadScreen> {
                                           },
                                           child: Icon(
                                             Icons.close,
-                                            color: ThemeColors.black100,
-                                            size: 20,
+                                            color: ThemeColors.white100,
+                                            size: 25,
                                           ),
                                         )
                                       ),
@@ -215,7 +217,7 @@ class _UploadScreenState extends State<UploadScreen> {
                               width: 185,
                               child: CButtonFilled(
                                 rounded: true,
-                                textLabel: "Upload",
+                                textLabel: LocaleKeys.upload.tr(),
                                 onPressed: () {
                                   uploadImageBloc.add(UploadImageStarted(imagesPicked));
                                   Navigator.pop(context);
@@ -285,7 +287,7 @@ class _UploadScreenState extends State<UploadScreen> {
                             SizedBox(height: 10),
                             CGhostInputField(
                               labelText: LocaleKeys.product_name.tr(),
-                              onSaved: (val) => uploadItemModel.name = val,
+                              onSaved: (val) => uploadItemModel.productName = val,
                               validator: (value) =>
                               value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_name.tr()]) : null,
                             ),
@@ -293,10 +295,7 @@ class _UploadScreenState extends State<UploadScreen> {
                             CGhostInputField(
                               labelText: LocaleKeys.product_price.tr(),
                               keyboardType: TextInputType.numberWithOptions(decimal: true),
-                              onSaved: (val) =>
-                              {
-                                if(val != null) uploadItemModel.price = int.parse(val)
-                              },
+                              onSaved: (val) => uploadItemModel.price = val.toString(),
                               validator: (value) =>
                               value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_price.tr()]) : null,
                             ),
@@ -346,7 +345,6 @@ class _UploadScreenState extends State<UploadScreen> {
                                   _categoryValue = value!;
                                 });
                               },
-                              onSaved: (val) => uploadItemModel.category = val,
                               validator: (value) =>
                               value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_category.tr()]) : null,
                             ),
@@ -545,7 +543,6 @@ class _UploadScreenState extends State<UploadScreen> {
                                               _conditionValue = value!;
                                             });
                                           },
-                                          onSaved: (val) => uploadItemModel.condition = val,
                                           validator: (value) =>
                                           value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_condition.tr()]) : null,
                                         ),
@@ -557,10 +554,6 @@ class _UploadScreenState extends State<UploadScreen> {
                                   child: CGhostInputField(
                                     labelText: LocaleKeys.product_weight.tr(),
                                     keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                    onSaved: (val) =>
-                                    {
-                                      if(val != null) uploadItemModel.weight = double.parse(val)
-                                    },
                                     validator: (value) =>
                                     value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_weight.tr()]) : null,
                                   ),
@@ -570,10 +563,6 @@ class _UploadScreenState extends State<UploadScreen> {
                                   child: CGhostInputField(
                                     labelText: LocaleKeys.product_stock.tr(),
                                     keyboardType: TextInputType.number,
-                                    onSaved: (val) =>
-                                    {
-                                      if(val != null) uploadItemModel.stock = int.parse(val)
-                                    },
                                     validator: (value) =>
                                     value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_stock.tr()]) : null,
                                   ),
@@ -584,7 +573,6 @@ class _UploadScreenState extends State<UploadScreen> {
                             CGhostInputField(
                               labelText: LocaleKeys.product_description.tr(),
                               maxLines: 4,
-                              onSaved: (val) => uploadItemModel.description = val,
                               validator: (value) =>
                               value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_description.tr()]) : null,
                             ),
@@ -598,10 +586,12 @@ class _UploadScreenState extends State<UploadScreen> {
                                     for(int i = 0; i < state.imageurls.length; i++) {
                                       UploadImageModel temp = UploadImageModel();
                                       images.add(state.imageurls[i]!);
-                                      temp.image_url = state.imageurls[i];
+                                      temp.path = state.imageurls[i];
+                                      temp.name = "ProductPhoto" + (i+1).toString();
                                       uploadImageModels.add(temp);
+                                      photos.add([temp.path, temp.name]);
                                     }
-                                    uploadItemModel.imageurls = state.imageurls.cast<String>();
+                                    uploadItemModel.photos = photos;
                                     uploadImageBloc.add(UploadImagePreview(state.imageurls));
                                   }
                                 },
@@ -625,7 +615,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
                                               child: CButtonFilled(
                                                   primaryColor: ThemeColors.white100,
-                                                  textLabel: "Upload",
+                                                  textLabel: LocaleKeys.upload.tr(),
                                                   onPressed: (){
                                                     showDialogUploadImage(context);
                                                   }
@@ -656,7 +646,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
                                           child: CButtonFilled(
                                               primaryColor: ThemeColors.white100,
-                                              textLabel: "Upload",
+                                              textLabel: LocaleKeys.upload.tr(),
                                               onPressed: (){
                                                 showDialogUploadImage(context);
                                               }

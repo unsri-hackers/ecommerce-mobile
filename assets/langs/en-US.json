@@ -48,5 +48,7 @@
   "condition_new": "New",
   "condition_second": "Second",
   "save": "Save",
-  "limit_image_pixel": "* Size photos 200 x 200 pixel"
+  "limit_image_pixel": "* Size photos 200 x 200 pixel",
+  "upload": "Upload",
+  "browse_image": "Browse Photos"
 }
