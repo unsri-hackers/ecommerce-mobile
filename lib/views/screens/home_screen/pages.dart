@@ -1,5 +1,6 @@
 import 'package:deuvox/app/config/themes.dart';
 import 'package:deuvox/app/utils/assets_utils.dart';
+import 'package:deuvox/app/utils/router_utils.dart';
 import 'package:deuvox/controller/bloc/home/home_bloc.dart';
 import 'package:deuvox/generated/lang_utils.dart';
 import 'package:deuvox/views/component/common_button.dart';
@@ -88,8 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       floating: true,
                       snap: true,
                       title: HomeAppBar(
-                        onPressAvatar: () {
-                          widget.scaffoldKey.currentState!.openDrawer();
+                        onPressAvatar: () {},
+                        onPressAddProduct: () {
+                          Navigator.pushNamed(
+                              context, RouterUtils.uploadItemSCreen);
                         },
                       ),
                     ),
@@ -181,11 +184,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
 
-
-          return ShimmerBuilder();
-
-          }
-        ),
+              return ShimmerBuilder();
+            }),
       ),
     );
   }
@@ -194,8 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-            backgroundColor:
-            Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             automaticallyImplyLeading: false,
             pinned: false,
             floating: true,
@@ -206,19 +205,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(width: 16),
                 Expanded(
                     child: ShimmerLoader(
-                      child: Container(
-                        width: double.infinity,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                    )
-                )
+                  child: Container(
+                    width: double.infinity,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                ))
               ],
-            )
-        ),
+            )),
         SliverToBoxAdapter(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,7 +239,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemExtent: 135,
                   padding: EdgeInsets.symmetric(horizontal: 18),
                   children: [
-                    ShimmerSquareLoader(height: 120, width: 120, margin: EdgeInsets.zero,),
+                    ShimmerSquareLoader(
+                      height: 120,
+                      width: 120,
+                      margin: EdgeInsets.zero,
+                    ),
                     ShimmerSquareLoader(height: 120, width: 120),
                     ShimmerSquareLoader(height: 120, width: 120)
                   ],
@@ -281,8 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             decoration: BoxDecoration(
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(16),
-                            )
-                        ),
+                            )),
                       ),
                       ShimmerLoader(
                         child: Container(
@@ -292,8 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             decoration: BoxDecoration(
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(16),
-                            )
-                        ),
+                            )),
                       ),
                       ShimmerLoader(
                         child: Container(
@@ -303,11 +302,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             decoration: BoxDecoration(
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(16),
-                            )
-                        ),
+                            )),
                       ),
-                    ]
-                ),
+                    ]),
               ),
             ],
           ),
@@ -336,7 +333,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemExtent: 130,
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   children: [
-                    ShimmerSquareLoader(height: 120, width: 120, margin: EdgeInsets.zero,),
+                    ShimmerSquareLoader(
+                      height: 120,
+                      width: 120,
+                      margin: EdgeInsets.zero,
+                    ),
                     ShimmerSquareLoader(height: 120, width: 120),
                     ShimmerSquareLoader(height: 120, width: 120)
                   ],

@@ -347,6 +347,7 @@ class _UploadScreenState extends State<UploadScreen> {
                               },
                               validator: (value) =>
                               value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_category.tr()]) : null,
+
                             ),
                             SizedBox(height: 20),
                             /*
@@ -610,6 +611,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                         itemBuilder: (context, index) {
                                           if(index == images.length ) {
                                             return Container(
+
                                               height: 80,
                                               width: 80,
                                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
