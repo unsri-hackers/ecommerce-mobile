@@ -20,11 +20,11 @@ class UserModel {
   }
 
   UserModel copyWith(
-      {required int id, String? name, String? authtoken, String? fcmToken}) {
+      {required int id, String? name, String? avatar}) {
     return UserModel(
       id: this.id,
       name: name ?? this.name,
-      avatar: authtoken ?? this.avatar,
+      avatar: avatar ?? this.avatar,
     );
   }
 }
