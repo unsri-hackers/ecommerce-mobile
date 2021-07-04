@@ -161,14 +161,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             outlined: true,
                             image: Image.asset(AssetsUtils.googleLogo),
                             primaryColor: Colors.white,
-                            onPressed: null
-                            // isDisabled
-                            //     ? null
-                            //     : () {
-                            //         FlushbarHelper.createInformation(
-                            //             message: LocaleKeys.coming_soon.tr())
-                            //           ..show(context);
-                            //       },
+                            onPressed: 
+                            isDisabled
+                                ? null
+                                : () {
+                                    FlushbarHelper.createInformation(
+                                        message: LocaleKeys.coming_soon.tr())
+                                      ..show(context);
+                                  },
                           ),
                         ),
                         SizedBox(height: 12),
