@@ -33,7 +33,7 @@ class _UploadScreenState extends State<UploadScreen> {
   UploadItemModel uploadItemModel = UploadItemModel();
   List<UploadImageModel> uploadImageModels = [];
   List<String> images = [];
-  List<dynamic> photos = [];
+  List<ProductPhotoModel> photos = [];
   List<PickedFile> imagesPicked = [];
   bool imageloading = false;
   //List<String> variant = [];
@@ -590,7 +590,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                       temp.path = state.imageurls[i];
                                       temp.name = "ProductPhoto" + (i+1).toString();
                                       uploadImageModels.add(temp);
-                                      photos.add([temp.path, temp.name]);
+                                      photos.add(ProductPhotoModel(name: temp.name,path: temp.path));
                                     }
                                     uploadItemModel.photos = photos;
                                     uploadImageBloc.add(UploadImagePreview(state.imageurls));

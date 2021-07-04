@@ -52,7 +52,7 @@ class UploadImagePickerSelected extends UploadImageState {
   const UploadImagePickerSelected(this.pickedImageList);
 
   @override
-  List<Object> get props => [pickedImageList!];
+  List<Object> get props => [pickedImageList??[]];
 }
 
 class UploadImageCloudinaryLoading extends UploadImageState {}

@@ -20,5 +20,5 @@ class UploadItemFailure extends UploadItemState {
   const UploadItemFailure({this.error});
 
   @override
-  List<Object> get props => [error!];
+  List<Object> get props => [error??""];
 }
