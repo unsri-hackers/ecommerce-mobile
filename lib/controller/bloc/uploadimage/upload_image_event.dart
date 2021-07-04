@@ -8,7 +8,7 @@ abstract class UploadImageEvent extends Equatable {
 }
 
 class UploadImageStarted extends UploadImageEvent {
-  final List<UploadImageModel> images;
+  final List<PickedFile> images;
 
   const UploadImageStarted(this.images);
 
@@ -19,10 +19,10 @@ class UploadImageStarted extends UploadImageEvent {
 class UploadImageBrowsingFiles extends UploadImageEvent {}
 
 class UploadImagePreview extends UploadImageEvent {
-  final String image_name;
+  final List<String?> imageurls;
 
-  const UploadImagePreview(this.image_name);
+  const UploadImagePreview(this.imageurls);
 
   @override
-  List<Object> get props => [image_name];
+  List<Object> get props => [imageurls];
 }

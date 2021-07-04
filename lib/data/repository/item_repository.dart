@@ -11,7 +11,7 @@ class ItemRepository {
 
   Future<BaseResponse<void>> uploadItem(UploadItemModel uploadItemModel) async {
     Map<String, dynamic> result =
-        await _networkUtils.post('', body: uploadItemModel.toJson());
+        await _networkUtils.post(ApiUtils.addProduct, body: uploadItemModel.toJson());
     BaseResponse<void> baseResponse =
         BaseResponse.fromJson(result, (json) => null);
     return baseResponse;

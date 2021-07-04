@@ -10,7 +10,14 @@ class UploadImageInitial extends UploadImageState {}
 
 class UploadImageLoading extends UploadImageState {}
 
-class UploadImageSuccess extends UploadImageState {}
+class UploadImageSuccess extends UploadImageState {
+  final List<String?> imageurls;
+
+  const UploadImageSuccess(this.imageurls);
+
+  @override
+  List<Object> get props => [imageurls];
+}
 
 class UploadImageFailure extends UploadImageState {
   final String? error;
@@ -30,24 +37,35 @@ class UploadImagePickerFailure extends UploadImageState {
   List<Object> get props => [error!];
 }
 
-class UploadImagePickerSelected extends UploadImageState {
-  final File image;
+class UploadImageCloudinaryFailure extends UploadImageState {
+  final String? error;
 
-  const UploadImagePickerSelected(this.image);
+  const UploadImageCloudinaryFailure({this.error});
 
   @override
-  List<Object> get props => [image];
+  List<Object> get props => [error!];
 }
+
+class UploadImagePickerSelected extends UploadImageState {
+  final List<PickedFile>? pickedImageList;
+
+  const UploadImagePickerSelected(this.pickedImageList);
+
+  @override
+  List<Object> get props => [pickedImageList!];
+}
+
+class UploadImageCloudinaryLoading extends UploadImageState {}
 
 class UploadImagePreviewLoading extends UploadImageState {}
 
 class UploadImagePreviewSuccess extends UploadImageState {
-  final File image;
+  final List<String?> imageurls;
 
-  const UploadImagePreviewSuccess(this.image);
+  const UploadImagePreviewSuccess(this.imageurls);
 
   @override
-  List<Object> get props => [image];
+  List<Object> get props => [imageurls];
 }
 
 class UploadImageExceedsSizeLimit extends UploadImageState {}

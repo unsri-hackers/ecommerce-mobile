@@ -48,5 +48,7 @@
   "condition_new": "Baru",
   "condition_second": "Bekas",
   "save": "Simpan",
-  "limit_image_pixel": "* Ukuran foto harus 200 x 200 pixel"
+  "limit_image_pixel": "* Ukuran foto harus 200 x 200 pixel",
+  "upload": "Upload",
+  "browse_image": "Cari Foto"
 }

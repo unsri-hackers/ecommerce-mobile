@@ -29,42 +29,15 @@ class MockUploadItemModel extends _i1.Mock implements _i3.UploadItemModel {
   }
 
   @override
-  set id(String? _id) => super.noSuchMethod(Invocation.setter(#id, _id),
-      returnValueForMissingStub: null);
-  @override
   set name(String? _name) => super.noSuchMethod(Invocation.setter(#name, _name),
       returnValueForMissingStub: null);
   @override
-  set price(int? _price) =>
+  set price(String? _price) =>
       super.noSuchMethod(Invocation.setter(#price, _price),
           returnValueForMissingStub: null);
   @override
-  set category(String? _category) =>
-      super.noSuchMethod(Invocation.setter(#category, _category),
-          returnValueForMissingStub: null);
-  @override
-  set variant(String? _variant) =>
-      super.noSuchMethod(Invocation.setter(#variant, _variant),
-          returnValueForMissingStub: null);
-  @override
-  set condition(String? _condition) =>
-      super.noSuchMethod(Invocation.setter(#condition, _condition),
-          returnValueForMissingStub: null);
-  @override
-  set weight(double? _weight) =>
-      super.noSuchMethod(Invocation.setter(#weight, _weight),
-          returnValueForMissingStub: null);
-  @override
-  set stock(int? _stock) =>
-      super.noSuchMethod(Invocation.setter(#stock, _stock),
-          returnValueForMissingStub: null);
-  @override
-  set description(String? _description) =>
-      super.noSuchMethod(Invocation.setter(#description, _description),
-          returnValueForMissingStub: null);
-  @override
-  set filename(String? _filename) =>
-      super.noSuchMethod(Invocation.setter(#filename, _filename),
+  set photos(List<dynamic>? _photos) =>
+      super.noSuchMethod(Invocation.setter(#photos, _photos),
           returnValueForMissingStub: null);
   @override
   Map<String, dynamic> toJson() =>

@@ -51,5 +51,7 @@ abstract class  LocaleKeys {
   static const condition_second = 'condition_second';
   static const save = 'save';
   static const limit_image_pixel = 'limit_image_pixel';
+  static const upload = 'upload';
+  static const browse_image = 'browse_image';
 
 }

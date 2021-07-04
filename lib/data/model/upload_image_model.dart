@@ -1,15 +1,18 @@
 class UploadImageModel {
-  String? image_name;
+  String? path;
+  String? name;
   
-  UploadImageModel({this.image_name});
+  UploadImageModel({this.path, this.name});
 
   UploadImageModel.fromJson(Map<String, dynamic> json) {
-    image_name = json['image_name'];
+    path = json['path'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['image_name'] = this.image_name;
+    data['path'] = this.path;
+    data['name'] = this.name;
     return data;
   }
 }
