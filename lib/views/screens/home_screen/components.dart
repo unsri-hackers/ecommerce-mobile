@@ -150,7 +150,7 @@ class ProductCategoryListItem extends StatelessWidget {
 class YourProductListItem extends StatelessWidget {
   final String title;
   final String price;
-  final String imagePath;
+  final String? imagePath;
   final String rating;
 
   YourProductListItem({
@@ -172,9 +172,10 @@ class YourProductListItem extends StatelessWidget {
               width: 120,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
+                  color: ThemeColors.green40,
+                  image: imagePath!=null?DecorationImage(
                       fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(imagePath))),
+                      image: CachedNetworkImageProvider(imagePath!)): null),
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
