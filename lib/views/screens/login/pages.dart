@@ -1,7 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:deuvox/app/utils/assets_utils.dart';
-import 'package:deuvox/app/utils/font_utils.dart';
-import 'package:deuvox/app/utils/router_utils.dart';
 import 'package:deuvox/controller/bloc/authentication/authentication_bloc.dart';
 import 'package:deuvox/controller/bloc/login/login_bloc.dart';
 import 'package:deuvox/data/model/login_model.dart';
@@ -10,7 +8,6 @@ import 'package:deuvox/views/component/common_alert.dart';
 import 'package:deuvox/views/component/common_button.dart';
 import 'package:deuvox/views/component/common_form.dart';
 import 'package:deuvox/views/component/common_widget.dart';
-import 'package:deuvox/views/component/curve_clipper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: BlocConsumer<LoginBloc, LoginState>(
                   bloc: loginBloc,
                   listener: (context, state) {
-                    if (state is LoginUserNotExisted) {
+                    if (state is LoginUsernamePasswordWrong) {
                       Utils.showDialogError(context);
                     }
 
@@ -159,18 +156,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           margin: EdgeInsets.symmetric(horizontal: 32),
                           child: CButtonFilled(
                             textLabel: LocaleKeys.login_with_google.tr(),
-                            isLoading: isLoading,
+                            // isLoading: isLoading,
                             rounded: true,
                             outlined: true,
                             image: Image.asset(AssetsUtils.googleLogo),
                             primaryColor: Colors.white,
-                            onPressed: isDisabled
-                                ? null
-                                : () {
-                                    FlushbarHelper.createInformation(
-                                        message: LocaleKeys.coming_soon.tr())
-                                      ..show(context);
-                                  },
+                            onPressed: null
+                            // isDisabled
+                            //     ? null
+                            //     : () {
+                            //         FlushbarHelper.createInformation(
+                            //             message: LocaleKeys.coming_soon.tr())
+                            //           ..show(context);
+                            //       },
                           ),
                         ),
                         SizedBox(height: 12),

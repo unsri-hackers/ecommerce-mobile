@@ -23,6 +23,7 @@ class LoginFailure extends LoginState {
 
 class LoginUserNotExisted extends LoginState {}
 class LoginUserSuspend extends LoginState {}
+class LoginUsernamePasswordWrong extends LoginState {}
 
 class LoginFormError extends LoginState {
   final String? error;

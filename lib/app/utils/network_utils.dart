@@ -199,6 +199,13 @@ class NetworkUtils {
           errorCode: ErrorCode.API_CONNECTION_TIMEOUT, message: e.message);
     }
 
+     final int statusCode = e.response!.statusCode!;
+    if (statusCode == 401 || statusCode == 403) {
+      throw CApiResError(errorCode: ErrorCode.API_UNAUTHORIZED);
+    } else if (statusCode != 200 && statusCode != 304) {
+      throw CApiResError(errorCode: ErrorCode.API_NOT_SUCCESS);
+    }
+
     return CApiResError(
         errorCode: ErrorCode.API_UNKNOWN_ERROR, message: e.message);
   }

@@ -42,6 +42,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           case ErrorCode.USER_NOT_EXIST:
             yield LoginUserNotExisted();
             break;
+          case ErrorCode.API_UNAUTHORIZED:
+            yield LoginUsernamePasswordWrong();
+            break;
           case ErrorCode.USER_SUSPEND:
             yield LoginUserSuspend();
             break;
