@@ -42,19 +42,42 @@ class _HomeScreenState extends State<HomeScreen> {
             bloc: homeBloc,
             builder: (context, state) {
               if (state is HomeFailure) {
-                return Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(LocaleKeys.failed_to_get_data.tr()),
-                    SizedBox(height: 15),
-                    CButtonFilled(
-                        textLabel: LocaleKeys.retry.tr(),
-                        onPressed: () {
-                          homeBloc.add(HomeFetched());
-                        })
+                return CustomScrollView(
+
+                  slivers: [
+                    SliverAppBar(
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
+                      automaticallyImplyLeading: false,
+                      pinned: false,
+                      floating: true,
+                      snap: true,
+                      title: HomeAppBar(
+                        onPressAvatar: () {},
+                        onPressAddProduct: () {
+                          Navigator.pushNamed(
+                              context, RouterUtils.uploadItemSCreen);
+                        },
+                      ),
+                    ),
+                    SliverPadding(padding: EdgeInsets.symmetric(vertical: 20)),
+                    SliverToBoxAdapter(
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(LocaleKeys.failed_to_get_data.tr()),
+                          SizedBox(height: 15),
+                          CButtonFilled(
+                              textLabel: LocaleKeys.retry.tr(),
+                              onPressed: () {
+                                homeBloc.add(HomeFetched());
+                              })
+                        ],
+                      )),
+                    ),
                   ],
-                ));
+                );
               }
 
               if (state is HomeSuccess) {
@@ -72,10 +95,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 final yourProducts = state.yourProducts
                     .map((e) => YourProductListItem(
-                          title: e.title!,
-                          imagePath: e.photo!,
-                          price: e.price!,
-                          rating: e.rating!,
+                          title: e.productName!,
+                          imagePath: e.photos!.length>0?e.photos!.first.path:null,
+                          price: e.priceFormatted!,
+                          rating: e.ratingFormatted!,
                         ))
                     .toList();
 
