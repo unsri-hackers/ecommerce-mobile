@@ -36,7 +36,10 @@ class ItemRepository {
   }
 
   Future<BaseResponse<List<YourProduct>>> getYourProducts() async {
-    Map<String, dynamic> result = await _networkUtils.get(ApiUtils.yourProducts);
+    Map<String, dynamic> result = await _networkUtils.get(ApiUtils.yourProducts,body: {
+      "page":"0",
+      "size":"12"
+    });
     BaseResponse<List<YourProduct>> baseResponse = BaseResponse.fromJson(
         result,
         (json) =>
