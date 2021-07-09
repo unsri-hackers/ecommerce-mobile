@@ -35,7 +35,6 @@ class UploadItemBloc extends Bloc<UploadItemEvent, UploadItemState> {
         yield UploadItemFailure();
         print(resData.statusCode);
       }
-      yield UploadItemSuccess();
     } catch (e) {
       yield UploadItemFailure();
     }
