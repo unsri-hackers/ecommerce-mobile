@@ -168,11 +168,10 @@ class YourProductListItem extends StatelessWidget {
         Stack(
           children: [
             Container(
-              height: 75,
-              width: 120,
+              height: 120,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: ThemeColors.green40,
+                  color: ThemeColors.grey,
                   image: imagePath!=null?DecorationImage(
                       fit: BoxFit.cover,
                       image: CachedNetworkImageProvider(imagePath!)): null),
@@ -211,7 +210,7 @@ class YourProductListItem extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 16,
             color: Colors.black,
           ),
         ),
@@ -219,7 +218,7 @@ class YourProductListItem extends StatelessWidget {
         Text(
           price,
           style: TextStyle(
-            fontSize: 11,
+            fontSize: 12,
             color: ColorHex(ColorUtils.gray_text),
           ),
         ),
