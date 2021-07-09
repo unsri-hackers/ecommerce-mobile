@@ -24,13 +24,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       try {
         final onGoingOrders = <OngoingOrder>[];//await itemDomain.getOnGoingOrders();
         final productCategories = <ProductCategory>[];//await itemDomain.getProductCategories();
-        final yourProducts = await itemDomain.getYourProducts();
+        final yourProducts = <YourProduct>[];
         yield HomeSuccess(
           onGoingOrders,
           productCategories,
-          yourProducts.result,
+          yourProducts,
         );
-      } catch (e) {
+      } catch (e,s) {
+        print(e);
+        print(s);
         yield HomeFailure();
       }
     }
