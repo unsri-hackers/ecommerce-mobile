@@ -1,7 +1,7 @@
 class BaseResponse<T> {
  
-  String message;
-  String statusCode;
+  String? message;
+  String? statusCode;
   T result;
 
   BaseResponse({
@@ -13,8 +13,8 @@ class BaseResponse<T> {
   factory BaseResponse.fromJson(Map<String, dynamic> json,
       T Function(Object? json) fromJsonT) {
     return BaseResponse<T>(
-      message:json['message'] as String,
-      statusCode: json['statusCode'] as String,
+      message:json['message']!=null?json['message']as String:null,
+      statusCode: json['statusCode']!=null? json['statusCode'] as String:null,
       result: fromJsonT(
         json['result'],
       ),
