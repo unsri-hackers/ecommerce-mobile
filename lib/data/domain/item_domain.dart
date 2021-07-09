@@ -20,7 +20,7 @@ class ItemDomain {
     return _itemRepository.getProductCategories();
   }
 
-  Future<BaseResponse<List<YourProduct>>> getYourProducts() {
-    return _itemRepository.getYourProducts();
+  Future<BaseResponse<List<YourProduct>>> getYourProducts(int pageKey,int limit) {
+    return _itemRepository.getYourProducts(pageKey,limit);
   }
 }
