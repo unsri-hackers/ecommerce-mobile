@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 class YourProduct {
   late String? sellerId;
   late String? sellerName;
-  late String? productId;
+  late int? productId;
   late String? productName;
   late double? price;
   late double? rating;
@@ -17,6 +17,7 @@ class YourProduct {
   }
 
   String? get ratingFormatted {
+    if(rating==null) return "";
     return rating?.toStringAsFixed(1);
   }
 
