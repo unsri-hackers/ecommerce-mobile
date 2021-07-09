@@ -37,7 +37,7 @@ void main() {
   group('Get User Test', () {
     test('Test Get User (Success Scenario)', () async {
       final userRepository = MockUserRepository();
-      String id = "user001";
+      int id = 1;
       when(userRepository.getUserProfile()).thenAnswer(
         (realInvocation) => Future.value(
           BaseResponse(
@@ -60,7 +60,7 @@ void main() {
 
     test('Test Get User (User Not Found Scenario)', () async {
       final userRepository = MockUserRepository();
-      String id = "user002";
+      int id = 2;
       when(userRepository.getUserProfile()).thenAnswer((realInvocation) =>
           Future.value(BaseResponse(
               result: UserModel(id: id), message: '', statusCode: '')));
