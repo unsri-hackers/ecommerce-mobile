@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:deuvox/app/utils/platform_utils.dart';
+import 'package:deuvox/data/domain/user_domain.dart';
+import 'package:deuvox/data/model/user_model.dart';
 
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
@@ -21,6 +23,7 @@ class NetworkUtils {
     baseUrl: AppConfig.baseUrl,
     connectTimeout: AppConfig.connectTimeout,
     receiveTimeout: AppConfig.receiveTimeout,
+    validateStatus: (status)=>status!<500,
   );
   // Global options
   final optionsCache = CacheOptions(
@@ -58,10 +61,13 @@ class NetworkUtils {
 
   ///Usually the authorization token will be added here
   Future<Map<String, String?>> get headerAuth async {
+    UserDomain userDomain = UserDomain();
+    final UserSessionModel? session = await userDomain.getCurrentSession();
     return {
       "Client-Type": PlatformUtils.getPlatformType(),
       "App-Ver": AppConfig.appVersion,
       "Device-Id": await PlatformDeviceId.getDeviceId,
+      "Authorization":session?.fullToken
     };
   }
 
@@ -185,7 +191,9 @@ class NetworkUtils {
     }
     try {
       return response.data;
-    } catch (e) {
+    } catch (e,s) {
+      print(e);
+      print(s);
       throw CApiResError(
           errorCode: ErrorCode.API_ERROR_DATA, message: e.toString());
     }
