@@ -44,7 +44,7 @@ class _MainScreenState extends State<MainScreen>
       HomeScreen(
         scaffoldKey: _scaffoldKey,
       ),
-      OrdersScreen(),
+      // OrdersScreen(),
       ProfileScreen(),
     ];
     return WillPopScope(
@@ -68,10 +68,10 @@ class _MainScreenState extends State<MainScreen>
                 icon: Icon(Icons.home),
                 label: LocaleKeys.home.tr(),
               ),
-              BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage(AssetsUtils.order)),
-                label: LocaleKeys.orders.tr(),
-              ),
+              // BottomNavigationBarItem(
+              //   icon: ImageIcon(AssetImage(AssetsUtils.order)),
+              //   label: LocaleKeys.orders.tr(),
+              // ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person_outlined),
                 label: LocaleKeys.profile.tr(),
