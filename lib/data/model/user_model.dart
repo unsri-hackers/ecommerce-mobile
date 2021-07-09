@@ -1,20 +1,20 @@
 class UserModel {
-  late String id;
+  late int id;
   late String? name;
   late String? avatar;
 
   UserModel({required this.id, this.name, this.avatar});
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    id = json['sellerId'];
-    name = json['sellerName'];
+    id = json['id'];
+    name = json['username'];
     avatar = json['avatar'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['sellerId'] = this.id;
-    data['sellerName'] = this.name;
+    data['id'] = this.id;
+    data['username'] = this.name;
     data['avatar'] = this.avatar;
     return data;
   }
@@ -52,6 +52,10 @@ class UserSessionModel {
     data['tokenType'] = this.tokenType;
     data['username'] = this.username;
     return data;
+  }
+
+  String get fullToken  {
+    return "$tokenType $accessToken";
   }
 
   UserSessionModel copyWith(
