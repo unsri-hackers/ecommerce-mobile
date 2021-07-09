@@ -43,11 +43,11 @@ class _ProfileScreenContainer extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 8),
+                        margin: EdgeInsets.only(top: 10),
                         child: Text(
                           state.user.name ?? '',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
