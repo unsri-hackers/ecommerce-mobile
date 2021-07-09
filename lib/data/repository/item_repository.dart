@@ -35,10 +35,10 @@ class ItemRepository {
     return baseResponse;
   }
 
-  Future<BaseResponse<List<YourProduct>>> getYourProducts() async {
-    Map<String, dynamic> result = await _networkUtils.get(ApiUtils.yourProducts,body: {
-      "page":"0",
-      "size":"12"
+  Future<BaseResponse<List<YourProduct>>> getYourProducts(int pageKey,int limit) async {
+    Map<String, dynamic> result = await _networkUtils.get(ApiUtils.listProductsPaging,body: {
+      "page":pageKey,
+      "size":limit
     });
     BaseResponse<List<YourProduct>> baseResponse = BaseResponse.fromJson(
         result,
