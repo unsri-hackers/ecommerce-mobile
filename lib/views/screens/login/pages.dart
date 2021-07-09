@@ -84,7 +84,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
 
                     if (state is LoginSuccess) {
-                      bool popupOpened = true;
                       showDialog(
                         context: context,
                         builder: (context) {
@@ -94,12 +93,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                       ).then((value) {
-                        popupOpened = false;
                         BlocProvider.of<AuthenticationBloc>(context)
                             .add(AuthenticationLoggedInEvent());
-                      });
-                      Future.delayed(Duration(seconds: 2)).then((value) {
-                        if (popupOpened) Navigator.pop(context);
                       });
                     }
                   },
