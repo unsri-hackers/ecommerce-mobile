@@ -17,10 +17,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class UploadScreen extends StatefulWidget {
   const UploadScreen({Key? key}) : super(key: key);
-
 
   @override
   _UploadScreenState createState() => _UploadScreenState();
@@ -44,11 +42,13 @@ class _UploadScreenState extends State<UploadScreen> {
   Widget displayImage(int index) {
     if (imageloading == true) {
       return ShimmerLoader(
-          child: Container(height: 150, width: 150, decoration: BoxDecoration(color: Colors.black))
-      );
-    } else if (imagesPicked.isEmpty){
+          child: Container(
+              height: 150,
+              width: 150,
+              decoration: BoxDecoration(color: Colors.black)));
+    } else if (imagesPicked.isEmpty) {
       return SizedBox.shrink();
-    } else if (kIsWeb == true){
+    } else if (kIsWeb == true) {
       return Image.network(imagesPicked[index].path);
     } else {
       return Image.file(File(imagesPicked[index].path));
@@ -83,33 +83,33 @@ class _UploadScreenState extends State<UploadScreen> {
             child: BlocConsumer<UploadImageBloc, UploadImageState>(
               bloc: uploadImageBloc,
               listener: (context, state) {
-                if(state is UploadImagePickerSelected) {
+                if (state is UploadImagePickerSelected) {
                   imageloading = false;
-                  if(imagesPicked.isNotEmpty) {
+                  if (imagesPicked.isNotEmpty) {
                     var plus = state.pickedImageList!.length;
                     index.value += plus;
                   }
                   imagesPicked = state.pickedImageList!;
                 }
-                if(state is UploadImageCloudinaryLoading) {
+                if (state is UploadImageCloudinaryLoading) {
                   imageloading = true;
                 }
-                if(state is UploadImagePickerFailure) {
+                if (state is UploadImagePickerFailure) {
                   FlushbarHelper.createError(
                       message: "Terjadi kesalahan saat memilih image.")
                     ..show(context);
                 }
-                if(state is UploadImageCloudinaryFailure) {
+                if (state is UploadImageCloudinaryFailure) {
                   FlushbarHelper.createError(
                       message: "Terjadi kesalahan saat mengupload image.")
                     ..show(context);
                 }
-                if(state is UploadImageExceedsSizeLimit) {
+                if (state is UploadImageExceedsSizeLimit) {
                   FlushbarHelper.createError(
                       message: "Gambar melebihi batas ukuran yang ditentukan.")
                     ..show(context);
                 }
-                if(state is UploadImageWrongResolution) {
+                if (state is UploadImageWrongResolution) {
                   FlushbarHelper.createError(
                       message: "Gambar memiliki resolusi yang tidak sesuai.")
                     ..show(context);
@@ -117,14 +117,14 @@ class _UploadScreenState extends State<UploadScreen> {
               },
               builder: (context, state) {
                 return SimpleDialog(
-                  contentPadding:
-                  EdgeInsets.symmetric(vertical: 17),
+                  contentPadding: EdgeInsets.symmetric(vertical: 17),
                   children: [
                     Stack(
                       children: [
                         Column(
                           children: [
-                            Text(LocaleKeys.upload_image.tr(),
+                            Text(
+                              LocaleKeys.upload_image.tr(),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 18,
@@ -139,9 +139,8 @@ class _UploadScreenState extends State<UploadScreen> {
                                 child: CButtonFilled(
                                     primaryColor: ThemeColors.white100,
                                     textLabel: LocaleKeys.browse_image.tr(),
-                                    onPressed: () => uploadImageBloc.add(UploadImageBrowsingFiles())
-                                )
-                            ),
+                                    onPressed: () => uploadImageBloc
+                                        .add(UploadImageBrowsingFiles()))),
                             SizedBox(height: 30),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -162,53 +161,54 @@ class _UploadScreenState extends State<UploadScreen> {
                                           height: 200,
                                           width: 200,
                                           decoration: BoxDecoration(
-                                              border: Border.all(width: 1)
-                                          ),
-                                          child: displayImage(int.parse(index.toString())),
+                                              border: Border.all(width: 1)),
+                                          child: displayImage(
+                                              int.parse(index.toString())),
                                         );
                                       },
                                     ),
                                     Align(
                                       alignment: Alignment.topRight,
                                       child: Container(
-                                        width: 25,
-                                        height: 25,
-                                        decoration: BoxDecoration(
-                                            color: ThemeColors.red80,
-                                            shape: BoxShape.circle
-                                        ),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              if(images.isNotEmpty) {
-                                                images.removeAt(index.value);
-                                              }
-                                              if(imagesPicked.isNotEmpty) {
-                                                imagesPicked.removeAt(index.value);
-                                              }
-                                              if(index.value != 0) {
-                                                index.value--;
-                                              }
-                                              index.notifyListeners();
-                                            });
-                                          },
-                                          child: Icon(
-                                            Icons.close,
-                                            color: ThemeColors.white100,
-                                            size: 25,
-                                          ),
-                                        )
-                                      ),
+                                          width: 25,
+                                          height: 25,
+                                          decoration: BoxDecoration(
+                                              color: ThemeColors.red80,
+                                              shape: BoxShape.circle),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                if (images.isNotEmpty) {
+                                                  images.removeAt(index.value);
+                                                }
+                                                if (imagesPicked.isNotEmpty) {
+                                                  imagesPicked
+                                                      .removeAt(index.value);
+                                                }
+                                                if (index.value != 0) {
+                                                  index.value--;
+                                                }
+                                                index.notifyListeners();
+                                              });
+                                            },
+                                            child: Icon(
+                                              Icons.close,
+                                              color: ThemeColors.white100,
+                                              size: 25,
+                                            ),
+                                          )),
                                     )
                                   ],
                                 ),
                                 SizedBox(width: 5),
                                 InkWell(
-                                  child: Icon(Icons.arrow_forward_ios, size: 30),
-                                  onTap: () {
-                                    if (index.value.toInt() < imagesPicked.length -1 ) index.value++;
-                                  }
-                                ),
+                                    child:
+                                        Icon(Icons.arrow_forward_ios, size: 30),
+                                    onTap: () {
+                                      if (index.value.toInt() <
+                                          imagesPicked.length - 1)
+                                        index.value++;
+                                    }),
                               ],
                             ),
                             SizedBox(height: 30),
@@ -219,7 +219,8 @@ class _UploadScreenState extends State<UploadScreen> {
                                 rounded: true,
                                 textLabel: LocaleKeys.upload.tr(),
                                 onPressed: () {
-                                  uploadImageBloc.add(UploadImageStarted(imagesPicked));
+                                  uploadImageBloc
+                                      .add(UploadImageStarted(imagesPicked));
                                   Navigator.pop(context);
                                 },
                               ),
@@ -232,21 +233,15 @@ class _UploadScreenState extends State<UploadScreen> {
                   ],
                 );
               },
-            )
-        )
-    );
+            )));
   }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider<UploadItemBloc>(
-              create: (context) => uploadItemBloc
-          ),
-          BlocProvider<UploadImageBloc>(
-              create: (context) => uploadImageBloc
-          )
+          BlocProvider<UploadItemBloc>(create: (context) => uploadItemBloc),
+          BlocProvider<UploadImageBloc>(create: (context) => uploadImageBloc)
         ],
         child: Scaffold(
           appBar: AppBar(
@@ -256,8 +251,7 @@ class _UploadScreenState extends State<UploadScreen> {
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).accentColor
-              ),
+                  color: Theme.of(context).accentColor),
             ),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
@@ -282,75 +276,86 @@ class _UploadScreenState extends State<UploadScreen> {
                       padding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
                       child: SingleChildScrollView(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 10),
-                            CGhostInputField(
-                              labelText: LocaleKeys.product_name.tr(),
-                              onSaved: (val) => uploadItemModel.productName = val,
-                              validator: (value) =>
-                              value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_name.tr()]) : null,
-                            ),
-                            SizedBox(height: 20),
-                            CGhostInputField(
-                              labelText: LocaleKeys.product_price.tr(),
-                              keyboardType: TextInputType.numberWithOptions(decimal: true),
-                              onSaved: (val) => uploadItemModel.price = val.toString(),
-                              validator: (value) =>
-                              value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_price.tr()]) : null,
-                            ),
-                            SizedBox(height: 24),
-                            Text(LocaleKeys.item_details.tr(),
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              CGhostInputField(
+                                labelText: LocaleKeys.product_name.tr(),
+                                onSaved: (val) =>
+                                    uploadItemModel.productName = val,
+                                validator: (value) => value!.isEmpty
+                                    ? LocaleKeys.is_required.tr(
+                                        args: [LocaleKeys.product_name.tr()])
+                                    : null,
                               ),
-                            ),
-                            SizedBox(height: 24),
-                            Container(
-                              margin: EdgeInsets.only(left: 2),
-                              child: Text(
-                                LocaleKeys.product_category.tr(),
+                              SizedBox(height: 20),
+                              CGhostInputField(
+                                labelText: LocaleKeys.product_price.tr(),
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                onSaved: (val) =>
+                                    uploadItemModel.price = val.toString(),
+                                validator: (value) => value!.isEmpty
+                                    ? LocaleKeys.is_required.tr(
+                                        args: [LocaleKeys.product_price.tr()])
+                                    : null,
+                              ),
+                              SizedBox(height: 24),
+                              Text(
+                                LocaleKeys.item_details.tr(),
                                 style: TextStyle(
                                   fontSize: 14,
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.black,
-                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
-                            ),
-                            DropdownButtonFormField<String>(
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700
-                              ),
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 3),
-                                isDense: true,
-                              ),
-                              value: _categoryValue,
-                              items: [
-                                DropdownMenuItem(
-                                  child: Text(LocaleKeys.category_food.tr()),
-                                  value: LocaleKeys.category_food.tr(),
+                              SizedBox(height: 24),
+                              Container(
+                                margin: EdgeInsets.only(left: 2),
+                                child: Text(
+                                  LocaleKeys.product_category.tr(),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
-                                DropdownMenuItem(
-                                  child: Text(LocaleKeys.category_clothes.tr()),
-                                  value: LocaleKeys.category_clothes.tr(),
+                              ),
+                              DropdownButtonFormField<String>(
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700),
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 3),
+                                  isDense: true,
                                 ),
-                              ],
-                              onChanged: (value) {
-                                setState(() {
-                                  _categoryValue = value!;
-                                });
-                              },
-                              validator: (value) =>
-                              value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_category.tr()]) : null,
-
-                            ),
-                            SizedBox(height: 20),
-                            /*
+                                value: _categoryValue,
+                                items: [
+                                  DropdownMenuItem(
+                                    child: Text(LocaleKeys.category_food.tr()),
+                                    value: LocaleKeys.category_food.tr(),
+                                  ),
+                                  DropdownMenuItem(
+                                    child:
+                                        Text(LocaleKeys.category_clothes.tr()),
+                                    value: LocaleKeys.category_clothes.tr(),
+                                  ),
+                                ],
+                                onChanged: (value) {
+                                  setState(() {
+                                    _categoryValue = value!;
+                                  });
+                                },
+                                validator: (value) => value!.isEmpty
+                                    ? LocaleKeys.is_required.tr(args: [
+                                        LocaleKeys.product_category.tr()
+                                      ])
+                                    : null,
+                              ),
+                              SizedBox(height: 20),
+                              /*
                             Container(
                               margin: EdgeInsets.only(left: 2),
                               child: Text(
@@ -498,221 +503,278 @@ class _UploadScreenState extends State<UploadScreen> {
                               ),
                             ),
                              */
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Flexible(
-                                    fit: FlexFit.tight,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(left: 2),
-                                          child: Text(
-                                            LocaleKeys.product_condition.tr(),
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                        ),
-                                        DropdownButtonFormField<String>(
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700
-                                          ),
-                                          decoration:
-                                          InputDecoration(
-                                            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 3),
-                                            isDense: true,
-                                          ),
-                                          value: _conditionValue,
-                                          items: [
-                                            DropdownMenuItem(
-                                              child: Text(LocaleKeys.condition_new.tr()),
-                                              value: LocaleKeys.condition_new.tr(),
-                                            ),
-                                            DropdownMenuItem(
-                                              child: Text(LocaleKeys.condition_second.tr()),
-                                              value: LocaleKeys.condition_second.tr(),
-                                            ),
-                                          ],
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _conditionValue = value!;
-                                            });
-                                          },
-                                          validator: (value) =>
-                                          value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_condition.tr()]) : null,
-                                        ),
-                                      ],
-                                    )
-                                ),
-                                SizedBox(width: 20),
-                                Flexible(
-                                  child: CGhostInputField(
-                                    labelText: LocaleKeys.product_weight.tr(),
-                                    keyboardType: TextInputType.numberWithOptions(decimal: true),
-                                    validator: (value) =>
-                                    value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_weight.tr()]) : null,
-                                  ),
-                                ),
-                                SizedBox(width: 20),
-                                Flexible(
-                                  child: CGhostInputField(
-                                    labelText: LocaleKeys.product_stock.tr(),
-                                    keyboardType: TextInputType.number,
-                                    validator: (value) =>
-                                    value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_stock.tr()]) : null,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20),
-                            CGhostInputField(
-                              labelText: LocaleKeys.product_description.tr(),
-                              maxLines: 4,
-                              validator: (value) =>
-                              value!.isEmpty ? LocaleKeys.is_required.tr(args: [LocaleKeys.product_description.tr()]) : null,
-                            ),
-                            SizedBox(height: 20),
-                            Text(LocaleKeys.upload_image.tr()),
-                            SizedBox(height: 10),
-                            BlocConsumer(
-                                bloc: uploadImageBloc,
-                                listener: (context, state) {
-                                  if (state is UploadImageSuccess) {
-                                    for(int i = 0; i < state.imageurls.length; i++) {
-                                      UploadImageModel temp = UploadImageModel();
-                                      images.add(state.imageurls[i]!);
-                                      temp.path = state.imageurls[i];
-                                      temp.name = "ProductPhoto" + (i+1).toString();
-                                      uploadImageModels.add(temp);
-                                      photos.add(ProductPhotoModel(name: temp.name,path: temp.path));
-                                    }
-                                    uploadItemModel.photos = photos;
-                                    uploadImageBloc.add(UploadImagePreview(state.imageurls));
-                                  }
-                                },
-                                builder: (context, state) {
-                                  if (state is UploadImagePreviewSuccess) {
-                                    return Container(
-                                      height: 90,
-                                      width: double.infinity,
-                                      child: GridView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 1,
-                                          mainAxisSpacing: 6,
-                                        ),
-                                        itemCount: images.length + 1,
-                                        itemBuilder: (context, index) {
-                                          if(index == images.length ) {
-                                            return Container(
-
-                                              height: 80,
-                                              width: 80,
-                                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-                                              child: CButtonFilled(
-                                                  primaryColor: ThemeColors.white100,
-                                                  textLabel: LocaleKeys.upload.tr(),
-                                                  onPressed: (){
-                                                    showDialogUploadImage(context);
-                                                  }
-                                              )
-                                            );
-                                          }
-                                          return Container(
-                                            height: 60,
-                                            width: 60,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(16),
-                                                image: DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image: CachedNetworkImageProvider(images[index])
-                                                )
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    );
-                                  }
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                          height: 80,
-                                          width: 80,
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-                                          child: CButtonFilled(
-                                              primaryColor: ThemeColors.white100,
-                                              textLabel: LocaleKeys.upload.tr(),
-                                              onPressed: (){
-                                                showDialogUploadImage(context);
-                                              }
-                                          )
-                                      ),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Flexible(
+                                      fit: FlexFit.tight,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            LocaleKeys.limit_image_size.tr(),
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: ThemeColors.red80,
-                                              fontWeight: FontWeight.w700,
+                                          Container(
+                                            margin: EdgeInsets.only(left: 2),
+                                            child: Text(
+                                              LocaleKeys.product_condition.tr(),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                              ),
                                             ),
                                           ),
-                                          Text(
-                                            LocaleKeys.limit_image_pixel.tr(),
+                                          DropdownButtonFormField<String>(
                                             style: TextStyle(
-                                              fontSize: 14,
-                                              color: ThemeColors.red80,
-                                              fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700),
+                                            decoration: InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 8,
+                                                      horizontal: 3),
+                                              isDense: true,
                                             ),
+                                            value: _conditionValue,
+                                            items: [
+                                              DropdownMenuItem(
+                                                child: Text(LocaleKeys
+                                                    .condition_new
+                                                    .tr()),
+                                                value: LocaleKeys.condition_new
+                                                    .tr(),
+                                              ),
+                                              DropdownMenuItem(
+                                                child: Text(LocaleKeys
+                                                    .condition_second
+                                                    .tr()),
+                                                value: LocaleKeys
+                                                    .condition_second
+                                                    .tr(),
+                                              ),
+                                            ],
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _conditionValue = value!;
+                                              });
+                                            },
+                                            validator: (value) => value!.isEmpty
+                                                ? LocaleKeys.is_required
+                                                    .tr(args: [
+                                                    LocaleKeys.product_condition
+                                                        .tr()
+                                                  ])
+                                                : null,
                                           ),
                                         ],
+                                      )),
+                                  SizedBox(width: 20),
+                                  Flexible(
+                                    child: CGhostInputField(
+                                      labelText:
+                                          LocaleKeys.product_weight.tr() +
+                                              " (gr)",
+                                      keyboardType:
+                                          TextInputType.numberWithOptions(
+                                              decimal: true),
+                                      validator: (value) => value!.isEmpty
+                                          ? LocaleKeys.is_required.tr(args: [
+                                              LocaleKeys.product_weight.tr()
+                                            ])
+                                          : null,
+                                    ),
+                                  ),
+                                  SizedBox(width: 20),
+                                  Flexible(
+                                    child: CGhostInputField(
+                                      labelText: LocaleKeys.product_stock.tr(),
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) => value!.isEmpty
+                                          ? LocaleKeys.is_required.tr(args: [
+                                              LocaleKeys.product_stock.tr()
+                                            ])
+                                          : null,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 20),
+                              CGhostInputField(
+                                labelText: LocaleKeys.product_description.tr(),
+                                maxLines: 4,
+                                validator: (value) => value!.isEmpty
+                                    ? LocaleKeys.is_required.tr(args: [
+                                        LocaleKeys.product_description.tr()
+                                      ])
+                                    : null,
+                              ),
+                              SizedBox(height: 20),
+                              Text(LocaleKeys.upload_image.tr()),
+                              SizedBox(height: 10),
+                              BlocConsumer(
+                                  bloc: uploadImageBloc,
+                                  listener: (context, uploadImageBlocState) {
+                                    if (uploadImageBlocState
+                                        is UploadImageSuccess) {
+                                      for (int i = 0;
+                                          i <
+                                              uploadImageBlocState
+                                                  .imageurls.length;
+                                          i++) {
+                                        UploadImageModel temp =
+                                            UploadImageModel();
+                                        images.add(
+                                            uploadImageBlocState.imageurls[i]!);
+                                        temp.path =
+                                            uploadImageBlocState.imageurls[i];
+                                        temp.name =
+                                            "ProductPhoto" + (i + 1).toString();
+                                        uploadImageModels.add(temp);
+                                        photos.add(ProductPhotoModel(
+                                            name: temp.name, path: temp.path));
+                                      }
+                                      uploadItemModel.photos = photos;
+                                      uploadImageBloc.add(UploadImagePreview(
+                                          uploadImageBlocState.imageurls));
+                                    }
+                                  },
+                                  builder: (context, uploadImageBlocState) {
+                                    if (uploadImageBlocState
+                                        is UploadImagePreviewSuccess) {
+                                      return Container(
+                                        height: 90,
+                                        width: double.infinity,
+                                        child: GridView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          gridDelegate:
+                                              new SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 1,
+                                            mainAxisSpacing: 6,
+                                          ),
+                                          itemCount: images.length + 1,
+                                          itemBuilder: (context, index) {
+                                            if (index == images.length) {
+                                              return  GestureDetector(
+                                          onTap: state is UploadItemLoading? null:() {
+                                            showDialogUploadImage(context);
+                                          },
+                                          child: Container(
+                                              height: 80,
+                                              width: 80,
+                                              decoration: BoxDecoration(
+                                                  color: ThemeColors.grey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          16)),
+                                              child: Center(
+                                                  child: Text(
+                                                      LocaleKeys.upload.tr()))),
+                                        );
+                                            }
+                                            return Container(
+                                              height: 60,
+                                              width: 60,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image:
+                                                          CachedNetworkImageProvider(
+                                                              images[index]))),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    }
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: state is UploadItemLoading? null: () {
+                                            showDialogUploadImage(context);
+                                          },
+                                          child: Container(
+                                              height: 80,
+                                              width: 80,
+                                              decoration: BoxDecoration(
+                                                  color: ThemeColors.grey,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          16)),
+                                              child: Center(
+                                                  child: Text(
+                                                      LocaleKeys.upload.tr()))),
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              LocaleKeys.limit_image_size.tr(),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: ThemeColors.red80,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            Text(
+                                              LocaleKeys.limit_image_pixel.tr(),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: ThemeColors.red80,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    );
+                                  }),
+                              SizedBox(height: 20),
+                              Container(
+                                  height: 40,
+                                  width: double.infinity,
+                                  child: Flex(
+                                    direction: Axis.horizontal,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: CButtonFilled(
+                                            rounded: true,
+                                            isLoading:
+                                                state is UploadItemLoading,
+                                            textLabel: LocaleKeys.save.tr(),
+                                            onPressed: state
+                                                    is! UploadItemSuccess
+                                                ? () {
+                                                    if (_formKey.currentState!
+                                                        .validate()) {
+                                                      _formKey.currentState
+                                                          ?.save();
+
+                                                          if(images.length<=0) {
+                                                            FlushbarHelper.createError(message: "Photo is required")..show(context);
+                                                            return null;
+                                                          }
+                                                      uploadItemBloc.add(
+                                                          UploadItemStarted(
+                                                              uploadItemModel));
+                                                    }
+                                                  }
+                                                : null),
                                       )
                                     ],
-                                  );
-                                }
-                            ),
-                            SizedBox(height: 20),
-
-                            Container(
-                                height: 40,
-                                width: double.infinity,
-                                child: Flex(
-                                  direction: Axis.horizontal,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: CButtonFilled(
-                                          rounded: true,
-                                          textLabel: LocaleKeys.save.tr(),
-                                          onPressed: () {
-                                            if (_formKey.currentState!.validate()) {
-                                              _formKey.currentState?.save();
-
-                                              uploadItemBloc.add(UploadItemStarted(uploadItemModel));
-                                            }
-                                          }
-                                      ),
-                                    )
-                                  ],
-                                )
-                            ),
-                          ]
-                        ),
+                                  )),
+                              SizedBox(height: 40),
+                            ]),
                       ),
                     );
-                  }
-              )
-          ),
-        )
-    );
+                  })),
+        ));
   }
 }
