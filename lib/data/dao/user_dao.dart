@@ -37,6 +37,7 @@ class UserDao {
   Future<UserSessionModel> getUser() async {
     final db = await dbProvider.dataBox;
     final maps = db.get(_userKey);
+    if(maps==null) return UserSessionModel(id: 0);
     Map<String, dynamic> castData = Map<String, dynamic>.from(maps);
     return UserSessionModel.fromJson(castData);
   }
